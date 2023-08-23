@@ -2,14 +2,14 @@
 
 let initialState = {
     loading: false,
-    error : false
+    error: false
 }
 
-export const reducer = (state=initialState,{type,payload})=>{
-    switch(type){
+export const reducer = (state = initialState, { type, payload }) => {
+    switch (type) {
 
-        
 
-        default : return state;
+
+        default: return state;
     }
 }
