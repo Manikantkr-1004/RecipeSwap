@@ -20,6 +20,7 @@ import { LoadingCom } from "../Components/LoadingCom";
 import { DataCard } from "../Components/DataCard";
 import { getAllUsers } from "../Redux/adminReducer/action";
 import { ArrowUp } from "lucide-react";
+import { BottomUpButton } from "../Components/BottomUpButton";
 
 export function AdminUser() {
   const dipatch = useDispatch();
@@ -27,7 +28,7 @@ export function AdminUser() {
   const { users, isError, isLoading } = useSelector(
     (store) => store.AdminReducer
   );
-  const [edited, setEdited] = useState(false);
+  const [edited, setEdited] = useState("");
   const [temp, setTemp] = useState(0);
   const [data, setData] = useState([]);
   const [totalPage, setTotalPage] = useState("0");
@@ -37,7 +38,7 @@ export function AdminUser() {
     setCurrpage(+e.target.id);
   };
   useEffect(() => {
-    // dipatch(getAllUsers());
+    dipatch(getAllUsers());
   }, [temp]);
   useEffect(() => {
     let temp = [];
@@ -64,11 +65,19 @@ export function AdminUser() {
 
   const handleEdit = () => {
     setTemp(temp + 1);
-    setEdited(true);
+    setEdited("Updated");
     setTimeout(() => {
       setEdited(false);
     }, 4000);
   };
+
+  const handleDelete = ()=>{
+    setTemp(temp-1);
+    setEdited("Deleted");
+    setTimeout(() => {
+      setEdited("");
+    }, 4000);
+  }
 
   return (
     <>
@@ -84,6 +93,7 @@ export function AdminUser() {
       >
         {!isError && users.length > 0 && (
           <Flex mb={"4rem "} gap={"1rem"}>
+            <BottomUpButton />
             <Input placeholder="Search User..." w={"fit-content"} />
             {/* <h1>sorting....</h1> */}
           </Flex>
@@ -94,9 +104,10 @@ export function AdminUser() {
           {edited && (
             <Alert m={"2rem 0"} status="success" variant="top-accent">
               <AlertIcon />
-              Data Updated Sccuessfully!
+              Data {edited} Successfully!
             </Alert>
           )}
+           
           {!isError && !isLoading && data.length > 0 && (
             <>
               <Table>
@@ -126,6 +137,7 @@ export function AdminUser() {
                         second={user.email}
                         defineParent={"users"}
                         handleEdit={handleEdit}
+                        handleDelete={handleDelete}
                       />
                     );
                   })}

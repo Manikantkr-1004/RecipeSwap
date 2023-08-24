@@ -98,6 +98,7 @@ export const DataCard = ({
   third,
   defineParent,
   handleEdit,
+  handleDelete,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -115,6 +116,9 @@ export const DataCard = ({
   const handleUser = () => {
     dispatch(updateUsers({ ...userData, _id: zero }, handleEdit));
   };
+  const handleDeleteuser = ()=>{
+
+  }
   return (
     <>
       <Tr m={".5rem .8rem"}>
@@ -289,13 +293,16 @@ export const DataCard = ({
 
             <AlertDialogFooter>
               <Button
-                verient={"SimpleWhite"}
-                // ref={cancelRef}
+                variant={"SimpleWhite"}
+                ref={cancelRef}
                 onClick={onCloseAlert}
               >
                 Cancel
               </Button>
-              <Button colorScheme="red" onClick={onCloseAlert} ml={3}>
+              <Button colorScheme="red" onClick={()=> {
+                handleDeleteuser();
+                onCloseAlert();
+              }} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>

@@ -81,3 +81,28 @@ export const updateUsers = (updated, handleEdit) => async (dispatch) => {
         dispatch({ type: ERROR, payload: error });
     }
 } 
+
+
+export const deleteUsers =(deleted, handleDelete) => async (dispatch) => {
+    dispatch({ type: LOADING });
+    try {
+        let res = await axios.delete(`${process.env.REACT_APP_API_ADMIN_URL}/users/delete/${deleted._id}`, config);
+        res = res?.data;
+
+        if (!res.issue) {
+            handleDelete();
+            dispatch({
+                type: SUCCESS_USERS_UPDATE,
+                payload: deleted._id
+            })
+        } else {
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+    }
+} 
+
