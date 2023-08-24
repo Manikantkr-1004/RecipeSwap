@@ -1,18 +1,19 @@
 import axios from "axios"
-import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_USERS } from "../actionTypes";
+import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_USERS, SUCCESS_USERS_UPDATE } from "../actionTypes";
 
 
 const config = {
     headers: {
         "Content-Type": "application/json",
-        "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1Y2M0NzUwNDAyMGI4NmE0NTkzY2MiLCJ1c2VybmFtZSI6Imhhc2ltIiwiZW1haWwiOiJzaGFpa2hoYXNpbTI1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTI3ODE2NTF9._LmhrBK0toxNJRTzSf2hOELdOMYa36sZIcbHkSzc6Ps"
+        "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU2ZTIwNzMwMmYwYThlN2M4YzcwZWIiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE2OTI4NTU4NjJ9.jfcOPD6hnARlQ0Wl0fu0bY-g6AfQt7fdevxN5Jd-Dzg"
     }
 }
 
 export const getAllRecipes = () => async (dispatch) => {
     dispatch({ type: LOADING });
     try {
-        let res = await axios.get("https://recipeswap.onrender.com/recipe");
+
+        let res = await axios.get(`${process.env.REACT_APP_API_ADMIN_URL}/recipes`, config);
         res = res?.data;
         if (!res.issue) {
             dispatch({
@@ -36,7 +37,7 @@ export const getAllRecipes = () => async (dispatch) => {
 export const getAllUsers = () => async (dispatch) => {
     dispatch({ type: LOADING });
     try {
-        let res = await axios.get("https://recipeswap.onrender.com/users", config);
+        let res = await axios.get(`${process.env.REACT_APP_API_ADMIN_URL}/users`, config);
         res = res?.data;
 
         if (!res.issue) {
@@ -55,3 +56,28 @@ export const getAllUsers = () => async (dispatch) => {
         dispatch({ type: ERROR, payload: error });
     }
 }
+
+
+
+export const updateUsers = (updated, handleEdit) => async (dispatch) => {
+    dispatch({ type: LOADING });
+    try {
+        let res = await axios.patch(`${process.env.REACT_APP_API_ADMIN_URL}/users/update/${updated._id}`, updated, config);
+        res = res?.data;
+
+        if (!res.issue) {
+            handleEdit();
+            dispatch({
+                type: SUCCESS_USERS_UPDATE,
+                payload: updated
+            })
+        } else {
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+    }
+} 
