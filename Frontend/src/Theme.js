@@ -48,19 +48,20 @@ const Theme = extendTheme({
                         ringColor: "brand.600"
                     },
                     borderBottom: "1px solid",
-                    borderColor: mode("brand.600", "brand.600")(props),
+                    borderColor: mode("brand.700", "brand.700")(props),
                     backgroundColor: mode("brand.400", "brand.300")(props),
-                    color: mode("brand.600", "brand.600")(props),
+                    color: mode("brand.300", "brand.400")(props),
 
                 }),
-                SimpleBlue: (props) => ({
+                SimpleOrange: (props) => ({
                     rounded: "md",
                     _focus: {
                         ring: 2,
-                        ringColor: "brand.600"
+                        ringColor: "brand.200"
                     },
-                    backgroundColor: mode("brand.600", "brand.600")(props),
-                    color: mode("brand.400", "brand.400")(props),
+
+                    backgroundColor: mode("brand.200", "brand.200")(props),
+                    color: mode("brand.300", "brand.300")(props),
                     // _hover :{
                     // }
                 }),
