@@ -1,4 +1,4 @@
-import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_RECIPE, SUCCESS_USERS } from "../actionTypes";
+import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_RECIPE, SUCCESS_USERS, SUCCESS_USERS_UPDATE } from "../actionTypes";
 
 
 let initialState = {
@@ -43,6 +43,23 @@ export const reducer = (state = initialState, { type, payload }) => {
                 isLoading: false,
                 isError: "",
                 users: payload
+            }
+        case SUCCESS_USERS_UPDATE:
+            // let data = state.users;
+            // for (let i = 0; i < data.length; i++) {
+            //     if (data[i]._id === payload._id) {
+            //         data[i] = {
+            //             ...data[i],
+            //             ...payload,
+            //         }
+            //     }
+            // }
+
+            return {
+                ...state,
+                isLoading: false,
+                isError: "",
+
             }
         default: return state;
     }
