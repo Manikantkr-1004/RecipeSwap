@@ -129,10 +129,11 @@ export function AdminRecipe() {
                   Prev
                 </Button> */}
                 {totalPage.length > 0 &&
-                  totalPage.map((item) => (
+                  totalPage.map((item, ind) => (
                     <Button
                       variant={"SimpleOrange"}
                       id={item}
+                      key={ind}
                       onClick={handleBtns}
                     >
                       {item}
