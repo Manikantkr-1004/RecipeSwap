@@ -12,7 +12,7 @@ function App() {
       <Admin />
       {/* <AllRoutes /> */}
       {/* <Footer /> */}
-      {/* <ScrollToTop /> */}
+
     </div>
   );
 }
