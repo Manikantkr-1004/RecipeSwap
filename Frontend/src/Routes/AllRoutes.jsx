@@ -12,6 +12,7 @@ import { AdminUser } from "../Pages/AdminUser";
 import { Recipe } from "../Pages/Recipe";
 import { RecipeList } from "../Pages/RecipeList";
 import { NotFound } from "../Pages/NotFound";
+import { RecipeType2 } from "../Pages/RecipeType2";
 
 export function AllRoutes() {
   return (
@@ -25,7 +26,7 @@ export function AllRoutes() {
       <Route path="/admindashboard" element={<AdminDash />}></Route>
       <Route path="/adminrecipedit/:id" element={<AdminRecipe />}></Route>
       <Route path="/adminuseredit/:id" element={<AdminUser />}></Route>
-      <Route path="/recipe/:id" element={<Recipe />}></Route>
+      <Route path="/recipe/:id" element={<RecipeType2 />}></Route>
       <Route path="/recipelist" element={<RecipeList />}></Route>
       <Route path="*" element={<NotFound />}></Route>
     </Routes>
