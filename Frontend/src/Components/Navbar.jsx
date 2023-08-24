@@ -1,15 +1,3 @@
-// import React from 'react'
-
-// export function Navbar() {
-
-
-//     return (
-//         <>
-
-//         </>
-//     )
-// }
-
 import React from 'react';
 import {
     Image,
@@ -87,7 +75,7 @@ export function Navbar() {
                     pt={"1.5%"}
                     
                 >
-                    <Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
+                    <Button color={'black'} as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
                         Sign In
                     </Button>
                     <Button
@@ -218,6 +206,7 @@ const MobileNavItem = ({ label, children, href }) => {
     return (
         <Stack spacing={4} onClick={children && onToggle}>
             <Box
+            
                 py={2}
                 as="a"
                 href={href ?? '#'}
@@ -237,6 +226,7 @@ const MobileNavItem = ({ label, children, href }) => {
                         transform={isOpen ? 'rotate(180deg)' : ''}
                         w={6}
                         h={6}
+                       
                     />
                 )}
             </Box>

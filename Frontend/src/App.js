@@ -9,8 +9,8 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Admin />
-      {/* <AllRoutes /> */}
+      {/* <Admin /> */}
+      <AllRoutes />
       <Footer />
       <ScrollToTop />
     </div>
