@@ -30,8 +30,8 @@ export function Recipe() {
 }
 
 const WRAPPER = styled.div`
-width: 60%;
-margin: auto;
+width: 65%;
+margin: 50px auto;
 
 .heading-1{
   font-size: 40px;
