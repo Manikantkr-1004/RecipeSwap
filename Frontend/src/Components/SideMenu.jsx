@@ -11,14 +11,14 @@ export const SideMenu = () => {
       path: "/admin",
     },
     {
-      iconName: "ChefHat",
-      name: "Recipes",
-      path: "/admin/recipes",
-    },
-    {
       iconName: "Users",
       name: "Users",
       path: "/admin/users",
+    },
+    {
+      iconName: "ChefHat",
+      name: "Recipes",
+      path: "/admin/recipes",
     },
     {
       iconName: "BadgeHelp",
