@@ -40,6 +40,7 @@ export function Login() {
                 setFormdata({email:"",password:""})
                 Cookies.set("login_token",`${res.data.token}`)
                 Cookies.set("login_name",`${res.data.user.username}`)
+                Cookies.set("login_email",`${res.data.user.email}`)
                 toast({
                     title: `${res.data.message}`,
                     position: "bottom",
@@ -97,7 +98,7 @@ export function Login() {
                     <Image w="50%" src={logo} alt='signup' />
                     <Text mt="25px" color="#E45700" fontSize="27px" fontFamily="Franklin Gothic Medium">Log in</Text>
                     <Text>Log in to save and review your favorite recipes.</Text><br/>
-                    <form onSubmit={handleSubmit} class="animate__animated animate__zoomIn">
+                    <form onSubmit={handleSubmit} class="animate__animated animate__fadeInUp">
                         <FormControl isRequired>
                             
                             <FormLabel>EMAIL</FormLabel>
