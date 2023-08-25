@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Navbar } from "../Components/Navbar";
 import { RecipeStep } from "../Components/RecipeStep";
 import { Social } from "../Components/Social";
 
