@@ -1,5 +1,5 @@
 import { Box, Td, Tr } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -27,78 +27,18 @@ import {
 } from "@chakra-ui/react";
 import { styled } from "styled-components";
 import { useDispatch } from "react-redux";
-import { updateUsers } from "../Redux/adminReducer/action";
+import { deleteRecipes, deleteUsers, updateUsers } from "../Redux/adminReducer/action";
+import { FormInput } from "./FormInput";
 
-// {
-//     "recipeName": "Teriyaki Salmon",
-//     "username": "oliver_jones",
-//     "email": "oliver.jones@example.net",
-//     "comments": [],
-//     "difficulty": "Intermediate",
-//     "prepTime": "10 minutes",
-//     "cookTime": "15 minutes",
-//     "totalTime": "25 minutes",
-//     "servings": 2,
-//     "cuisine": "Asian",
-//     "mealType": "Main Course",
-//     "occasion": "Date Night",
-//     "dietaryConsiderations": [],
-//     "recipeType": "Nonveg",
-//     "ingredients": [
-//       "2 salmon fillets",
-//       "Salt and pepper, to taste",
-//       "1/4 cup (60ml) teriyaki sauce",
-//       "2 tablespoons soy sauce",
-//       "1 tablespoon honey",
-//       "1 tablespoon rice vinegar",
-//       "1 teaspoon sesame oil",
-//       "1 teaspoon grated fresh ginger",
-//       "1 clove garlic, minced",
-//       "Sesame seeds, for garnish",
-//       "Sliced green onions, for garnish"
-//     ],
-//     "instructions": [
-//       "Preheat the oven to 400°F (200°C).",
-//       "Season the salmon fillets with salt and pepper.",
-//       "In a bowl, whisk together teriyaki sauce, soy sauce, honey, rice vinegar, sesame oil, grated ginger, and minced garlic.",
-//       "Place the salmon fillets in a baking dish and pour the teriyaki sauce mixture over them.",
-//       "Bake the salmon in the preheated oven for about 12-15 minutes, or until the salmon flakes easily with a fork.",
-//       "While baking, baste the salmon with the sauce a couple of times.",
-//       "Garnish the teriyaki salmon with sesame seeds and sliced green onions.",
-//       "Serve the teriyaki salmon with steamed rice or vegetables.",
-//       "Enjoy your flavorful and savory teriyaki salmon!"
-//     ],
-//     "notes": [
-//       "You can also grill the salmon on a barbecue for a smoky flavor.",
-//       "Feel free to adjust the amount of honey and soy sauce to your taste."
-//     ],
-//     "equipment": [
-//       "Baking dish",
-//       "Bowl",
-//       "Whisk"
-//     ],
-//     "imageURL": "https://source.unsplash.com/featured/1280x720?food",
-//     "nutrition": {
-//       "calories": 300,
-//       "totalFat": "15g",
-//       "saturatedFat": "2.5g",
-//       "cholesterol": "80mg",
-//       "sodium": "800mg",
-//       "totalCarbohydrates": "15g",
-//       "dietaryFiber": "0g",
-//       "sugars": "12g",
-//       "protein": "25g"
-//     },
-//     "tags": ["salmon", "teriyaki", "Asian", "main course", "date night"]
-//   },
 export const DataCard = ({
   zero,
   first,
   second,
   third,
   defineParent,
-  handleEdit,
-  handleDelete,
+  handleResult,
+  recipe,
+  initData
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -108,16 +48,90 @@ export const DataCard = ({
   } = useDisclosure();
   const cancelRef = React.useRef();
   const dispatch = useDispatch();
-  const [userData, setUserData] = useState({
-    username: first,
-    email: second,
-  });
 
-  const handleUser = () => {
-    dispatch(updateUsers({ ...userData, _id: zero }, handleEdit));
+
+
+  const [userData, setUserData] = useState({});
+  const [recipeData, setRecipeData] = useState({});
+
+  useEffect(()=>{
+   if(defineParent === "recipes"){
+    setRecipeData({
+      "recipeName" : recipe.recipeName,
+      "username": recipe.username,
+      "email" : recipe.email,
+      "difficulty": recipe.difficulty,
+      "prepTime" : recipe.prepTime,
+      "cookTime" : recipe.cookTime,
+      "totalTime" : recipe.totalTime,
+      "servings" : recipe.servings,
+      "cuisine" : recipe.cuisine,
+      "mealType" : recipe.mealType,
+      "occasion" : recipe.occasion,
+      "dietaryConsiderations" : recipe.dietaryConsiderations,
+      "recipeType" : recipe.recipeType,
+      "ingredients" : recipe.ingredients,
+      "instructions" : recipe.instructions,
+      "notes" : recipe.notes,
+      "equipment" : recipe.equipment,
+      "imageURL" : recipe.imageURL,
+      "nutrition": recipe.nutrition,
+      "tags" : recipe.tags
+  })
+   }
+
+   if(defineParent === "users"){
+    setUserData({
+      username: first,
+      email: second
+    })
+   }
+  }, []);
+  const updateUsertoEdit = ()=>{
+    if(defineParent === "users"){
+      setUserData({
+        username: first,
+        email: second
+      })
+     }
+     if(defineParent === "recipes"){
+      setRecipeData({
+        "recipeName" : recipe.recipeName,
+        "username": recipe.username,
+        "email" : recipe.email,
+        "difficulty": recipe.difficulty,
+        "prepTime" : recipe.prepTime,
+        "cookTime" : recipe.cookTime,
+        "totalTime" : recipe.totalTime,
+        "servings" : recipe.servings,
+        "cuisine" : recipe.cuisine,
+        "mealType" : recipe.mealType,
+        "occasion" : recipe.occasion,
+        "dietaryConsiderations" : recipe.dietaryConsiderations,
+        "recipeType" : recipe.recipeType,
+        "ingredients" : recipe.ingredients,
+        "instructions" : recipe.instructions,
+        "notes" : recipe.notes,
+        "equipment" : recipe.equipment,
+        "imageURL" : recipe.imageURL,
+        "nutrition": recipe.nutrition,
+        "tags" : recipe.tags
+    })
+     }
+  }
+  const handleUpdate = () => {
+    if(defineParent === "users"){
+      dispatch(updateUsers({ ...userData, _id: zero }, handleResult));
+    }else if(defineParent === "recipes"){
+
+    }
   };
-  const handleDeleteuser = ()=>{
-
+  const handleDelete = ()=>{
+    if(defineParent === "users"){
+      dispatch(deleteUsers({_id: zero}, handleResult))
+    }else if(defineParent === "recipes"){
+      dispatch(deleteRecipes({_id: zero}, handleResult));
+    }
   }
   return (
     <>
@@ -127,10 +141,11 @@ export const DataCard = ({
         <Td maxW={"15rem"}>{third}</Td>
         <Td>
           <DIV>
-            <Button
+            <button
               className="edit_Btn Btn"
               id={zero}
               onClick={() => {
+                updateUsertoEdit();
                 onOpen();
               }}
             >
@@ -138,7 +153,7 @@ export const DataCard = ({
               <svg className="svg" viewBox="0 0 512 512">
                 <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
               </svg>
-            </Button>
+            </button>
           </DIV>
         </Td>
         <Td>
@@ -172,7 +187,7 @@ export const DataCard = ({
           </DIV>
         </Td>
       </Tr>
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"lg"}>
         <DrawerOverlay />
         {defineParent === "users" && (
           <DrawerContent bgColor={"brand.600"}>
@@ -221,7 +236,7 @@ export const DataCard = ({
               <Button variant="SimpleWhite" mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button onClick={handleUser} variant={"SimpleOrange"}>
+              <Button onClick={handleUpdate} variant={"SimpleOrange"}>
                 Submit
               </Button>
             </DrawerFooter>
@@ -229,51 +244,30 @@ export const DataCard = ({
         )}
         {defineParent === "recipes" && (
           <DrawerContent bgColor={"brand.600"}>
-            <DrawerCloseButton />
-            <DrawerHeader borderBottomWidth="1px">Edit</DrawerHeader>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">Edit Recipe</DrawerHeader>
 
-            <DrawerBody>
-              <Stack spacing="24px">
-                <Box>
-                  <FormLabel htmlFor="username">Name</FormLabel>
-                  <Input id="username" placeholder="Please enter name" />
-                </Box>
+          <DrawerBody>
+            <Stack spacing="24px">
+              {initData.map((item)=> (
+                <FormInput title={item.title} naming={item.naming} datatype={item.datatype} recipeData={recipeData} setRecipeData={setRecipeData} />
+              ))}
+            
 
-                <Box>
-                  <FormLabel htmlFor="url">Url</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon>http://</InputLeftAddon>
-                    <Input
-                      type="url"
-                      id="url"
-                      placeholder="Please enter domain"
-                    />
-                    <InputRightAddon>.com</InputRightAddon>
-                  </InputGroup>
-                </Box>
+             
+            </Stack>
+          </DrawerBody>
 
-                <Box>
-                  <FormLabel htmlFor="owner">Select Owner</FormLabel>
-                  <Select id="owner" defaultValue="segun">
-                    <option value="segun">Segun Adebayo</option>
-                    <option value="kola">Kola Tioluwani</option>
-                  </Select>
-                </Box>
-
-                <Box>
-                  <FormLabel htmlFor="desc">Description</FormLabel>
-                  <Textarea id="desc" />
-                </Box>
-              </Stack>
-            </DrawerBody>
-
-            <DrawerFooter borderTopWidth="1px">
-              <Button variant="outline" mr={3} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="blue">Submit</Button>
-            </DrawerFooter>
-          </DrawerContent>
+          <DrawerFooter borderTopWidth="1px">
+            <Button variant="SimpleWhite" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button onClick={handleUpdate} variant={"SimpleOrange"}>
+              Submit
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+ 
         )}
       </Drawer>
       <AlertDialog
@@ -284,7 +278,7 @@ export const DataCard = ({
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete User
+              Delete {first}
             </AlertDialogHeader>
 
             <AlertDialogBody>
@@ -300,7 +294,7 @@ export const DataCard = ({
                 Cancel
               </Button>
               <Button colorScheme="red" onClick={()=> {
-                handleDeleteuser();
+                handleDelete();
                 onCloseAlert();
               }} ml={3}>
                 Delete

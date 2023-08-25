@@ -1,12 +1,13 @@
+import { Button } from '@chakra-ui/button'
 import React from 'react'
 import { styled } from 'styled-components'
 
-export const BottomUpButton = () => {
+export const BottomUpButton = ({handleAdd}) => {
   return (
     <SPAN>
-    <button className="addnew">
+    <Button variant={"SimpleWhite"} onClick={handleAdd} className="addnew">
     Add New
-</button>
+</Button>
 </SPAN>
   )
 }
@@ -38,9 +39,7 @@ const SPAN = styled.span`
  transition: all 250ms
 }
 
-.addnew:hover {
- color: #e8e8e8;
-}
+
 
 .addnew:hover::before {
  width: 100%;
