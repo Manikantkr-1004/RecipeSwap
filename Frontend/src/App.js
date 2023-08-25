@@ -10,8 +10,8 @@ function App() {
     <div className="App">
     
       {/* <Navbar /> */}
-      {/* <Admin /> */}
-      <AllRoutes />
+      <Admin />
+      {/* <AllRoutes /> */}
       {/* <Footer /> */}
       <ScrollToTop />
         

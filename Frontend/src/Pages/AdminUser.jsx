@@ -3,14 +3,24 @@ import {
   AlertIcon,
   Box,
   Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
+  FormLabel,
   Input,
+  Stack,
   Table,
   Tbody,
   Text,
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { AdminHeader } from "../Components/AdminHeader";
@@ -18,9 +28,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { ErrorCom } from "../Components/ErrorCom";
 import { LoadingCom } from "../Components/LoadingCom";
 import { DataCard } from "../Components/DataCard";
-import { getAllUsers } from "../Redux/adminReducer/action";
+import { addUers, getAllUsers } from "../Redux/adminReducer/action";
 import { ArrowUp } from "lucide-react";
 import { BottomUpButton } from "../Components/BottomUpButton";
+
+
+const init =
+  {
+    "username" : "",
+    "email" : "",
+    "password": ""
+  }
 
 export function AdminUser() {
   const dipatch = useDispatch();
@@ -28,8 +46,13 @@ export function AdminUser() {
   const { users, isError, isLoading } = useSelector(
     (store) => store.AdminReducer
   );
+
+  const [userData, setUserData] = useState(init);
+
   const [edited, setEdited] = useState("");
   const [temp, setTemp] = useState(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
   const [data, setData] = useState([]);
   const [totalPage, setTotalPage] = useState("0");
   const [currpage, setCurrpage] = useState(1);
@@ -37,19 +60,21 @@ export function AdminUser() {
   const handleBtns = (e) => {
     setCurrpage(+e.target.id);
   };
+
   useEffect(() => {
     dipatch(getAllUsers());
-  }, [temp]);
+  }, []);
   useEffect(() => {
-    let temp = [];
+    let total = [];
     let pageEnd = currpage * 10;
     let pageStart = pageEnd - 10;
     for (let i = pageStart; i < pageEnd; i++) {
       if (users[i]) {
-        temp.push(users[i]);
+        total.push(users[i]);
       }
     }
-    setData(temp);
+   
+    setData(total);
   }, [users, currpage]);
 
   useEffect(() => {
@@ -63,22 +88,27 @@ export function AdminUser() {
     }
   }, [users]);
 
-  const handleEdit = () => {
-    setTemp(temp + 1);
-    setEdited("Updated");
-    setTimeout(() => {
-      setEdited(false);
-    }, 4000);
-  };
-
-  const handleDelete = ()=>{
-    setTemp(temp-1);
-    setEdited("Deleted");
+  const handleResult = (value) => {
+    // setTemp(temp + 1);
+    setEdited(value);
     setTimeout(() => {
       setEdited("");
     }, 4000);
+  };
+
+
+  const handleAdd = ()=>{
+    onOpen();
   }
 
+  const handleUser = ()=>{
+      dipatch(addUers(userData, handleResult))
+    
+     setTimeout(()=>{
+      onClose();
+     }, 1000);
+     setUserData(init);
+  }
   return (
     <>
       <AdminHeader />
@@ -91,9 +121,9 @@ export function AdminUser() {
         mt={"-5rem"}
         className="animate__animated animate__slideInUp"
       >
-        {!isError && users.length > 0 && (
+        {!isError && !isLoading && data.length > 0 && (
           <Flex mb={"4rem "} gap={"1rem"}>
-            <BottomUpButton />
+            <BottomUpButton handleAdd={handleAdd} />
             <Input placeholder="Search User..." w={"fit-content"} />
             {/* <h1>sorting....</h1> */}
           </Flex>
@@ -136,8 +166,8 @@ export function AdminUser() {
                         first={user.username}
                         second={user.email}
                         defineParent={"users"}
-                        handleEdit={handleEdit}
-                        handleDelete={handleDelete}
+                        handleResult={handleResult}
+                        
                       />
                     );
                   })}
@@ -173,6 +203,80 @@ export function AdminUser() {
             </>
           )}
         </Box>
+        <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+    
+                   
+          <DrawerContent bgColor={"brand.600"}>
+            <DrawerCloseButton />
+            <DrawerHeader borderBottomWidth="1px">Add New User</DrawerHeader>
+
+            <DrawerBody>
+              <Stack spacing="24px">
+                <Box>
+                  <FormLabel htmlFor="username">Username</FormLabel>
+                  <Input
+                    type="text"
+                    id="username"
+                    placeholder="Please enter username"
+                    name="username"
+                    value={userData.username}
+                    onChange={(e) =>
+                      setUserData({
+                        ...userData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+
+                <Box>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input
+                    type="email"
+                    id="email"
+                    placeholder="Please enter email"
+                    name="email"
+                    value={userData.email}
+                    onChange={(e) =>
+                      setUserData({
+                        ...userData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+
+                <Box>
+                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <Input
+                    type="password"
+                    id="password"
+                    placeholder="Please enter password"
+                    name="password"
+                    value={userData.password}
+                    onChange={(e) =>
+                      setUserData({
+                        ...userData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+              </Stack>
+            </DrawerBody>
+
+            <DrawerFooter borderTopWidth="1px">
+              <Button variant="SimpleWhite" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button onClick={handleUser} variant={"SimpleOrange"}>
+                Submit
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+   
+      </Drawer>
       </Box>
     </>
   );

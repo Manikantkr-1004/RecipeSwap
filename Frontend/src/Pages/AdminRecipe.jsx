@@ -1,31 +1,57 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Flex,
-  Image,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Input,
   Stack,
   Table,
   Tbody,
   Th,
   Thead,
   Tr,
+  useDisclosure,
   useToast,
+  FormLabel,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { AdminHeader } from "../Components/AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllRecipes } from "../Redux/adminReducer/action";
+import { addRecipes, getAllRecipes } from "../Redux/adminReducer/action";
 import { DataCard } from "../Components/DataCard";
 
 import { LoadingCom } from "../Components/LoadingCom";
 import { ErrorCom } from "../Components/ErrorCom";
 import { FormDrawer } from "../Components/FormDrawer";
+import { BottomUpButton } from "../Components/BottomUpButton";
+
+
+const init =
+  {
+    "username" : "",
+    "email" : "",
+    "password": ""
+  }
 
 export function AdminRecipe() {
   const dipatch = useDispatch();
   const { recipes, isError, isLoading } = useSelector(
     (store) => store.AdminReducer
   );
+  const [recipeData, setRecipeData] = useState(init);
+
+  const [edited, setEdited] = useState("");
+  const [temp, setTemp] = useState(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
   const [data, setData] = useState([]);
   const [totalPage, setTotalPage] = useState("0");
   const [currpage, setCurrpage] = useState(1);
@@ -37,6 +63,19 @@ export function AdminRecipe() {
   useEffect(() => {
     dipatch(getAllRecipes());
   }, []);
+
+  useEffect(() => {
+    let total = [];
+    let pageEnd = currpage * 10;
+    let pageStart = pageEnd - 10;
+    for (let i = pageStart; i < pageEnd; i++) {
+      if (recipes[i]) {
+        total.push(recipes[i]);
+      }
+    }
+    setData(total);
+  }, [currpage, recipes]);
+
   useEffect(() => {
     if (recipes.length > 0) {
       const total = Math.ceil(recipes.length / 10);
@@ -48,22 +87,29 @@ export function AdminRecipe() {
     }
   }, [recipes]);
 
-  useEffect(() => {
-    let temp = [];
-    let pageEnd = currpage * 10;
-    let pageStart = pageEnd - 10;
-    for (let i = pageStart; i < pageEnd; i++) {
-      if (recipes[i]) {
-        temp.push(recipes[i]);
-      }
-    }
-    setData(temp);
-  }, [currpage, recipes]);
+ 
 
-  const handleEdit = (e) => {};
-  const handleDelete = (e) => {
-    console.log(e.target.id);
+  const handleResult = (value) => {
+    // setTemp(temp + 1);
+    setEdited(value);
+    setTimeout(() => {
+      setEdited("");
+    }, 4000);
   };
+
+
+  const handleAdd = ()=>{
+    onOpen();
+  }
+
+  const handleAddRecipes = ()=>{
+      dipatch(addRecipes(recipeData, handleResult))
+    
+     setTimeout(()=>{
+      onClose();
+     }, 1000);
+     setRecipeData(init);
+  }
   return (
     <>
       <AdminHeader />
@@ -78,14 +124,21 @@ export function AdminRecipe() {
         className="animate__animated animate__slideInUp"
       >
         {!isError && !isLoading && data.length > 0 && (
-          <Flex>
-            <h1>searching....</h1>
-            <h1>sorting....</h1>
+          <Flex mb={"4rem "} gap={"1rem"}>
+            <BottomUpButton handleAdd={handleAdd} />
+            <Input placeholder="Search User..." w={"fit-content"} />
           </Flex>
         )}
         <Box>
-          {isLoading && !isError && <LoadingCom />}
+        {isLoading && !isError && <LoadingCom />}
           {isError && !isLoading && <ErrorCom isError={isError} />}
+          {edited && (
+            <Alert m={"2rem 0"} status="success" variant="top-accent">
+              <AlertIcon />
+              Data {edited} Successfully!
+            </Alert>
+          )}
+           
           {!isError && !isLoading && data.length > 0 && (
             <>
               <Table>
@@ -113,8 +166,8 @@ export function AdminRecipe() {
                         first={recipe.recipeName}
                         second={recipe.email}
                         third={recipe.recipeType}
-                        handleEdit={handleEdit}
-                        handleDelete={handleDelete}
+                        defineParent={"recipes"}
+                        handleResult={handleResult}
                       />
                     );
                   })}
@@ -150,6 +203,80 @@ export function AdminRecipe() {
             </>
           )}
         </Box>
+        <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+    
+                   
+          <DrawerContent bgColor={"brand.600"}>
+            <DrawerCloseButton />
+            <DrawerHeader borderBottomWidth="1px">Add New User</DrawerHeader>
+
+            <DrawerBody>
+              <Stack spacing="24px">
+                <Box>
+                  <FormLabel htmlFor="username">Username</FormLabel>
+                  <Input
+                    type="text"
+                    id="username"
+                    placeholder="Please enter username"
+                    name="username"
+                    value={recipeData.username}
+                    onChange={(e) =>
+                      setRecipeData({
+                        ...recipeData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+
+                <Box>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input
+                    type="email"
+                    id="email"
+                    placeholder="Please enter email"
+                    name="email"
+                    value={recipeData.email}
+                    onChange={(e) =>
+                      setRecipeData({
+                        ...recipeData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+
+                <Box>
+                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <Input
+                    type="password"
+                    id="password"
+                    placeholder="Please enter password"
+                    name="password"
+                    value={recipeData.password}
+                    onChange={(e) =>
+                      setRecipeData({
+                        ...recipeData,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </Box>
+              </Stack>
+            </DrawerBody>
+
+            <DrawerFooter borderTopWidth="1px">
+              <Button variant="SimpleWhite" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button onClick={handleAddRecipes} variant={"SimpleOrange"}>
+                Submit
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+   
+      </Drawer>
       </Stack>
     </>
   );

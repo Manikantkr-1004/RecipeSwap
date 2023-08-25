@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_USERS, SUCCESS_USERS_UPDATE } from "../actionTypes";
+import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_RECIPES_ADD, SUCCESS_RECIPES_UPDATE, SUCCESS_USERS, SUCCESS_USERS_ADD, SUCCESS_USERS_DELETE, SUCCESS_USERS_UPDATE } from "../actionTypes";
 
 
 const config = {
@@ -33,6 +33,78 @@ export const getAllRecipes = () => async (dispatch) => {
 }
 
 
+export const addRecipes =(recipe, handleResult) => async (dispatch)=>{
+    dispatch({ type: LOADING });
+    try {
+        let res = await axios.post(`${process.env.REACT_APP_API_ADMIN_URL}/recipes/add`, recipe, config);
+        res = res?.data;
+        if(!res.issue){
+            handleResult("Added");
+            dispatch({
+                type: SUCCESS_RECIPES_ADD,
+                payload: recipe
+            })
+        }else{
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+        
+    }
+}
+
+
+export const updateRecipes = (recipe, handleResult) => async(dispatch)=>{
+    dispatch({ type: LOADING });
+    try {
+        let res = await axios.patch(`${process.env.REACT_APP_API_ADMIN_URL}/recipes/update/${recipe._id}`, recipe, config);
+        res = res?.data;
+
+        if (!res.issue) {
+            handleResult('Updated');
+            dispatch({
+                type: SUCCESS_RECIPES_UPDATE,
+                payload: recipe
+            })
+        } else {
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+    }
+} 
+
+
+export const deleteRecipes =(recipe, handleResult) => async (dispatch) => {
+    dispatch({ type: LOADING });
+    try {
+        let res = await axios.delete(`${process.env.REACT_APP_API_ADMIN_URL}/recipes/delete/${recipe._id}`, config);
+        res = res?.data;
+
+        if (!res.issue) {
+            handleResult("Deleted");
+            dispatch({
+                type: SUCCESS_USERS_DELETE,
+                payload: recipe._id
+            })
+        } else {
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+    }
+} 
+
+
 
 export const getAllUsers = () => async (dispatch) => {
     dispatch({ type: LOADING });
@@ -58,15 +130,38 @@ export const getAllUsers = () => async (dispatch) => {
 }
 
 
+export const addUers = (added, handleResult) => async (dispatch)=>{
+    dispatch({type: LOADING});
 
-export const updateUsers = (updated, handleEdit) => async (dispatch) => {
+    try {
+        let res = await axios.post(`${process.env.REACT_APP_API_ADMIN_URL}/users/add`, added, config);
+        res = res?.data;
+        if(!res.issue){
+            handleResult("Added");
+            dispatch({
+                type: SUCCESS_USERS_ADD,
+                payload: added
+            })
+        }else{
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+        
+    }
+}
+
+export const updateUsers = (updated, handleResult) => async (dispatch) => {
     dispatch({ type: LOADING });
     try {
         let res = await axios.patch(`${process.env.REACT_APP_API_ADMIN_URL}/users/update/${updated._id}`, updated, config);
         res = res?.data;
 
         if (!res.issue) {
-            handleEdit();
+            handleResult('Updated');
             dispatch({
                 type: SUCCESS_USERS_UPDATE,
                 payload: updated
@@ -83,16 +178,16 @@ export const updateUsers = (updated, handleEdit) => async (dispatch) => {
 } 
 
 
-export const deleteUsers =(deleted, handleDelete) => async (dispatch) => {
+export const deleteUsers =(deleted, handleResult) => async (dispatch) => {
     dispatch({ type: LOADING });
     try {
         let res = await axios.delete(`${process.env.REACT_APP_API_ADMIN_URL}/users/delete/${deleted._id}`, config);
         res = res?.data;
 
         if (!res.issue) {
-            handleDelete();
+            handleResult("Deleted");
             dispatch({
-                type: SUCCESS_USERS_UPDATE,
+                type: SUCCESS_USERS_DELETE,
                 payload: deleted._id
             })
         } else {
