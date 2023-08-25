@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState,useEffect } from 'react';
 import {
     Image,
     Box,
@@ -18,16 +19,42 @@ import {
 } from '@chakra-ui/react';
 import logo from "./images/logo.png"
 import { HamburgerIcon, CloseIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
-
 export function Navbar() {
     const { isOpen, onToggle } = useDisclosure();
+    const [prevScrollpos, setPrevScrollpos] = useState(window.pageYOffset);
+    const [navbarTop, setNavbarTop] = useState(0);
+    useEffect(() => {
+        const handleScroll = () => {
+          const currentScrollPos = window.pageYOffset;
+          if (prevScrollpos > currentScrollPos) {
+            setNavbarTop(0);
+          } else {
+            setNavbarTop(-110);
+          }
+          setPrevScrollpos(currentScrollPos);
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+    
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }, [prevScrollpos]);
 
     return (
-        <Box>
+        <Box paddingBottom={"120px"}>
             <Flex
+             style={{ top: `${navbarTop}px` }}
+             position={"fixed"}
+             top={"0"}
+             transition={"top 0.3s"}
+             zIndex={"5"}
+             width={"100%"}
+             
                 bg={useColorModeValue('white', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
-                minH={'100px'}
+                minH={'80px'}
+                maxH={"110px"}
                 py={{ base: 2 }}
                 px={{ base: 4 }}
                 borderBottom={1}
@@ -54,9 +81,9 @@ export function Navbar() {
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}
                     >
-                        <div style={{width:"100%",height:"90%"}}>
+                        <Box  _hover={{cursor:"pointer"}} style={{width:"100%",height:"90%"}}>
                             <Image  h={"100%"} w={"100%"} src={logo} alt="logo" />
-                        </div>
+                        </Box>
                     </Flex>
 
                     <Flex justifyContent={"center"} alignItems={"end"} display={{ base: 'none', md: 'flex' }} pb={"1.8%"} ml={10}>
@@ -161,18 +188,18 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
             display={'block'}
             p={2}
             rounded={'md'}
-            _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}
+            _hover={{ bg:'#e45a05' }}
         >
             <Stack direction={'row'} align={'center'}>
                 <Box>
                     <Text
                         transition={'all .3s ease'}
-                        _groupHover={{ color: 'pink.400' }}
+                        _groupHover={{ color: 'white' }}
                         fontWeight={500}
                     >
                         {label}
                     </Text>
-                    <Text fontSize={'sm'}>{subLabel}</Text>
+                    <Text  _groupHover={{ color: 'white' }} fontSize={'sm'}>{subLabel}</Text>
                 </Box>
                 <Flex
                     transition={'all .3s ease'}
@@ -183,7 +210,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
                     align={'center'}
                     flex={1}
                 >
-                    <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
+                    <Icon color={'white'} w={5} h={5} as={ChevronRightIcon} />
                 </Flex>
             </Stack>
         </Box>
