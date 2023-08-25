@@ -4,6 +4,7 @@ import { getAllRecipes } from '../Redux/receipeReducer/action';
 import { useSelector } from 'react-redux';
 import styled from "styled-components";
 import { RecipeCard } from '../Components/RecipeCard';
+import { Navbar } from "../Components/Navbar";
 
 export function RecipeList() {
     const dispatch = useDispatch();
@@ -14,11 +15,14 @@ export function RecipeList() {
     },[]) 
 
     return (
+        <div>
+        <Navbar/>
         <DIV>
             {
                 recipes.length > 0 && recipes?.map((el,i) => <RecipeCard key={i} {...el}/>)
             }
         </DIV>
+        </div>
     )
 }
 
