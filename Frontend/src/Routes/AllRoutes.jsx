@@ -23,13 +23,9 @@ export function AllRoutes() {
       <Route path="/login" element={<Login />}></Route>
       <Route path="/reset_password/:token" element={<ResetPass />}></Route>
       <Route path="/forgot_password" element={<ForgotPass />}></Route>
-      <Route path="/user/:id" element={<UserProfile />}></Route>
+      <Route path="/userprofile" element={<UserProfile />}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/about" element={<About />}></Route>
-      <Route path="/admin" element={<Admin />}></Route>
-      <Route path="/admindashboard" element={<AdminDash />}></Route>
-      <Route path="/adminrecipedit/:id" element={<AdminRecipe />}></Route>
-      <Route path="/adminuseredit/:id" element={<AdminUser />}></Route>
       <Route path="/recipe/:id" element={<RecipeType2 />}></Route>
       <Route path="/recipelist" element={<RecipeList />}></Route>
       <Route path="*" element={<NotFound />}></Route>

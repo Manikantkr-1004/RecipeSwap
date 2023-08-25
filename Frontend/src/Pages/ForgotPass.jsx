@@ -71,11 +71,11 @@ export function ForgotPass() {
             <Box w={{base:"100%",sm:"100%",md:"48%",lg:"48%",xl:"48%"}} height={{base:"179px",sm:"179px",md:"auto",lg:"auto",xl:"auto"}} filter="hue-rotate(170deg)" backgroundImage={forgot_pass} backgroundSize="cover" backgroundRepeat="no-repeat" boxShadow="-50px 0 30px -5px white inset">
             </Box>
             <Box w={{base:"100%",sm:"100%",md:"48%",lg:"48%",xl:"48%"}} >
-                <Box w={{base:"290px",sm:"330px",md:"330px",lg:"330px",xl:"330px"}} m="auto"  mt={{base:"30px",sm:"50px",md:"70px",lg:"70px",xl:"70px"}} mb="160px">
+                <Box w={{base:"290px",sm:"330px",md:"330px",lg:"330px",xl:"330px"}} m="auto"  mt={{base:"30px",sm:"50px",md:"70px",lg:"70px",xl:"70px"}} mb={{base:"10px",sm:"10px",md:"160px",lg:"160px",xl:"160px"}}>
                     <Image w="50%" src={logo} alt='signup' />
                     <Text mt="25px" color="#E45700" fontSize="27px" fontFamily="Franklin Gothic Medium">Forgot Password</Text>
                     <Text>Enter Your Registered Email to Forgot the Password.</Text><br/>
-                    <form onSubmit={handleSubmit} class="animate__animated animate__fadeInRight" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px",border:"2px dashed #E45700",padding:"20px", borderRadius:"15px"}}>
+                    <form onSubmit={handleSubmit} class="animate__animated animate__backInUp" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px",border:"2px dashed #E45700",padding:"20px", borderRadius:"15px"}}>
                         <FormControl isRequired>
                             
                             <FormLabel>EMAIL</FormLabel>

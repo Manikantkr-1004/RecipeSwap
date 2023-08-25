@@ -95,7 +95,7 @@ export function Signup() {
                     <Image w="50%" src={logo} alt='signup' />
                     <Text mt="25px" color="#E45700" fontSize="27px" fontFamily="Franklin Gothic Medium">Create Account</Text>
                     <Text>Sign up to save and review your favorite recipes.</Text><br/>
-                    <form onSubmit={handleSubmit} class="animate__animated animate__zoomIn">
+                    <form onSubmit={handleSubmit} class="animate__animated animate__fadeInUp">
                         <FormControl isRequired>
 
                             <FormLabel>USERNAME</FormLabel>

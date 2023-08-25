@@ -4,15 +4,14 @@ import { AllRoutes } from "./Routes/AllRoutes"
 import { Footer } from "./Components/Footer"
 import { ScrollToTop } from "./Components/ScrollToTop"
 import { Admin } from './Pages/Admin';
+import { AdminRoutes } from './Routes/AdminRoutes';
 
 function App() {
   return (
     <div className="App">
-    
-      {/* <Navbar /> */}
-      {/* <Admin /> */}
+
+      <AdminRoutes />
       <AllRoutes />
-      {/* <Footer /> */}
       <ScrollToTop />
         
     </div>

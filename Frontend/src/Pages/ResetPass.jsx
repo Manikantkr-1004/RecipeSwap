@@ -66,8 +66,9 @@ export function ResetPass() {
                     navigate("/login")
                 }, 2000);
             }else if(res.data.error==="Token is expired!"){
+                setFormdata({password:"",conpass:""})
                 toast({
-                    title: `Your Link has been expired!!`,
+                    title: `Link has been expired, Forget Again!!`,
                     position: "bottom",
                     status: 'error',
                     duration: 3000,
@@ -97,14 +98,14 @@ export function ResetPass() {
 
     return (
         <Flex justifyContent="space-between" w="100%" direction={{base:"column",sm:"column",md:"row",lg:"row",xl:"row"}}>
-            <Box w={{base:"100%",sm:"100%",md:"48%",lg:"48%",xl:"48%"}} height={{base:"179px",sm:"179px",md:"auto",lg:"auto",xl:"auto"}} filter="hue-rotate(170deg)" backgroundImage={reset_pass} backgroundSize="cover" backgroundRepeat="no-repeat">
+            <Box w={{base:"100%",sm:"100%",md:"48%",lg:"48%",xl:"48%"}} height={{base:"179px",sm:"179px",md:"auto",lg:"auto",xl:"auto"}} filter="hue-rotate(170deg)" backgroundImage={reset_pass} backgroundSize="cover" backgroundRepeat="no-repeat" boxShadow="-50px 0 30px -5px white inset">
             </Box>
             <Box w={{base:"100%",sm:"100%",md:"48%",lg:"48%",xl:"48%"}} >
-                <Box w={{base:"290px",sm:"330px",md:"330px",lg:"330px",xl:"330px"}} m="auto"  mt={{base:"30px",sm:"50px",md:"70px",lg:"70px",xl:"70px"}} mb="70px">
+                <Box w={{base:"290px",sm:"330px",md:"330px",lg:"330px",xl:"330px"}} m="auto"  mt={{base:"30px",sm:"50px",md:"70px",lg:"70px",xl:"70px"}} mb={{base:"30px",sm:"30px",md:"70px",lg:"70px",xl:"70px"}}>
                     <Image w="50%" src={logo} alt='signup' />
                     <Text mt="25px" color="#E45700" fontSize="27px" fontFamily="Franklin Gothic Medium">Reset Password</Text>
                     <Text>Write Your New Strong Password to Update Your Password.</Text><br/>
-                    <form onSubmit={handleSubmit} class="animate__animated animate__fadeInRight" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px",border:"2px dashed #E45700",padding:"20px", borderRadius:"15px"}}>
+                    <form onSubmit={handleSubmit} class="animate__animated animate__slideInUp" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px",border:"2px dashed #E45700",padding:"20px", borderRadius:"15px"}}>
                         <FormControl isRequired>
 
                             <FormLabel>PASSWORD</FormLabel>

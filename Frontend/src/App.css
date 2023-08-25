@@ -102,3 +102,125 @@ body{
   }
 
 /* login/signup button end */
+
+
+/* not found page button css start */
+
+.not_found_page{
+  padding: 7px 20px;
+  border: unset;
+  border-radius: 10px;
+  display: block;
+  margin: auto;
+  color: #fff;
+  z-index: 1;
+  background: #E45700;
+  position: relative;
+  font-weight: 1000;
+  font-size: 15px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  transition: all 250ms;
+  overflow: hidden;
+ }
+ 
+ .not_found_page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 10px;
+  background-color: #212121;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+  transition: all 250ms
+ }
+ 
+ .not_found_page:hover {
+  color: #e8e8e8;
+ }
+ 
+ .not_found_page:hover::before {
+  width: 100%;
+ }
+
+
+ /* not found page button css end */
+
+/* userprofile button css start */
+.change_password {
+  cursor: pointer;
+  position: relative;
+  padding: 3px 8px;
+  font-size: 14px;
+  color: #E45700;
+  border: 2px solid #E45700;
+  border-radius: 10px;
+  background-color: transparent;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  overflow: hidden;
+}
+
+.change_password::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  border-radius: inherit;
+  scale: 0;
+  z-index: -1;
+  background-color: #E45700;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.change_password:hover::before {
+  scale: 7;
+}
+
+.change_password:hover {
+  color: #fff;
+  scale: 1.1;
+  box-shadow: 0 0px 20px rgba(41, 41, 41, 0.4);
+}
+
+.change_password:active {
+  scale: 1;
+}
+
+
+.logout {
+  padding: 8px 20px;
+  border-radius: 10px;
+  width: 100%;
+  border: 0;
+  background-color: #E45700;
+  letter-spacing: 1px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: all .3s ease;
+  box-shadow: #923801 0px 5px 0px 0px;
+  color: hsl(0, 0%, 100%);
+ }
+ 
+ .logout:hover {
+  box-shadow: #923801 0px 7px 0px 0px;
+ }
+ 
+ .logout:active {
+  background-color: #E45700;
+  /*50, 168, 80*/
+  box-shadow: #923801 0px 0px 0px 0px;
+  transform: translateY(5px);
+  transition: 200ms;
+ }
+
+
+
+/* userprofile button css end */
