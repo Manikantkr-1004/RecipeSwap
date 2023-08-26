@@ -8,135 +8,153 @@ import { AiFillPrinter } from "react-icons/ai";
 import { IoMdShareAlt } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../Components/Navbar";
 import { Footer } from "../Components/Footer";
 import { RecipeCard } from "../Components/RecipeCard";
+import { ReviewCard } from "../Components/ReviewCard";
+import { getAllRecipes } from "../Redux/receipeReducer/action";
 
 export function RecipeType2() {
   let { id } = useParams();
   const [Recipe, setRecipe] = useState({});
+  const dispatch = useDispatch();
   const recipes = useSelector((store) => store.recipeReducer.recipes);
+  const isLoading = useSelector((store) => store.recipeReducer.loading);
+
+  useEffect(()=>{
+    dispatch(getAllRecipes());
+  },[])
 
   useEffect(() => {
-    const data = recipes.filter((el) => el._id == id);
-    setRecipe(data[0]);
-  }, []);
+    const data = recipes.find((el) => el._id == id);
+    setRecipe(data);
+  }, [recipes]);
 
   return (
     <>
       <Navbar />
-      <WRAPPER>
-        <div>
-          <h1 className="heading-1">{Recipe.recipeName}</h1>
-          <div className="owner-sec">
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <>
+          <WRAPPER>
             <div>
-              <p>
-                By <span className="owner-name">{Recipe.username}</span>|
-                Published on March 31, 2021
-              </p>
-            </div>
-            <Social />
-          </div>
-          <div className="recipe-saveOptions-container">
-            <div className="recipe-saveOptions btn btn-1">
-              <button className="btn-w">Save</button>
-              <AiOutlineHeart className="icon icon-1" />
-            </div>
-            <div className="recipe-saveOptions btn">
-              <button className="btn-w">Rate</button>
-              <IoMdStarOutline className="icon" />
-            </div>
-            <div className="recipe-saveOptions btn">
-              <button className="btn-w">Print</button>
-              <AiFillPrinter className="icon" />
-            </div>
-            <div className="recipe-saveOptions">
-              <button className="btn-w">Share</button>
-              <IoMdShareAlt className="icon" />
-            </div>
-          </div>
-          <div className="desc-container">
-            <img className="recipe-img" src={Recipe.imageURL} alt="error" />
-            <div className="Prep-info">
-              <div>
-                <p className="prep-heading">Prep Time:</p>
-                <p>{Recipe.prepTime}</p>
-              </div>
-              <div>
-                <p className="prep-heading">Total Time:</p>
-                <p>{Recipe.totalTime}</p>
-              </div>
-              <div>
-                <p className="prep-heading">Servings:</p>
-                <p>{Recipe.servings}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="ingredients-container">
-          <h1 className="ingredients-heading">Ingredients</h1>
-          <ul>
-            {Recipe.ingredients?.map((el) => {
-              return <li>{el}</li>;
-            })}
-          </ul>
-        </div>
-        <div className="instructions-section">
-          <p className="instructions-heading">Instructions</p>
-          {Recipe.instructions?.map((el, i) => {
-            let number = i + 1;
-            return (
-              <div className="instructions">
-                <div className="instructions-number">
-                  {number >= 10 ? number : `0${number}`}
+              <h1 className="heading-1">{Recipe?.recipeName}</h1>
+              <div className="owner-sec">
+                <div>
+                  <p>
+                    By <span className="owner-name">{Recipe?.username}</span>|
+                    Published on March 31, 2021
+                  </p>
                 </div>
-                <p className="instruction-desc">{el}</p>
+                <Social />
               </div>
-            );
-          })}
-        </div>
-        <div className="NutritionFacts-section">
-          <h1 className="NutritionFacts-heading">
-            Nutrition Facts{" "}
-            <span className="span-semi-heading">{"(per serving)"}</span>
-          </h1>
-          <div className="NutritionFacts-info-Container">
-            <div className="cate-container">
-              <p className="cate-heading">{Recipe?.nutrition?.calories}</p>
-              <p>Calories</p>
+              <div className="recipe-saveOptions-container">
+                <div className="recipe-saveOptions btn btn-1">
+                  <button className="btn-w">Save</button>
+                  <AiOutlineHeart className="icon icon-1" />
+                </div>
+                <div className="recipe-saveOptions btn">
+                  <button className="btn-w">Rate</button>
+                  <IoMdStarOutline className="icon" />
+                </div>
+                <div className="recipe-saveOptions btn">
+                  <button className="btn-w">Print</button>
+                  <AiFillPrinter className="icon" />
+                </div>
+                <div className="recipe-saveOptions">
+                  <button className="btn-w">Share</button>
+                  <IoMdShareAlt className="icon" />
+                </div>
+              </div>
+              <div className="desc-container">
+                <img
+                  className="recipe-img"
+                  src={Recipe?.imageURL}
+                  alt="Recipe image"
+                />
+                <div className="Prep-info">
+                  <div>
+                    <p className="prep-heading">Prep Time:</p>
+                    <p>{Recipe?.prepTime}</p>
+                  </div>
+                  <div>
+                    <p className="prep-heading">Total Time:</p>
+                    <p>{Recipe?.totalTime}</p>
+                  </div>
+                  <div>
+                    <p className="prep-heading">Servings:</p>
+                    <p>{Recipe?.servings}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="cate-container">
-              <p className="cate-heading">{Recipe?.nutrition?.totalFat}</p>
-              <p>Fat</p>
+            <div className="ingredients-container">
+              <h1 className="ingredients-heading">Ingredients</h1>
+              <ul>
+                {Recipe?.ingredients?.map((el) => {
+                  return <li>{el}</li>;
+                })}
+              </ul>
             </div>
-            <div className="cate-container">
-              <p className="cate-heading">
-                {Recipe?.nutrition?.totalCarbohydrates}
-              </p>
-              <p>Carbs</p>
+            <div className="instructions-section">
+              <p className="instructions-heading">Instructions</p>
+              {Recipe?.instructions?.map((el, i) => {
+                let number = i + 1;
+                return (
+                  <div className="instructions">
+                    <div className="instructions-number">
+                      {number >= 10 ? number : `0${number}`}
+                    </div>
+                    <p className="instruction-desc">{el}</p>
+                  </div>
+                );
+              })}
             </div>
-            <div className="cate-container">
-              <p className="cate-heading">{Recipe?.nutrition?.protein}</p>
-              <p>Protein</p>
+            <div className="NutritionFacts-section">
+              <h1 className="NutritionFacts-heading">
+                Nutrition Facts{" "}
+                <span className="span-semi-heading">{"(per serving)"}</span>
+              </h1>
+              <div className="NutritionFacts-info-Container">
+                <div className="cate-container">
+                  <p className="cate-heading">{Recipe?.nutrition?.calories}</p>
+                  <p>Calories</p>
+                </div>
+                <div className="cate-container">
+                  <p className="cate-heading">{Recipe?.nutrition?.totalFat}</p>
+                  <p>Fat</p>
+                </div>
+                <div className="cate-container">
+                  <p className="cate-heading">
+                    {Recipe?.nutrition?.totalCarbohydrates}
+                  </p>
+                  <p>Carbs</p>
+                </div>
+                <div className="cate-container">
+                  <p className="cate-heading">{Recipe?.nutrition?.protein}</p>
+                  <p>Protein</p>
+                </div>
+                <div className="cate-container">
+                  <p className="cate-heading">{Recipe?.nutrition?.sugars}</p>
+                  <p>sugars</p>
+                </div>
+              </div>
             </div>
-            <div className="cate-container">
-              <p className="cate-heading">{Recipe?.nutrition?.sugars}</p>
-              <p>sugars</p>
+            <ReviewCard Recipename={Recipe?.recipeName} Recipeobj={Recipe} />
+          </WRAPPER>
+          <DIV>
+            <div className="cards-container">
+              {recipes?.map((el, i) => {
+                if (i <= 7) {
+                  return <RecipeCard key={i} {...el} />;
+                }
+              })}
             </div>
-          </div>
-        </div>
-        {/* <RecipeStep/> */}
-      </WRAPPER>
-      <DIV>
-        <div className="cards-container">
-          {recipes?.map((el, i) => {
-            if (i <= 7) {
-              return <RecipeCard key={i} {...el} />;
-            }
-          })}
-        </div>
-      </DIV>
+          </DIV>
+        </>
+      )}
       <Footer />
     </>
   );
@@ -257,7 +275,7 @@ const WRAPPER = styled.div`
   .instructions {
     margin: 20px;
     display: flex;
-    height: 60px;
+    height: 70px;
   }
 
   .instructions-number {
@@ -272,11 +290,13 @@ const WRAPPER = styled.div`
     margin-left: 10px;
     border-left: solid lightgray 1px;
     padding-left: 10px;
-    width: 500px;
+    width: 700px;
   }
 
   .NutritionFacts-section {
     margin-top: 50px;
+    border-bottom: solid lightgray 1px;
+    padding-bottom: 25px;
   }
 
   .NutritionFacts-heading {
@@ -307,7 +327,7 @@ const WRAPPER = styled.div`
 `;
 
 const DIV = styled.div`
-    border-bottom: solid lightgray 1px;
+  border-bottom: solid lightgray 1px;
   .cards-container {
     width: 80%;
     margin: auto;
