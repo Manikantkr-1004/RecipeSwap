@@ -1,8 +1,11 @@
-import { Box, Flex, Heading, Input, Stack, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import {  Flex, Heading, Input, Menu, MenuButton,  MenuList, Stack,  } from "@chakra-ui/react";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { AlertCircle, MailPlus, UserCircle2 } from "lucide-react";
+import { AlertCircle, AlignJustify, BadgeHelp, ChefHat, ChevronRight, Home, MailPlus,  UserCircle2, Users } from "lucide-react";
 import { styled } from "styled-components";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { logoutAdmin } from "../Redux/adminReducer/action";
 
 export const AdminHeader = () => {
   const links = [
@@ -28,7 +31,37 @@ export const AdminHeader = () => {
     UserCircle2: UserCircle2,
   };
 
+  const sideMenulinks = [
+    {
+      iconName: "Home",
+      name: "Home",
+      path: "/admin",
+    },
+    {
+      iconName: "Users",
+      name: "Users",
+      path: "/admin/users",
+    },
+    {
+      iconName: "ChefHat",
+      name: "Recipes",
+      path: "/admin/recipes",
+    },
+    {
+      iconName: "BadgeHelp",
+      name: "Help",
+      path: "/admin/help",
+    },
+  ];
+  const SideiconComponents = {
+    Home: Home,
+    ChefHat: ChefHat,
+    BadgeHelp: BadgeHelp,
+    Users: Users,
+  };
   const [current, setCurrent] = useState("Dashboard");
+  const dispatch = useDispatch();
+  const  navigate = useNavigate();
   useEffect(() => {
     let path = window.location.href;
     path = path.split("/");
@@ -36,6 +69,13 @@ export const AdminHeader = () => {
     path[0] = path[0].toUpperCase();
     setCurrent(path.join(""));
   }, [window.location.href]);
+
+  const handleLogout = ()=>{
+    let token = Cookies.get('login_token');
+    dispatch(logoutAdmin(token));
+    Cookies.remove('login_token');
+    navigate("/");
+  }
   return (
     <Stack
       gap={"1.7rem"}
@@ -44,7 +84,53 @@ export const AdminHeader = () => {
       borderRadius={"0 0 1rem 1rem"}
       bgColor={"brand.200"}
     >
-      <Flex justifyContent={"space-between"}>
+      <SPAN>
+      <Flex justifyContent={"space-between"} alignItems={'center'}>
+      <span className="sideIcon" >
+        <Menu>
+  <MenuButton>
+  <AlignJustify color="#ffffff" size={38}/>
+  </MenuButton>
+  <MenuList p={"0rem 1rem"}>
+   <Stack
+        gap={"1rem"}
+        m={"2rem 0"}
+        fontSize="1.1rem"
+        className="animate__animated animate__slideInUp"
+      >
+        {sideMenulinks.map((item, ind) => {
+          const SideiconComponent = SideiconComponents[item.iconName];
+          return (
+            <Link to={item.path} key={ind}>
+              <Flex
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                mr={".6rem"}
+                p={"1rem"}
+                borderRadius={".5rem"}
+                _hover={{
+                  boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                }}
+                boxShadow={
+                  "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px"
+                }
+              >
+                <Flex gap={".5rem"} alignItems={"center"}>
+                  <SideiconComponent size={24} />
+                  {item.name}
+                </Flex>
+                <ChevronRight strokeWidth={1.5} />
+              </Flex>
+            </Link>
+          );
+        })}
+      </Stack>
+ 
+   
+
+  </MenuList>
+</Menu>
+        </span>
         <Input type="search" w={"fit-content"} placeholder="Search..." />
         <Flex
           bg={"brand.400"}
@@ -74,7 +160,7 @@ export const AdminHeader = () => {
             );
           })}
           <DIV>
-            <button className="Btn">
+            <button className="Btn" onClick={handleLogout}>
               <div className="sign">
                 <svg viewBox="0 0 512 512">
                   <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
@@ -86,13 +172,23 @@ export const AdminHeader = () => {
           </DIV>
         </Flex>
       </Flex>
+      </SPAN>
       <Flex>
         <Heading>{current}</Heading>
       </Flex>
     </Stack>
   );
 };
-
+const SPAN = styled.span`
+  .sideIcon{
+    display: none;
+  }
+  @media screen  and (max-width: 769px){
+    .sideIcon{
+      display: inline-block;
+    }
+  }
+`;
 const DIV = styled.div`
   .Btn {
     display: flex;

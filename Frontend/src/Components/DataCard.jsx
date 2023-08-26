@@ -1,4 +1,4 @@
-import { Box, Td, Tr } from "@chakra-ui/react";
+import { Box, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Td, Tr } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Drawer,
@@ -38,6 +38,7 @@ export const DataCard = ({
   defineParent,
   handleResult,
   recipe,
+  user,
   initData
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,7 +51,7 @@ export const DataCard = ({
   const dispatch = useDispatch();
 
 
-
+  const [hoverState, setHoverState] = useState(false);
   const [userData, setUserData] = useState({});
   const [recipeData, setRecipeData] = useState({});
 
@@ -133,9 +134,15 @@ export const DataCard = ({
       dispatch(deleteRecipes({_id: zero}, handleResult));
     }
   }
+  const Hoveredrow = ()=>{
+    
+    setHoverState(!hoverState)
+  }
   return (
     <>
-      <Tr m={".5rem .8rem"}>
+     <Popover>
+  <PopoverTrigger>
+  <Tr m={".5rem .8rem"} cursor={"pointer"} onClick={Hoveredrow}>
         <Td>{first}</Td>
         <Td>{second}</Td>
         <Td maxW={"15rem"}>{third}</Td>
@@ -187,12 +194,23 @@ export const DataCard = ({
           </DIV>
         </Td>
       </Tr>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverArrow />
+    <PopoverCloseButton />
+    <PopoverHeader>{first}</PopoverHeader>
+    <PopoverBody w={"100%"}>{defineParent === "users" && <><Box>Username : {first}</Box><Box>Email: {second}</Box> <Box>following: {user.following.length}</Box><Box>followers: {user.followers.length}</Box></>  }
+    {defineParent === "recipes" && <Stack spacing="24px"><Box>Recipe Name : {first}</Box><Box>User Email: {second}</Box> <Box>Difficulty: {recipe.difficulty}</Box></Stack>  }
+    </PopoverBody>
+  </PopoverContent>
+</Popover>
+     
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"lg"}>
         <DrawerOverlay />
         {defineParent === "users" && (
           <DrawerContent bgColor={"brand.600"}>
             <DrawerCloseButton />
-            <DrawerHeader borderBottomWidth="1px">Edit</DrawerHeader>
+            <DrawerHeader borderBottomWidth="1px">Edit User</DrawerHeader>
 
             <DrawerBody>
               <Stack spacing="24px">
@@ -303,6 +321,8 @@ export const DataCard = ({
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+
+    
     </>
   );
 };
