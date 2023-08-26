@@ -38,9 +38,9 @@ export function Login() {
             if(res.data.message==="Login successful!"){
                 console.log(res);
                 setFormdata({email:"",password:""})
-                Cookies.set("login_token",`${res.data.token}`)
-                Cookies.set("login_name",`${res.data.user.username}`)
-                Cookies.set("login_email",`${res.data.user.email}`)
+                Cookies.set("login_token",`${res.data.token}`,{expires:7})
+                Cookies.set("login_name",`${res.data.user.username}`,{expires:7})
+                Cookies.set("login_email",`${res.data.user.email}`,{expires:7})
                 toast({
                     title: `${res.data.message}`,
                     position: "bottom",
