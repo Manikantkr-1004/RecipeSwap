@@ -30,10 +30,10 @@ export function ScrollToTop() {
     return (
         <>
         {showbutton && <Flex w="40px" h="40px" borderRadius="50%" border="2px solid #E45A04" cursor="pointer"
-        position="fixed" right="15px" bottom="15px" color="#E45A04" fontWeight="bold"
+        position="fixed" right="15px" bottom="15px" color="#fff" fontWeight="bold"
         justifyContent="center" alignItems="center"
         onClick={ScrollHandle}
-        bg="transparent" boxShadow= "rgba(14, 14, 14, 0.527) 0px 1px 2px 0px, rgba(15, 15, 15, 0.459) 0px 2px 6px 2px">
+        bg="#E45A04" boxShadow= "rgba(14, 14, 14, 0.527) 0px 1px 2px 0px, rgba(15, 15, 15, 0.459) 0px 2px 6px 2px">
             {up}
         </Flex>}
         </>
