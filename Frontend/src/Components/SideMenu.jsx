@@ -1,7 +1,8 @@
-import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack } from "@chakra-ui/react";
 import { BadgeHelp, ChefHat, ChevronRight, Home, Users } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
+import { styled } from "styled-components";
 
 export const SideMenu = () => {
   const links = [
@@ -33,11 +34,14 @@ export const SideMenu = () => {
     Users: Users,
   };
   return (
+    <SPAN>
     <Box
+      className="sideMenu"
       display={"inline-block"}
       w={"15%"}
       bg={"brand.600"}
       minH={"100vh"}
+      pos={'fixed'}
       borderRadius={"1rem 0"}
       p={"1.4rem .4rem"}
     >
@@ -77,6 +81,14 @@ export const SideMenu = () => {
           );
         })}
       </Stack>
-    </Box>
+    </Box></SPAN>
   );
 };
+
+const SPAN = styled.span`
+  @media screen  and (max-width: 769px){
+    .sideMenu{
+      display: none;
+    }
+  }
+`

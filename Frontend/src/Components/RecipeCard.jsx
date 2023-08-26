@@ -8,7 +8,7 @@ export const RecipeCard = ({ _id, imageURL, recipeName, mealType }) => {
   return (
     <DIV>
       <Link to={`/recipe/${_id}`}>
-        <img src={`${imageURL}`} alt="error" />
+        <img className="image" src={`${imageURL}`} alt="error" />
         <p className="card-heading-1">{mealType}</p>
         <p className="card-heading-2">{recipeName}</p>
         <div className="rating">
@@ -24,6 +24,7 @@ const DIV = styled.div`
   border: solid lightgray 1px;
   width: 283px;
   height: 350px;
+  border-radius: 5px;
 
   .card-heading-1 {
     padding: 10px 10px 0px 10px;
@@ -34,11 +35,15 @@ const DIV = styled.div`
   .card-heading-2 {
     padding: 0px 10px 10px 10px;
     color: black;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 900;
   }
 
   .rating {
     padding: 10px;
+  }
+
+  .image{
+    border-radius: 5px 5px 0px 0px;
   }
 `;
