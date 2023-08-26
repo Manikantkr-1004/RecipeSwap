@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import styled from "styled-components";
 import { RecipeCard } from '../Components/RecipeCard';
 import { Navbar } from "../Components/Navbar";
+import { Footer } from '../Components/Footer';
 
 export function RecipeList() {
     const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export function RecipeList() {
                 recipes.length > 0 && recipes?.map((el,i) => <RecipeCard key={i} {...el}/>)
             }
         </DIV>
+        <Footer/>
         </div>
     )
 }
