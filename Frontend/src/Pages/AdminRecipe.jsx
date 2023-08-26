@@ -20,6 +20,7 @@ import {
   Tr,
   useDisclosure,
   FormLabel,
+  Select,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { AdminHeader } from "../Components/AdminHeader";
@@ -32,6 +33,8 @@ import { ErrorCom } from "../Components/ErrorCom";
 import { FormDrawer } from "../Components/FormDrawer";
 import { BottomUpButton } from "../Components/BottomUpButton";
 import { FormInput } from "../Components/FormInput";
+import { DebounceInput } from "react-debounce-input";
+import { styled } from "styled-components";
 
 const init =
   {
@@ -84,7 +87,10 @@ export function AdminRecipe() {
     (store) => store.AdminReducer
   );
   const [recipeData, setRecipeData] = useState(init);
-
+  const [state, setState] = useState({
+    value: "",
+    key : ""
+  })
   const [edited, setEdited] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -98,8 +104,8 @@ export function AdminRecipe() {
   };
 
   useEffect(() => {
-    dipatch(getAllRecipes());
-  }, []);
+    dipatch(getAllRecipes(state));
+  }, [state.value]);
 
   useEffect(() => {
     let total = [];
@@ -160,12 +166,28 @@ export function AdminRecipe() {
         mt={"-5rem"}
         className="animate__animated animate__slideInUp"
       >
-        {!isError && !isLoading && data.length > 0 && (
-          <Flex mb={"4rem "} gap={"1rem"}>
+          <SPAN>
+        <Flex mb={"4rem "} gap={"1.5rem"} className="filters">
             <BottomUpButton handleAdd={handleAdd} />
-            <Input placeholder="Search Recipe..." w={"fit-content"} />
+            <Select w={"fit-content"} onChange={(e) => setState({...state,key: e.target.value})}>
+              <option value="recipeName">Search By</option>
+              <option value="recipeName">Recipe Name</option>
+              <option value="email">User Email</option>
+              <option value="recipeType">Recipe Type</option>
+              <option value="difficulty">Difficulty</option>
+              <option value="cuisine">Cuisine</option>
+            </Select>
+          
+              <DebounceInput minLength={2}
+            debounceTimeout={500}
+            placeholder={"Search Recipe..."}
+            className="inputBox"
+            onChange={event => setState({...state,
+              value: event.target.value})} />
+       
+            {/* <h1>sorting....</h1> */}
           </Flex>
-        )}
+          </SPAN>
         <Box>
         {isLoading && !isError && <LoadingCom />}
           {isError && !isLoading && <ErrorCom isError={isError} />}
@@ -178,6 +200,7 @@ export function AdminRecipe() {
            
           {!isError && !isLoading && data.length > 0 && (
             <>
+            <div style={{ overflow: "auto"}}>
               <Table>
                 <Thead bg={"brand.200"}>
                   <Tr>
@@ -212,6 +235,7 @@ export function AdminRecipe() {
                   })}
                 </Tbody>
               </Table>
+              </div>
               <Flex gap={"1rem"} mt={"4rem"} justifyContent={"center"}>
                 {/* <Button
                   variant={"SimpleOrange"}
@@ -276,3 +300,23 @@ export function AdminRecipe() {
     </>
   );
 }
+
+const SPAN = styled.span`
+
+ .inputBox{
+  background-color: white;
+  border: 2px solid #C8C8C8;
+  border-radius: 5px;
+  padding: 7px 10px;
+
+ }
+ .inputBox:focus{
+  border: none;
+  outline: 2px solid #ff8f49;
+ }
+ @media screen and (max-width: 426px) {
+  .filters{
+    flex-direction: column;
+  }
+ }
+`

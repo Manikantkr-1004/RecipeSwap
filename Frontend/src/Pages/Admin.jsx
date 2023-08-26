@@ -8,9 +8,8 @@ export function Admin() {
   return (
     <>
       <SideMenu />
-
       <Stack w={"85%"} float={"right"} display={"inline-block"}>
-        <AdminRoutes />
+      <AdminRoutes />
       </Stack>
     </>
   );

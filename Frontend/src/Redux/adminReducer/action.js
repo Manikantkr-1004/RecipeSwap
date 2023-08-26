@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_RECIPES_ADD, SUCCESS_RECIPES_DELETE, SUCCESS_RECIPES_UPDATE, SUCCESS_USERS, SUCCESS_USERS_ADD, SUCCESS_USERS_DELETE, SUCCESS_USERS_UPDATE } from "../actionTypes";
+import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_LOGOUT, SUCCESS_MAXUSERPOST, SUCCESS_RECIPES_ADD, SUCCESS_RECIPES_DELETE, SUCCESS_RECIPES_UPDATE, SUCCESS_USERS, SUCCESS_USERS_ADD, SUCCESS_USERS_DELETE, SUCCESS_USERS_UPDATE } from "../actionTypes";
 
 
 const config = {
@@ -9,11 +9,65 @@ const config = {
     }
 }
 
-export const getAllRecipes = () => async (dispatch) => {
-    dispatch({ type: LOADING });
+// logout 
+export const logoutAdmin = (token)=> async(dispatch) => {
     try {
+        let res = await axios.get(`${process.env.REACT_APP_API_ADMIN_URL}/logout`, { headers: { "auth": token } });
+        
+        if (!res.issue) {
+            dispatch({
+                type: SUCCESS_LOGOUT,
+                payload: res
+            })
+        } else {
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+    }
+}
 
-        let res = await axios.get(`${process.env.REACT_APP_API_ADMIN_URL}/recipes`, config);
+// aggreated
+export const findAggregate = (sort)=> async (dispatch)=>{
+    dispatch({ type: LOADING });
+    let baseURL = `${process.env.REACT_APP_API_ADMIN_URL}/dashboard`;
+    try {
+        if(sort !== ""){
+            baseURL += `?userpost=${sort}`
+         
+        }
+        console.log(baseURL);
+        let res = await axios.get(`${baseURL}`, config);
+        res = res?.data;
+
+        if (!res.issue) {
+            dispatch({
+                type: SUCCESS_MAXUSERPOST,
+                payload: res
+            })
+        } else {
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    }catch(error){
+        dispatch({ type: ERROR, payload: error });
+    }
+}
+// recipes
+export const getAllRecipes = (search) => async (dispatch) => {
+    dispatch({ type: LOADING });
+    let baseURL = `${process.env.REACT_APP_API_ADMIN_URL}/recipes`;
+    try {   
+   
+        if(search.value !== ""){
+            baseURL += `?${search.key}=${search.value}`;
+        }
+        let  res = await axios.get(`${baseURL}`, config);
         res = res?.data;
         if (!res.issue) {
             dispatch({
@@ -109,10 +163,12 @@ export const deleteRecipes =(recipe, handleResult) => async (dispatch) => {
 export const getAllUsers = (data) => async (dispatch) => {
     dispatch({ type: LOADING });
     let baseURL = `${process.env.REACT_APP_API_ADMIN_URL}/users`;
+    // let baseURL = `http://localhost:8080/admin/users`;
     try {
         if((data.key === "username" && data.value !== "") || (data.key === "email" && data.value !== "")){
             baseURL += `?${data.key}=${data.value}`;
         }
+       
         let res = await axios.get(`${baseURL}`, config);
         res = res?.data;
 
