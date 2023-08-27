@@ -42,8 +42,6 @@ export const ReviewCard = ({ Recipename, Recipeobj }) => {
     setDisabled(false);
   };
 
-  console.log(Recipeobj)
-
   return (
     <div>
       <DIV className="Review-Container">

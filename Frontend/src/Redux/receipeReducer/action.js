@@ -13,7 +13,7 @@ export const getAllRecipes = () => (dispatch) => {
 
 export const commentOnpost = (id,newdata) => (dispatch) => {
     dispatch({type : LOADING});
-    axios.patch(`https://recipeswap.onrender.com/recipe/update/${id}`, newdata)
+    axios.patch(`https://recipeswap.onrender.com/recipe/update${id}`, newdata)
     .then((res) =>{
         console.log(res);
         dispatch({type : SUCCESS_RECIPES_UPDATE})
