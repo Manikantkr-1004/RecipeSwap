@@ -16,7 +16,6 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
-    Input,
 } from '@chakra-ui/react';
 import logo from "./images/logo.png"
 import { HamburgerIcon, CloseIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -79,7 +78,7 @@ export function Navbar() {
              transition={"top 0.3s"}
              zIndex={"5"}
              width={"100%"}
-             
+             alignItems={'center'}
                 bg={useColorModeValue('white', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH={'80px'}
@@ -95,6 +94,7 @@ export function Navbar() {
                     flex={{ base: 1, md: 'auto' }}
                     ml={{ base: -2 }}
                     display={{ base: 'flex', md: 'none' }}
+                   
                 >
                     <IconButton
                         onClick={onToggle}
