@@ -13,9 +13,11 @@ import { RecipeType2 } from "../Pages/RecipeType2";
 import { SideMenu } from "../Components/SideMenu";
 import { Stack } from "@chakra-ui/react";
 import { styled } from "styled-components";
-import {AdminRecipe} from "../Pages/AdminRecipe";
-import {AdminUser} from "../Pages/AdminUser";
-import {AdminDash} from "../Pages/AdminDash"
+
+import { AdminRecipe } from "../Pages/AdminRecipe";
+import { AdminUser } from "../Pages/AdminUser";
+import { AdminDash } from "../Pages/AdminDash";
+
 
 export function AllRoutes() {
   return (
@@ -30,7 +32,7 @@ export function AllRoutes() {
     
       <Route path="/recipe/:id" element={<RecipeType2 />}></Route>
       <Route path="/recipelist" element={<RecipeList />}></Route>
-      <Route path="/recipelist" element={<RecipeList />}></Route>
+      {/* <Route path="/recipelist" element={<RecipeList />}></Route> */}
       <Route path="*" element={<NotFound />}></Route>
 
       <Route path="/admin" element={<SPAN>

@@ -36,13 +36,12 @@ export const ReviewCard = ({ Recipename, Recipeobj }) => {
       comment,
     };
     data.comments.push(newComment);
-    dispatch(commentOnpost(data._id, data));
+    const token = Cookies.get("token");
+    dispatch(commentOnpost(data._id, newComment, token));
     getRating(0);
     setComment("");
     setDisabled(false);
   };
-
-  console.log(Recipeobj)
 
   return (
     <div>

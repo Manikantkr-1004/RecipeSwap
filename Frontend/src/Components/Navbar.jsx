@@ -17,22 +17,40 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
+
     Avatar,
     Menu,
     MenuButton,
     MenuList,
     MenuItem,
     MenuDivider,
-
     Center,
+    Input,
 } from '@chakra-ui/react';
 import { NavLink, Link } from 'react-router-dom';
 import logo from "./images/logo.png"
 import { HamburgerIcon, CloseIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { DebounceInput } from 'react-debounce-input';
+import { styled } from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { getAllRecipes } from '../Redux/receipeReducer/action';
+import { useNavigate } from 'react-router-dom';
 export function Navbar() {
     const { isOpen, onToggle } = useDisclosure();
+    const [state, setState] = useState("");
+    const dispatch = useDispatch();
+    const navigation = useNavigate();
     const [prevScrollpos, setPrevScrollpos] = useState(window.pageYOffset);
     const [navbarTop, setNavbarTop] = useState(0);
+
+    useEffect(()=>{
+        dispatch(getAllRecipes(state));
+       if(state !== ""){
+        navigation("/recipelist");
+       }
+
+      
+    }, [state]);
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollPos = window.pageYOffset;
@@ -59,7 +77,18 @@ export function Navbar() {
     }, [])
 
     return (
+        
         <Box paddingBottom={"120px"}>
+            <SPAN>
+            <Flex justifyContent={"center"} m={".5rem 0"}>
+            <DebounceInput minLength={2}
+            debounceTimeout={500}
+            placeholder={"Feeling Hungry, Search here...."}
+            className='inputBox'
+           
+            onChange={event => setState(event.target.value)} />
+            </Flex>
+            </SPAN>
             <Flex
                 style={{ top: `${navbarTop}px` }}
                 position={"fixed"}
@@ -452,3 +481,18 @@ const NAV_ITEMS = [
     },
 ];
 
+
+const SPAN = styled.span`
+     .inputBox{
+  background-color: white;
+  border: 2px solid #C8C8C8;
+  border-radius: 5px;
+  padding: 7px 10px;
+  width: 50%;
+z-index: 6;
+ }
+ .inputBox:focus{
+  border: none;
+  outline: 2px solid #ff8f49;
+ }
+`

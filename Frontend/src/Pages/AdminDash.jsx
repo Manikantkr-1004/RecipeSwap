@@ -2,11 +2,12 @@ import { Box, Flex, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { AdminHeader } from "../Components/AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { findAggregate } from "../Redux/adminReducer/action";
+import { findAggregate, getTokenCookie } from "../Redux/adminReducer/action";
 import LineChart from "../Components/LineChart";
 import PieChart from "../Components/PieChart";
 import DoughnutChart from "../Components/DoughnutChart";
 import { styled } from "styled-components";
+import Cookies from "js-cookie";
 
 export function AdminDash() {
   const dispatch = useDispatch();
@@ -19,9 +20,16 @@ export function AdminDash() {
   const [dataRecipeType, setDataRecipeType] = useState([]);
   const [dataCuisine, setDataCuisine] = useState([]);
   useEffect(()=>{
+    const token = Cookies.get('login_token');
+    getTokenCookie(token);
+  }, []);
+  useEffect(()=>{
+     setTimeout(()=>{
       dispatch(findAggregate(sort));
+     }, 300);
     
   }, [sort]);
+
   useEffect(()=>{
     if (maxPost !== undefined) {
       setDataArray(maxPost);
