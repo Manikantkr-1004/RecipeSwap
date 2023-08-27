@@ -7,10 +7,10 @@ import { Footer } from '../Components/Footer'
 import Cookies from "js-cookie"
 import {useNavigate} from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { userdataget, userlogout } from '../Redux/userReducer/action'
-import { USER_FAIL, VALID_USERDATA_GET_SUCCESS, VALID_USER_FAIL, VALID_USER_LOGOUT_SUCCESS } from '../Redux/actionTypes'
+import { userdataget, userecipeadd, userecipedel, userecipeget, userlogout } from '../Redux/userReducer/action'
+import { USER_FAIL, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOGOUT_SUCCESS } from '../Redux/actionTypes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBlender, faBowlRice, faSignOut, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faBlender, faBowlRice, faDeleteLeft, faEye, faSignOut, faStar } from '@fortawesome/free-solid-svg-icons'
 import {Accordion,AccordionItem,AccordionButton,AccordionPanel,AccordionIcon} from '@chakra-ui/react'
 
 export function UserProfile() {
@@ -19,18 +19,26 @@ export function UserProfile() {
     const star = <FontAwesomeIcon size="md" flip icon={faStar} />
     const add = <FontAwesomeIcon size="md" shake icon={faBowlRice} />
     const added = <FontAwesomeIcon size="md" beatFade icon={faBlender} />
+    const view = <FontAwesomeIcon size="md" icon={faEye} />
+    const del =  <FontAwesomeIcon size="md" icon={faDeleteLeft} />
+
     const navigate = useNavigate()
     const toast = useToast()
-    const token = Cookies.get("login_token")
+    const token = Cookies.get("login_token");
+    const [count,setCount] = useState(0)
+    const name = Cookies.get("login_name")
+    const email = Cookies.get("login_email")
     const dispatch = useDispatch();
     const loading = useSelector((store)=> store.userReducer.loading)
     const logout_loading = useSelector((store)=> store.userReducer.logout_loading)
+    const recipe_loading = useSelector((store)=> store.userReducer.recipe_loading)
     const userdata = useSelector((store)=> store.userReducer.userdata)
-    const number1 = Math.floor(Math.random() * 90) + 10;
-    const number2 = Math.floor(Math.random() * 90) + 10;
+    const recipedata = useSelector((store)=> store.userReducer.recipedata)
+
     const [formdata,setFormdata] = useState({
-        email:"",username:"",recipeName:"",difficulty:"",prepTime:"",cookTime:"",totalTime:"",servings:"",cuisine:"",
+        email:email,username:name,recipeName:"",difficulty:"",prepTime:"",cookTime:"",totalTime:"",servings:"",cuisine:"",
         ingredients:[],
+        nutrition:{calories:"",totalFat:"",totalCarbohydrates:"",protein:"",sugars:""},
         occasion:"",mealType:"",recipeType:"",
         instructions:[],
         imageURL:"",tags:["food","india_ka_swad","Spicy_food"],comments:[]
@@ -39,7 +47,16 @@ export function UserProfile() {
     useEffect(()=>{
         dispatch(userdataget(token))
         .then((res)=>{
+            console.log(res,"userdata");
             dispatch({type:VALID_USERDATA_GET_SUCCESS,payload:res.data.users});
+        }).catch((err)=>{
+            dispatch({type:VALID_USER_FAIL})
+        })
+
+        dispatch(userecipeget(token))
+        .then((res)=>{
+            console.log(res,"userecipedata");
+            dispatch({type:VALID_USERECIPE_GET_SUCCESS,payload:res.data.recipes});
         }).catch((err)=>{
             dispatch({type:VALID_USER_FAIL})
         })
@@ -47,7 +64,79 @@ export function UserProfile() {
         document.body.style.backgroundImage = `url(${user_back})`
         document.body.style.backgroundSize = "cover"
         document.body.style.backgroundRepeat = "no-repeat"
-    },[]);
+    },[count]);
+
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+
+        dispatch(userecipeadd(token,formdata)).then((res)=>{
+            dispatch({type:VALID_USERRECIPE_ADD_SUCCESS});
+            if(res.data.message==="recipe added"){
+                toast({
+                    title: `Recipe Added Successfully!!`,
+                    position: "bottom",
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true,
+                })
+                setCount((prev)=> prev+1)
+                setFormdata({
+                    email:email,username:name,recipeName:"",difficulty:"",prepTime:"",cookTime:"",totalTime:"",servings:"",cuisine:"",
+                    ingredients:["","","","",""],
+                    nutrition:{calories:"",totalFat:"",totalCarbohydrates:"",protein:"",sugars:""},
+                    occasion:"",mealType:"",recipeType:"",
+                    instructions:["","","","",""],
+                    imageURL:"",tags:["food","india_ka_swad","Spicy_food"],comments:[]
+                })
+            }else{
+                toast({
+                    title: `Something Went Wrong, Try again!!`,
+                    position: "bottom",
+                    status: 'error',
+                    duration: 2000,
+                    isClosable: true,
+                })
+            }
+        }).catch((err)=>{
+            dispatch({type:VALID_USER_FAIL})
+            toast({
+                title: `Something Went Wrong, Try again!!`,
+                position: "bottom",
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            })
+        })
+        console.log(formdata);
+    }
+
+    const handleDel= (id,token)=>{
+
+        dispatch(userecipedel(id,token))
+        .then((res)=>{
+            console.log(res,"deleted");
+            dispatch({type:VALID_USER_DELETE_SUCCESS});
+            if(res.data.message==="recipe has been deleted"){
+                toast({
+                    title: `Recipe is deleted!!`,
+                    position: "bottom",
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true,
+                })
+            }
+            setCount((prev)=> prev+1)
+        }).catch((err)=>{
+            dispatch({type:VALID_USER_FAIL})
+            toast({
+                title: `Something Went Wrong, Try again!!`,
+                position: "bottom",
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            })
+        })
+    }
 
 
 
@@ -65,6 +154,8 @@ export function UserProfile() {
                 Cookies.remove("login_token")
                 Cookies.remove("login_email")
                 Cookies.remove("login_name")
+                Cookies.remove("login_role")
+                window.location.reload();
             }else{
                 toast({
                     title: `Something Went Wrong, Try again!!`,
@@ -102,11 +193,11 @@ export function UserProfile() {
                         </div><br/><br/><br/><br/><br/><br/><br/><br/>
                                 </> : 
             <>
-            <Image m="auto" w="12%" src={avatar} alt="user" />
+            <Image m="auto" w={{base:"140px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={avatar} alt="user" />
 
-            <Box w="700px" m="auto" pb="30px">
-                <Text fontWeight="bold">Followers: <span style={{color:"#E45700"}}>{number1}K</span></Text>
-                <Text m="5px 0px" fontWeight="bold">Following: <span style={{color:"#E45700"}}>{number2}K</span></Text>
+            <Box w={{base:"98%",sm:"98%",md:"700px",lg:"700px",xl:"700px"}} m="auto" pb={{base:"90px",sm:"90px",md:"60px",lg:"30px",xl:"30px"}}>
+                <Text fontWeight="bold">Followers: <span style={{color:"#E45700"}}>{userdata.followers?.length}</span></Text>
+                <Text m="5px 0px" fontWeight="bold">Following: <span style={{color:"#E45700"}}>{userdata.following?.length}</span></Text>
 
                 <Flex w="100%" justifyContent="space-between" alignItems="center" gap="10px" >
                     <Box w="48%" border="1px dashed black" borderRadius="15px" padding="10px">
@@ -141,15 +232,18 @@ export function UserProfile() {
                         </h2>
                         <AccordionPanel pb={4}>
 
-                        <Text textAlign="center" fontWeight="semibold" color="red">All fields with * are required.</Text>
+                        <Text textAlign="center" fontWeight="semibold" color="red">All fields with * are required.</Text><br/>
 
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <FormControl isRequired>
 
                                 <FormLabel>Recipe Name</FormLabel>
                                 <Input type="text" value={formdata.recipeName} onChange={(e)=> setFormdata({...formdata,recipeName:e.target.value})} placeholder='Your Recipe Name' required/><br/><br/>
 
-                                <SimpleGrid w="100%" gap="10px" columns={{base:1,sm:1,md:2,lg:2,xl:2}}>
+                                <FormLabel>Recipe Image URL</FormLabel>
+                                <Input type="text" value={formdata.imageURL} onChange={(e)=> setFormdata({...formdata,imageURL:e.target.value})} placeholder='Your Image URL' required/><br/><br/>
+
+                                <SimpleGrid w="100%" gap="10px" columns={{base:1,sm:2,md:2,lg:2,xl:2}}>
                                     <Box>
                                     <FormLabel>Preparation Time</FormLabel>
                                     <Input type="text" value={formdata.prepTime} onChange={(e)=> setFormdata({...formdata,prepTime:e.target.value})} placeholder='20 minutes / 1 hour etc.' required/><br/>
@@ -174,25 +268,25 @@ export function UserProfile() {
                                 <FormLabel>Difficulty Levels</FormLabel>
                                 <Input type="text" value={formdata.difficulty} onChange={(e)=> setFormdata({...formdata,difficulty:e.target.value})} placeholder="Easy / Medium / Hard" /><br/><br/>
 
-                                <SimpleGrid w="100%" gap="10px" columns={{base:1,sm:1,md:2,lg:2,xl:2}}>
+                                <SimpleGrid w="100%" gap="10px" columns={{base:2,sm:2,md:2,lg:2,xl:2}}>
                                     <Box>
                                     <FormLabel>Cuisine</FormLabel>
-                                    <Input type="text" value={formdata.cuisine} onChange={(e)=> setFormdata({...formdata,cuisine:e.target.value})} placeholder='20 minutes / 1 hour etc.' required/><br/>
+                                    <Input type="text" value={formdata.cuisine} onChange={(e)=> setFormdata({...formdata,cuisine:e.target.value})} placeholder='Indian / Italian / American like this' required/><br/>
                                     </Box>
 
                                     <Box>
                                     <FormLabel>Occasion</FormLabel>
-                                    <Input type="text" value={formdata.occasion} onChange={(e)=> setFormdata({...formdata,occasion:e.target.value})} placeholder='20 minutes / 1 hour etc.' required/><br/>
+                                    <Input type="text" value={formdata.occasion} onChange={(e)=> setFormdata({...formdata,occasion:e.target.value})} placeholder='Dinner / Lunch / Breakfast / Party' required/><br/>
                                     </Box>
                                 
                                     <Box>
                                     <FormLabel>MealType</FormLabel>
-                                    <Input type="text" value={formdata.mealType} onChange={(e)=> setFormdata({...formdata,mealType:e.target.value})} placeholder='20 minutes / 1 hour etc.' required/><br/>
+                                    <Input type="text" value={formdata.mealType} onChange={(e)=> setFormdata({...formdata,mealType:e.target.value})} placeholder='Soup / Starter / MainCourse / Dessert like this' required/><br/>
                                     </Box>
 
                                     <Box>
                                     <FormLabel>RecipeType</FormLabel>
-                                    <Input type="text" value={formdata.recipeType} onChange={(e)=> setFormdata({...formdata,recipeType:e.target.value})} placeholder='4 / 8 / 10' required/><br/>
+                                    <Input type="text" value={formdata.recipeType} onChange={(e)=> setFormdata({...formdata,recipeType:e.target.value})} placeholder='Veg / NonVeg' required/><br/>
                                     </Box>
                                 </SimpleGrid><br/>
 
@@ -210,7 +304,34 @@ export function UserProfile() {
                                 <Input type="text" value={formdata.instructions[3]} onChange={(e)=> setFormdata({...formdata,instructions:[formdata.instructions[0],formdata.instructions[1],formdata.instructions[2],e.target.value,formdata.instructions[4]]})} placeholder='Step 4' required/>
                                 <Input type="text" value={formdata.instructions[4]} onChange={(e)=> setFormdata({...formdata,instructions:[formdata.instructions[0],formdata.instructions[1],formdata.instructions[2],formdata.instructions[3],e.target.value]})} placeholder='Step 5' required/><br/><br/>
 
-                                <Button w="100%" bg="#E45700" color="#fff" borderRight="2px solid black" borderBottom="2px solid black" _hover={{bg:"#E45700",border:"none"}} type='submit'>Add Recipe</Button>
+                                <SimpleGrid w="100%" gap="10px" columns={{base:2,sm:2,md:5,lg:5,xl:5}}>
+                                    <Box>
+                                        <FormLabel>Calories</FormLabel>
+                                        <Input value={formdata.nutrition.calories} onChange={(e)=> setFormdata({...formdata,nutrition:{...formdata.nutrition,calories:e.target.value}})} type='text' placeholder='200 / 300' required/>
+                                    </Box>
+
+                                    <Box>
+                                        <FormLabel>Fat</FormLabel>
+                                        <Input value={formdata.nutrition.totalFat} onChange={(e)=> setFormdata({...formdata,nutrition:{...formdata.nutrition,totalFat:e.target.value}})} type='text' placeholder='15g / 20g' required/>
+                                    </Box>
+
+                                    <Box>
+                                        <FormLabel>Carbs</FormLabel>
+                                        <Input value={formdata.nutrition.totalCarbohydrates} onChange={(e)=> setFormdata({...formdata,nutrition:{...formdata.nutrition,totalCarbohydrates:e.target.value}})} type='text' placeholder='50g / 60g' required/>
+                                    </Box>
+
+                                    <Box>
+                                        <FormLabel>Protien</FormLabel>
+                                        <Input value={formdata.nutrition.protein} onChange={(e)=> setFormdata({...formdata,nutrition:{...formdata.nutrition,protein:e.target.value}})} type='text' placeholder='20g / 30g' required/>
+                                    </Box>
+
+                                    <Box>
+                                        <FormLabel>Sugar</FormLabel>
+                                        <Input value={formdata.nutrition.sugars} onChange={(e)=> setFormdata({...formdata,nutrition:{...formdata.nutrition,sugars:e.target.value}})} type='text' placeholder='5g / 8g' required/>
+                                    </Box>
+                                </SimpleGrid><br/>
+
+                                {recipe_loading? <Button w="100%" bg="#E45700" color="#fff" _hover={{bg:"#E45700"}} isLoading></Button> : <Button w="100%" bg="#E45700" color="#fff" borderRight="2px solid black" borderBottom="2px solid black" _hover={{bg:"#E45700",border:"none"}} type='submit'>Add Recipe</Button>}
                             </FormControl>
                         </form>
 
@@ -244,10 +365,32 @@ export function UserProfile() {
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4} >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
+                        {recipedata.length===0? <Text fontWeight="semibold" color="blue">You have not added any recipes yet, Please Add🙂🙂</Text> : 
+                        recipedata.map((item)=>(
+                            <Box w="100%" borderRadius="5px" padding="10px" bg="#ffddc8" mb="6px">
+                                <Flex w="100%" justifyContent="space-between" gap="4px" alignItems="center" direction={{base:"column",sm:"row",md:"row",lg:"row",xl:"row"}}>
+                                    <Flex w={{base:"96%",sm:"40%",md:"40%",lg:"40%",xl:"40%"}} justifyContent="space-between" gap="10px">
+                                        <Image w="40px" src={item.imageURL} alt={item.recipeName} />
+                                        <Text fontWeight="bold" color="#E45700">{item.recipeName}</Text>
+                                    </Flex>
+                                    <Flex w={{base:"96%",sm:"40%",md:"40%",lg:"40%",xl:"40%"}} justifyContent="space-between" gap="10px">
+                                        <button onClick={()=> navigate(`/recipe/${item._id}`)} class="bookmarkBtn">
+                                            <span class="IconContainer"> 
+                                                {view}
+                                            </span>
+                                            <p class="text">View</p>
+                                        </button>
+
+                                        <button onClick={()=> handleDel(item._id,token)} class="bookmarkBtn">
+                                            <span class="IconContainer"> 
+                                                {del}
+                                            </span>
+                                            <p class="text">Delete</p>
+                                        </button>
+                                    </Flex>
+                                </Flex>
+                            </Box>
+                        ))}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>
