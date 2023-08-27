@@ -1,10 +1,12 @@
-import { LOGOUT_USER_LOADING, VALID_USERDATA_GET_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOADING, VALID_USER_LOGOUT_SUCCESS } from "../actionTypes";
+import { LOGOUT_USER_LOADING, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USERRECIPE_ADD_LOADING, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOADING, VALID_USER_LOGOUT_SUCCESS } from "../actionTypes";
 
 
 let initialState = {
     loading: false,
     logout_loading: false,
+    recipe_loading: false,
     userdata : {},
+    recipedata:[],
     error : false
 }
 
@@ -21,9 +23,19 @@ export const reducer = (state=initialState,{type,payload})=>{
                 ...state, logout_loading: true, error: false
             }
         }
+        case VALID_USERRECIPE_ADD_LOADING: {
+            return {
+                ...state, recipe_loading: true, error: false
+            }
+        }
         case VALID_USERDATA_GET_SUCCESS: {
             return {
                 ...state, loading: false, userdata: payload
+            }
+        }
+        case VALID_USERECIPE_GET_SUCCESS: {
+            return {
+                ...state, loading: false, recipedata: payload
             }
         }
         case VALID_USER_DELETE_SUCCESS: {
@@ -36,9 +48,14 @@ export const reducer = (state=initialState,{type,payload})=>{
                 ...state, logout_loading: false, userdata: {}
             }
         }
+        case VALID_USERRECIPE_ADD_SUCCESS: {
+            return {
+                ...state, recipe_loading: false
+            }
+        }
         case VALID_USER_FAIL: {
             return {
-                ...state, loading: false, error: true, logout_loading: false
+                ...state, loading: false, error: true, logout_loading: false, recipe_loading: false
             }
         }
         

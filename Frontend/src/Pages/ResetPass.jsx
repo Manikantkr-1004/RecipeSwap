@@ -9,6 +9,7 @@ import 'animate.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { USER_FAIL, USER_RESET_SUCCESS } from '../Redux/actionTypes'
 import { usereset } from '../Redux/authReducer/action'
+import Cookies from "js-cookie"
 
 export function ResetPass() {
 
@@ -62,6 +63,10 @@ export function ResetPass() {
                     duration: 2000,
                     isClosable: true,
                 })
+                Cookies.remove("login_token")
+                Cookies.remove("login_name")
+                Cookies.remove("login_email")
+                Cookies.remove("login_role")
                 setTimeout(() => {
                     navigate("/login")
                 }, 2000);

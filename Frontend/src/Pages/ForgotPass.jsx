@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Flex, Image, Box, Text, FormControl, FormLabel, InputGroup, Input, InputLeftElement, useToast, Button} from "@chakra-ui/react"
 import forgot_pass from "../Components/images/forgot_pass.jpg"
 import logo from "../Components/images/logo.png"
@@ -18,6 +18,10 @@ export function ForgotPass() {
     const dispatch = useDispatch();
     const toast = useToast()
     const loading = useSelector((store)=> store.authReducer.loading);
+
+    useEffect(()=>{
+        document.body.style.background = "#fff"
+    },[])
 
     const handleSubmit= (e)=>{
         e.preventDefault();
