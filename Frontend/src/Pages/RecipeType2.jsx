@@ -14,6 +14,7 @@ import { Footer } from "../Components/Footer";
 import { RecipeCard } from "../Components/RecipeCard";
 import { ReviewCard } from "../Components/ReviewCard";
 import { getAllRecipes } from "../Redux/receipeReducer/action";
+import { Spinner } from "@chakra-ui/react";
 
 export function RecipeType2() {
   let { id } = useParams();
@@ -22,20 +23,42 @@ export function RecipeType2() {
   const recipes = useSelector((store) => store.recipeReducer.recipes);
   const isLoading = useSelector((store) => store.recipeReducer.loading);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getAllRecipes());
-  },[])
+  }, []);
 
   useEffect(() => {
     const data = recipes.find((el) => el._id == id);
     setRecipe(data);
   }, [recipes]);
 
+  const handleprint = () => {
+    window.print();
+  };
+
+  const handleReview = () => {
+    window.location.href = "#Review";
+  };
+
+  const handleShare = () => {
+    window.open(
+      `https://wa.me/?text=*${Recipe?.recipeName}*%0A%0ALink👉${window.location.href}`
+    );
+  };
+
   return (
     <>
       <Navbar />
       {isLoading ? (
-        <h1>Loading...</h1>
+        <SPINNER>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="#f15025"
+            size="xl"
+          />
+        </SPINNER>
       ) : (
         <>
           <WRAPPER>
@@ -56,15 +79,21 @@ export function RecipeType2() {
                   <AiOutlineHeart className="icon icon-1" />
                 </div>
                 <div className="recipe-saveOptions btn">
-                  <button className="btn-w">Rate</button>
+                  <button onClick={handleReview} className="btn-w">
+                    Rate
+                  </button>
                   <IoMdStarOutline className="icon" />
                 </div>
                 <div className="recipe-saveOptions btn">
-                  <button className="btn-w">Print</button>
+                  <button onClick={handleprint} className="btn-w">
+                    Print
+                  </button>
                   <AiFillPrinter className="icon" />
                 </div>
                 <div className="recipe-saveOptions">
-                  <button className="btn-w">Share</button>
+                  <button onClick={handleShare} className="btn-w">
+                    Share
+                  </button>
                   <IoMdShareAlt className="icon" />
                 </div>
               </div>
@@ -98,7 +127,7 @@ export function RecipeType2() {
                 })}
               </ul>
             </div>
-            <div className="instructions-section">
+            <div className=" ">
               <p className="instructions-heading">Instructions</p>
               {Recipe?.instructions?.map((el, i) => {
                 let number = i + 1;
@@ -324,16 +353,121 @@ const WRAPPER = styled.div`
   .cate-heading {
     font-weight: 900;
   }
+
+  @media (max-width: 1100px) {
+    width: 80%;
+
+    .desc-container {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .recipe-saveOptions-container {
+      display: block;
+      flex-wrap: wrap;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 15px 0px;
+    }
+  }
+
+  @media (max-width: 740px) {
+    .NutritionFacts-info-Container {
+      display: flex;
+      justify-content: space-between;
+      width: 400px;
+      margin: 10px 0px;
+    }
+
+    .recipe-saveOptions {
+      background-color: #f5f6ea;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .icon {
+      margin-left: 5px;
+      font-size: 20px;
+      color: #f15025;
+    }
+
+    .btn-1 {
+      background-color: #f15025;
+      border-radius: 5px 0px 0px 5px;
+      padding: 15px 20px;
+      color: white;
+    }
+
+    .btn {
+      border-right: none;
+    }
+
+    .NutritionFacts-info-Container {
+      display: block;
+      justify-content: space-between;
+      width: 600px;
+      margin: 10px 0px;
+    }
+  }
+
+  @media (max-width: 670px) {
+    .owner-sec {
+      display: block;
+    }
+
+    .owner-sec > div {
+      margin-top: 10px;
+    }
+  }
 `;
 
 const DIV = styled.div`
-  border-bottom: solid lightgray 1px;
+  display: flex;
+  justify-content: center;
+
   .cards-container {
-    width: 80%;
-    margin: auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-row-gap: 20px;
+    grid-column-gap: 20px;
     padding-bottom: 40px;
   }
+
+  @media (max-width: 1200px) {
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-row-gap: 20px;
+      grid-column-gap: 20px;
+      padding-bottom: 40px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-row-gap: 20px;
+      grid-column-gap: 20px;
+      padding-bottom: 40px;
+    }
+  }
+
+  @media (max-width: 610px) {
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-row-gap: 20px;
+      grid-column-gap: 20px;
+      padding-bottom: 40px;
+    }
+  }
+`;
+
+const SPINNER = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;

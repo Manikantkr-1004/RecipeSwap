@@ -8,7 +8,7 @@ export const HomeRecipeCard = ({ _id, imageURL, recipeName, mealType }) => {
   return (
     <DIV>
       <Link to={`/recipe/${_id}`}>
-        <img className="image" src={`${imageURL}`} alt="error" />
+        <img style={{width:"100%"}} className="image" src={`${imageURL}`} alt="error" />
         <p className="card-heading-1">{mealType}</p>
         <p className="card-heading-2">{recipeName}</p>
         <div className="rating">

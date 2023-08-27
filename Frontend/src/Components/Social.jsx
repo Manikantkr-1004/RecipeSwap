@@ -8,16 +8,16 @@ import { IoMailSharp } from "react-icons/io5";
 export const Social = () => {
   return (
     <WRAPPER>
-      <div className="container">
+      <div className="container" onClick={()=> window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`)}>
         <BiLogoFacebook className="fb"/>
       </div>
-      <div className="container">
+      <div className="container" onClick={()=> window.open(`https://twitter.com/intent/tweet?url=${window.location.href}&text=recipeswap%0A%0ALink`)}>
         <BsTwitter className="twi" />
       </div>
-      <div className="container">
+      <div className="container" onClick={()=> window.open(`https://pinterest.com/pin/create/button/?url=${window.location.href}&description=recipeswap%0A%0ALink`)}>
         <FaPinterestP className="Pin" />
       </div>
-      <div className="container">
+      <div className="container" onClick={()=> window.open(`mailto:?subject=recipeswap&body=${window.location.href}`)}>
         <IoMailSharp className="mail"/>
       </div>
     </WRAPPER>

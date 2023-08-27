@@ -19,9 +19,6 @@ import {AdminUser} from "../Pages/AdminUser"
 import {PrivateUserRoutes} from "./PrivateUserRoutes"
 import {PrivateAdminRoutes} from "./PrivateAdminRoutes"
 
-
-
-
 export function AllRoutes() {
   return (
     <Routes>
