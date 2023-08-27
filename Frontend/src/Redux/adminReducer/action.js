@@ -5,10 +5,15 @@ import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_LOGOUT, SUCCESS_MAXUSERPOST
 const config = {
     headers: {
         "Content-Type": "application/json",
-        "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU2ZTIwNzMwMmYwYThlN2M4YzcwZWIiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE2OTI4NTU4NjJ9.jfcOPD6hnARlQ0Wl0fu0bY-g6AfQt7fdevxN5Jd-Dzg"
+        "auth": ""
     }
 }
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU2ZTIwNzMwMmYwYThlN2M4YzcwZWIiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJpYXQiOjE2OTI4NTU4NjJ9.jfcOPD6hnARlQ0Wl0fu0bY-g6AfQt7fdevxN5Jd-Dzg
 
+export const getTokenCookie = (data)=>{
+    config.headers.auth = data;
+    console.log(config);
+}
 // logout 
 export const logoutAdmin = (token)=> async(dispatch) => {
     try {
