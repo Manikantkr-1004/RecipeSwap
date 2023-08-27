@@ -36,202 +36,211 @@ import { styled } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { getAllRecipes } from '../Redux/receipeReducer/action';
 import { useNavigate } from 'react-router-dom';
-export function Navbar() {
-    const { isOpen, onToggle } = useDisclosure();
-    const [state, setState] = useState("");
-    const dispatch = useDispatch();
-    const navigation = useNavigate();
-    const [prevScrollpos, setPrevScrollpos] = useState(window.pageYOffset);
-    const [navbarTop, setNavbarTop] = useState(0);
+import { Header } from './Header';
 
-    useEffect(()=>{
-        dispatch(getAllRecipes(state));
-       if(state !== ""){
-        navigation("/recipelist");
-       }
+
+export const Navbar = () => {
+    return (
+        <Header/>
+    )
+}
+
+// export function Navbar() {
+//     const { isOpen, onToggle } = useDisclosure();
+//     const [state, setState] = useState("");
+//     const dispatch = useDispatch();
+//     const navigation = useNavigate();
+//     const [prevScrollpos, setPrevScrollpos] = useState(window.pageYOffset);
+//     const [navbarTop, setNavbarTop] = useState(0);
+
+//     useEffect(()=>{
+//         dispatch(getAllRecipes(state));
+//        if(state !== ""){
+//         navigation("/recipelist");
+//        }
 
       
-    }, [state]);
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollPos = window.pageYOffset;
-            if (prevScrollpos > currentScrollPos) {
-                setNavbarTop(0);
-            } else {
-                setNavbarTop(-110);
-            }
-            setPrevScrollpos(currentScrollPos);
-        };
+//     }, [state]);
+//     useEffect(() => {
+//         const handleScroll = () => {
+//             const currentScrollPos = window.pageYOffset;
+//             if (prevScrollpos > currentScrollPos) {
+//                 setNavbarTop(0);
+//             } else {
+//                 setNavbarTop(-110);
+//             }
+//             setPrevScrollpos(currentScrollPos);
+//         };
 
-        window.addEventListener('scroll', handleScroll);
+//         window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [prevScrollpos]);
+//         return () => {
+//             window.removeEventListener('scroll', handleScroll);
+//         };
+//     }, [prevScrollpos]);
 
-    const token = Cookies.get("login_token")
-    const name = Cookies.get("login_name")
-    const emailUser = Cookies.get("login_email")
-    useEffect(() => {
-        console.log(name)
-    }, [])
+//     const token = Cookies.get("login_token")
+//     const name = Cookies.get("login_name")
+//     const emailUser = Cookies.get("login_email")
+//     useEffect(() => {
+//         console.log(name)
+//     }, [])
 
-    return (
+//     return (
         
-        <Box paddingBottom={"120px"}>
-            <SPAN>
-            <Flex justifyContent={"center"} m={".5rem 0"}>
-            <DebounceInput minLength={2}
-            debounceTimeout={500}
-            placeholder={"Feeling Hungry, Search here...."}
-            className='inputBox'
+//         <Box paddingBottom={"120px"}>
+//             <SPAN>
+//             <Flex justifyContent={"center"} m={".5rem 0"}>
+//             <DebounceInput minLength={2}
+//             debounceTimeout={500}
+//             placeholder={"Feeling Hungry, Search here...."}
+//             className='inputBox'
            
-            onChange={event => setState(event.target.value)} />
-            </Flex>
-            </SPAN>
-            <Flex
-                style={{ top: `${navbarTop}px` }}
-                position={"fixed"}
-                top={"0"}
-                transition={"top 0.3s"}
-                zIndex={"5"}
-                width={"100%"}
-                border={"1px solid black"}
+//             onChange={event => setState(event.target.value)} />
+//             </Flex>
+//             </SPAN>
+//             <Flex
+//                 style={{ top: `${navbarTop}px` }}
+//                 position={"fixed"}
+//                 top={"0"}
+//                 transition={"top 0.3s"}
+//                 zIndex={"5"}
+//                 width={"100%"}
+//                 border={"1px solid black"}
 
-                bg={useColorModeValue('white', 'gray.800')}
-                color={useColorModeValue('gray.600', 'white')}
-                minH={'80px'}
-                maxH={"110px"}
-                py={{ base: 2 }}
-                px={{ base: 4 }}
-                borderBottom={1}
-                borderStyle={'solid'}
-                borderColor={useColorModeValue('gray.200', 'gray.900')}
-                align={'center'}
-            >
-                <Flex
-                    flex={{ base: 1, md: 'auto' }}
-                    ml={{ base: -2 }}
-                    display={{ base: 'flex', md: 'none' }}
+//                 bg={useColorModeValue('white', 'gray.800')}
+//                 color={useColorModeValue('gray.600', 'white')}
+//                 minH={'80px'}
+//                 maxH={"110px"}
+//                 py={{ base: 2 }}
+//                 px={{ base: 4 }}
+//                 borderBottom={1}
+//                 borderStyle={'solid'}
+//                 borderColor={useColorModeValue('gray.200', 'gray.900')}
+//                 align={'center'}
+//             >
+//                 <Flex
+//                     flex={{ base: 1, md: 'auto' }}
+//                     ml={{ base: -2 }}
+//                     display={{ base: 'flex', md: 'none' }}
                    
-                >
-                    <IconButton
-                        onClick={onToggle}
-                        icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-                        variant={'ghost'}
-                        aria-label={'Toggle Navigation'}
-                    />
-                </Flex>
-                <Flex   flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-                    <Flex width={{ base: "180px", md: "250px" }} h={"100"}
-                        mr={{ md: "7%", base: "30%" }}
-                        textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-                        fontFamily={'heading'}
-                        color={useColorModeValue('gray.800', 'white')}
-                    >
-                        <Box _hover={{ cursor: "pointer" }} style={{ width: "100%", height: "90%" }}>
-                            <Link to={"/"}>
-                                <Image h={"100%"} w={"100%"} src={logo} alt="logo" />
-                            </Link>
-                        </Box>
-                    </Flex>
+//                 >
+//                     <IconButton
+//                         onClick={onToggle}
+//                         icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+//                         variant={'ghost'}
+//                         aria-label={'Toggle Navigation'}
+//                     />
+//                 </Flex>
+//                 <Flex   flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+//                     <Flex width={{ base: "180px", md: "250px" }} h={"100"}
+//                         mr={{ md: "7%", base: "30%" }}
+//                         textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+//                         fontFamily={'heading'}
+//                         color={useColorModeValue('gray.800', 'white')}
+//                     >
+//                         <Box _hover={{ cursor: "pointer" }} style={{ width: "100%", height: "90%" }}>
+//                             <Link to={"/"}>
+//                                 <Image h={"100%"} w={"100%"} src={logo} alt="logo" />
+//                             </Link>
+//                         </Box>
+//                     </Flex>
 
-                    <Flex h={"80px"} justifyContent={"center"} alignItems={"end"} display={{ base: 'none', md: 'flex' }}  >
-                        <DesktopNav />
-                    </Flex>
-                </Flex>
+//                     <Flex h={"80px"} justifyContent={"center"} alignItems={"end"} display={{ base: 'none', md: 'flex' }}  >
+//                         <DesktopNav />
+//                     </Flex>
+//                 </Flex>
 
-                {token ? (
+//                 {token ? (
 
-                    <Flex h={"100px"} pt={"1.5%"} w={"100px"} alignItems={'center'} >
-                        <Stack direction={'row'} spacing={7}>
+//                     <Flex h={"100px"} pt={"1.5%"} w={"100px"} alignItems={'center'} >
+//                         <Stack direction={'row'} spacing={7}>
 
 
-                            <Menu>
-                                <MenuButton
-                                    as={Button}
-                                    rounded={'full'}
-                                    variant={'link'}
-                                    cursor={'pointer'}
-                                    minW={0}>
-                                    <Avatar
-                                        size={'sm'}
-                                        src={'https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512'}
-                                    />
-                                </MenuButton>
-                                <MenuList alignItems={'center'}>
-                                    <br />
-                                    <Center>
-                                        <Avatar
-                                            size={'2xl'}
-                                            src={'https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512'}
-                                        />
-                                    </Center>
-                                    <br />
-                                    <Center>
-                                        <p>{name}</p>
-                                    </Center>
-                                    <br />
-                                    <MenuDivider />
-                                    <MenuItem>{emailUser}</MenuItem>
-                                    <Link to={"/userprofile"}>
+//                             <Menu>
+//                                 <MenuButton
+//                                     as={Button}
+//                                     rounded={'full'}
+//                                     variant={'link'}
+//                                     cursor={'pointer'}
+//                                     minW={0}>
+//                                     <Avatar
+//                                         size={'sm'}
+//                                         src={'https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512'}
+//                                     />
+//                                 </MenuButton>
+//                                 <MenuList alignItems={'center'}>
+//                                     <br />
+//                                     <Center>
+//                                         <Avatar
+//                                             size={'2xl'}
+//                                             src={'https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512'}
+//                                         />
+//                                     </Center>
+//                                     <br />
+//                                     <Center>
+//                                         <p>{name}</p>
+//                                     </Center>
+//                                     <br />
+//                                     <MenuDivider />
+//                                     <MenuItem>{emailUser}</MenuItem>
+//                                     <Link to={"/userprofile"}>
 
-                                        <MenuItem>Account Settings</MenuItem>
-                                    </Link>
-                                    <MenuItem>Logout</MenuItem>
-                                </MenuList>
-                            </Menu>
-                        </Stack>
-                    </Flex>
-                ) : (
-                    <Stack
-                        border={"1px solid black"}
+//                                         <MenuItem>Account Settings</MenuItem>
+//                                     </Link>
+//                                     <MenuItem>Logout</MenuItem>
+//                                 </MenuList>
+//                             </Menu>
+//                         </Stack>
+//                     </Flex>
+//                 ) : (
+//                     <Stack
+//                         border={"1px solid black"}
                        
-                        flex={{ base: 1, md: 0 }}
-                        // justify={'end'}
-                        direction={'row'}
-                        spacing={6}
-                        h={"100px"}
-                        pt={"1.5%"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
+//                         flex={{ base: 1, md: 0 }}
+//                         // justify={'end'}
+//                         direction={'row'}
+//                         spacing={6}
+//                         h={"100px"}
+//                         pt={"1.5%"}
+//                         justifyContent={"center"}
+//                         alignItems={"center"}
                         
 
-                    >
+//                     >
 
-                        <Button color={'black'} as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
-                            <Link to="/login">
-                                Sign In
-                            </Link>
-                        </Button>
+//                         <Button color={'black'} as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
+//                             <Link to="/login">
+//                                 Sign In
+//                             </Link>
+//                         </Button>
 
-                        <Link to={"/signup"}>
-                            <Button
-                                as={'a'}
-                                display={{ base: 'none', md: 'none', lg: 'inline-flex' }}
-                                fontSize={'sm'}
-                                fontWeight={600}
-                                color={'white'}
-                                bg={'#e45a05'}
+//                         <Link to={"/signup"}>
+//                             <Button
+//                                 as={'a'}
+//                                 display={{ base: 'none', md: 'none', lg: 'inline-flex' }}
+//                                 fontSize={'sm'}
+//                                 fontWeight={600}
+//                                 color={'white'}
+//                                 bg={'#e45a05'}
 
-                                _hover={{
-                                    bg: '#e47a05',
-                                }}
-                            >
-                                Sign Up
-                            </Button>
-                        </Link>
-                    </Stack>
-                )}
-            </Flex>
+//                                 _hover={{
+//                                     bg: '#e47a05',
+//                                 }}
+//                             >
+//                                 Sign Up
+//                             </Button>
+//                         </Link>
+//                     </Stack>
+//                 )}
+//             </Flex>
 
-            <Collapse in={isOpen} animateOpacity>
-                <MobileNav />
-            </Collapse>
-        </Box>
-    );
-}
+//             <Collapse in={isOpen} animateOpacity>
+//                 <MobileNav />
+//             </Collapse>
+//         </Box>
+//     );
+// }
 
 const DesktopNav = () => {
     const linkColor = useColorModeValue('gray.600', 'gray.200');

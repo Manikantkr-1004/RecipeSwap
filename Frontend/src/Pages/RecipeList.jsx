@@ -12,11 +12,7 @@ export function RecipeList() {
     const recipes = useSelector((store) => store.recipeReducer.recipes);
 
     useEffect(()=>{
-        // if(recipes.length > 0){
-        //     console.log(recipes);
-        // }else{
-        //     dispatch(getAllRecipes());
-        // }
+       
     },[]) 
 
     return (

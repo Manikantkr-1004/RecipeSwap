@@ -5,6 +5,7 @@ import { getAllRecipes } from '../Redux/receipeReducer/action';
 import { useSelector, useDispatch } from 'react-redux';
 import { HomeRecipeCard } from '../Components/HomeRecipeCard';
 import { Box, Image, Flex, Heading, Text, Grid, GridItem,CircularProgress } from '@chakra-ui/react'
+import { Header } from '../Components/Header';
 export function Home() {
     const dispatch = useDispatch();
     const recipes = useSelector((store) => store.recipeReducer.recipes);
@@ -29,7 +30,7 @@ export function Home() {
     return (
         <>
             <Navbar />
-
+           
             {/* <Grid w={"100%"} _hover={{ cursor: "pointer" }} pt={"1%"} pb={"1%"} bg={"#114388"} color={"white"} h={"auto"} templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
                 <GridItem w='100%'>
                     <Flex _hover={{ textDecoration: 'underline' }} alignItems={"center"} justifyContent={"center"} gap={"2"}>
