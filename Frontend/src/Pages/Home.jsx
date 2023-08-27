@@ -3,11 +3,14 @@ import { Navbar } from '../Components/Navbar';
 import { Footer } from '../Components/Footer';
 import { getAllRecipes } from '../Redux/receipeReducer/action';
 import { useSelector, useDispatch } from 'react-redux';
-import { RecipeCard } from '../Components/RecipeCard';
-import { Box, Image, Flex, Heading, Text, Grid, GridItem } from '@chakra-ui/react'
+import { HomeRecipeCard } from '../Components/HomeRecipeCard';
+import { Box, Image, Flex, Heading, Text, Grid, GridItem,CircularProgress } from '@chakra-ui/react'
 export function Home() {
     const dispatch = useDispatch();
     const recipes = useSelector((store) => store.recipeReducer.recipes);
+    console.log(recipes)
+    const recipesloding = useSelector((store) => store.recipeReducer.loading);
+    console.log(recipesloding)
 
     useEffect(() => {
         dispatch(getAllRecipes());
@@ -27,36 +30,36 @@ export function Home() {
         <>
             <Navbar />
 
-            <Grid _hover={{ cursor: "pointer" }} pt={"1%"} pb={"1%"} bg={"#114388"} color={"white"} h={"auto"} templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
+            {/* <Grid w={"100%"} _hover={{ cursor: "pointer" }} pt={"1%"} pb={"1%"} bg={"#114388"} color={"white"} h={"auto"} templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
                 <GridItem w='100%'>
                     <Flex _hover={{ textDecoration: 'underline' }} alignItems={"center"} justifyContent={"center"} gap={"2"}>
-                        <Text fontSize={"22px"} as={"b"}>India's  </Text>
+                        <Text fontSize={"22px"} as={"b"}>India's</Text>
                         <Text fontSize={"22px"} as={"b"} color='#f2d657'> #1 Trusted Recipe Resource </Text>
-                        <Text fontSize={"22px"} as={"b"}> since 1997</Text>
+                        <Text fontSize={"22px"} as={"b"}>since 1997</Text>
                     </Flex>
                 </GridItem>
                 <GridItem w='100%'>
                     <Flex alignItems={"center"} justifyContent={"center"} gap={"5"}>
                         <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
                             <Box bgColor={"#2ec5b6"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>113K  </Text>
+                            <Text fontSize={"22px"} as={"b"}>113K</Text>
                             <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Original Recipes  </Text>
                         </Flex>
                         <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
                             <Box bgColor={"#f15025"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>6.9M+  </Text>
+                            <Text fontSize={"22px"} as={"b"}>6.9M+</Text>
                             <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Rating & Reviews  </Text>
                         </Flex>
 
                         <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
                             <Box bgColor={"#e7ab46"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>60M  </Text>
-                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Home Cooks   </Text>
+                            <Text fontSize={"22px"} as={"b"}>60M</Text>
+                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Home Cooks</Text>
                         </Flex>
                     </Flex>
                 </GridItem>
 
-            </Grid>
+            </Grid> */}
             <Box mt={"1%"} pt={"2%"} pb={"2%"} textAlign={"center"} w={"100%"} h={"auto"} >
 
                 <Flex w={"100%"} h={"80%"} >
@@ -118,15 +121,22 @@ export function Home() {
 
 
             {/* all recipes import here */}
-            <Box w={"100%"} border={"1px solid black"}>
-                
-            <Grid width={"80%"} padding={"auto"} margin={"auto"} border={"1px solid black"} templateColumns='repeat(3, 1fr)' >
+            {(recipesloding)?(
+                <Flex w={"100%"} justifyContent={"center"} alignItems={"center"}>
+                    <CircularProgress isIndeterminate  color='#e45a05' size={"70px"} />
+                </Flex>
+            ):(
+            <Box w={"100%"}>
 
-                {
-                    recipes.length > 0 && recipes?.map((el, i) => <RecipeCard key={i} {...el} />)
+                <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} >
+
+                    {
+                        recipes.length > 0 && recipes?.map((el, i) => (i < 9) && (<HomeRecipeCard key={i} {...el} />))
+                    }
+                </Grid>
+            </Box>
+            )
                 }
-            </Grid>
-                </Box>
 
             {/* all recipes import here */}
 
@@ -144,6 +154,9 @@ export function Home() {
                     <Flex width={{ base: "0%", md: "50%" }}></Flex>
                 </Flex>
             </Box>
+
+
+
 
             <Box pt={"2%"} pb={"2%"} bgColor={"#f5f6ea"} textAlign={"center"} w={"100%"} h={"auto"} >
                 <Heading pb={"2%"} _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} >101 Zucchini Recipes </Heading>
@@ -204,7 +217,26 @@ export function Home() {
                     </Flex>
                 </Flex>
             </Box>
+            {/* all recipes import here */}
+            {
+            (recipesloding)?(
+                <Flex w={"100%"} justifyContent={"center"} alignItems={"center"}>
+                <CircularProgress isIndeterminate color='#e45a05' size={"70px"} />
+            </Flex>
+            ):(
+            <Box w={"100%"}>
 
+                <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} >
+
+                    {
+                        recipes.length > 0 && recipes?.map((el, i) => ((i >= 9)&&(i<18) ) && (<HomeRecipeCard key={i} {...el} />))
+                    }
+                </Grid>
+            </Box>
+            )
+                }
+
+            {/* all recipes import here */}
             <Box mt={"5%"} w={"100%"} h={"auto"}>
 
                 <Flex _hover={{ cursor: "pointer" }} style={backgroundStyle2} h={"550px"} width={"100%"} >
