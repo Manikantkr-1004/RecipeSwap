@@ -13,6 +13,11 @@ import { RecipeType2 } from "../Pages/RecipeType2";
 import { SideMenu } from "../Components/SideMenu";
 import { Stack } from "@chakra-ui/react";
 import { styled } from "styled-components";
+import {AdminDash} from "../Pages/AdminDash"
+import {AdminRecipe} from "../Pages/AdminRecipe"
+import {AdminUser} from "../Pages/AdminUser"
+import {PrivateUserRoutes} from "./PrivateUserRoutes"
+import {PrivateAdminRoutes} from "./PrivateAdminRoutes"
 
 export function AllRoutes() {
   return (
@@ -21,7 +26,7 @@ export function AllRoutes() {
       <Route path="/login" element={<Login />}></Route>
       <Route path="/reset_password/:token" element={<ResetPass />}></Route>
       <Route path="/forgot_password" element={<ForgotPass />}></Route>
-      <Route path="/userprofile" element={<UserProfile />}></Route>
+      <Route path="/userprofile" element={<PrivateUserRoutes><UserProfile /></PrivateUserRoutes>}></Route>
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/about" element={<About />}></Route>
     
@@ -30,22 +35,22 @@ export function AllRoutes() {
       <Route path="/recipelist" element={<RecipeList />}></Route>
       <Route path="*" element={<NotFound />}></Route>
 
-      <Route path="/admin" element={<SPAN>
+      <Route path="/admin" element={<PrivateAdminRoutes><SPAN>
       <SideMenu />
       <Stack className="wrapperlayout"  float={"right"} display={"inline-block"}>
       <AdminDash />
-      </Stack> </SPAN>}
+      </Stack> </SPAN></PrivateAdminRoutes>}
      ></Route>
-        <Route path="/admin/recipes" element={<SPAN>
+        <Route path="/admin/recipes" element={<PrivateAdminRoutes><SPAN>
       <SideMenu />
       <Stack className="wrapperlayout" float={"right"} display={"inline-block"}>
       <AdminRecipe />
-      </Stack> </SPAN>}></Route>
-        <Route path="/admin/users" element={<SPAN>
+      </Stack> </SPAN></PrivateAdminRoutes>}></Route>
+        <Route path="/admin/users" element={<PrivateAdminRoutes><SPAN>
       <SideMenu />
       <Stack className="wrapperlayout" float={"right"} display={"inline-block"}>
       <AdminUser />
-      </Stack> </SPAN>}></Route>
+      </Stack> </SPAN></PrivateAdminRoutes>}></Route>
     </Routes>
   );
 }

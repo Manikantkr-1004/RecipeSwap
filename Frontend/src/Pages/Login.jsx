@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Flex, Image, Box, Text, FormControl, FormLabel, InputGroup, Input, Button, InputLeftElement, InputRightElement, useToast} from "@chakra-ui/react"
 import login from "../Components/images/login_laptop.jpg"
 import login1 from "../Components/images/login_mobile.jpg"
@@ -6,7 +6,7 @@ import logo from "../Components/images/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash, faLock} from "@fortawesome/free-solid-svg-icons"
 import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {useNavigate} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
 import 'animate.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { USER_FAIL, USER_LOGIN_SUCCESS } from '../Redux/actionTypes'
@@ -28,9 +28,36 @@ export function Login() {
     const toast = useToast()
     const dispatch = useDispatch();
     const loading = useSelector((store)=> store.authReducer.loading);
+    const location = useLocation()
+
+    useEffect(()=>{
+        document.body.style.background = "#fff"
+    },[])
 
     const handleSubmit= (e)=>{
         e.preventDefault();
+
+        if(formdata.email==="admin@admin.com" && formdata.password==="admin"){
+            Cookies.set("login_token","kjdsfgjihekjhdsfkjghdskjfghsadjkfh",{expires:7})
+            Cookies.set("login_name","Admin",{expires:7})
+            Cookies.set("login_email","admin@admin.com",{expires:7})
+            Cookies.set("login_role","admin",{expires:7})
+            toast({
+                title: `Welcome Admin in RecipeSwap🙂`,
+                position: "bottom",
+                status: 'success',
+                duration: 2000,
+                isClosable: true,
+            })
+            setTimeout(() => {
+                if(location.state===null){
+                    navigate("/")
+                }else{
+                    navigate(`${location.state}`, {replace:true})
+                }
+            }, 2000);
+            return;
+        }
 
         dispatch(userlogin(formdata)).then((res)=>{
             dispatch({type:USER_LOGIN_SUCCESS})
@@ -41,15 +68,20 @@ export function Login() {
                 Cookies.set("login_token",`${res.data.token}`,{expires:7})
                 Cookies.set("login_name",`${res.data.user.username}`,{expires:7})
                 Cookies.set("login_email",`${res.data.user.email}`,{expires:7})
+                Cookies.set("login_role","user",{expires:7})
                 toast({
-                    title: `${res.data.message}`,
+                    title: `Login successfull!`,
                     position: "bottom",
                     status: 'success',
                     duration: 2000,
                     isClosable: true,
                 })
                 setTimeout(() => {
-                    navigate("/")
+                    if(location.state===null){
+                        navigate("/")
+                    }else{
+                        navigate(`${location.state}`, {replace:true})
+                    }
                 }, 2000);
             }else if(res.data.error==="Invalid Password!"){
                 toast({

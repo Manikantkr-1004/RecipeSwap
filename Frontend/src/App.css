@@ -267,6 +267,65 @@ body{
 }
 
 
+.bookmarkBtn {
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid #E45700;
+  background-color: rgb(12, 12, 12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: .3s;
+  overflow: hidden;
+}
+
+.IconContainer {
+  width: 30px;
+  height: 30px;
+  color: white;
+  background: #E45700;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 2;
+  transition-duration: .3s;
+}
+
+.text {
+  height: 100%;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  z-index: 1;
+  transition-duration: .3s;
+  font-size: 13px;
+}
+
+.bookmarkBtn:hover .IconContainer {
+  width: 90px;
+  border-radius: 10px;
+  transition-duration: .3s;
+}
+
+.bookmarkBtn:hover .text {
+  transform: translate(10px);
+  width: 0;
+  font-size: 0;
+  transition-duration: .3s;
+}
+
+.bookmarkBtn:active {
+  transform: scale(0.95);
+  transition-duration: .3s;
+}
+
+
 
 
 /* userprofile button css end */
