@@ -57,7 +57,7 @@ export function Navbar() {
             if (prevScrollpos > currentScrollPos) {
                 setNavbarTop(0);
             } else {
-                setNavbarTop(-110);
+                setNavbarTop(-40);
             }
             setPrevScrollpos(currentScrollPos);
         };
