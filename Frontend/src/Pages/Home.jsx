@@ -4,7 +4,7 @@ import { Footer } from '../Components/Footer';
 import { getAllRecipes } from '../Redux/receipeReducer/action';
 import { useSelector, useDispatch } from 'react-redux';
 import { HomeRecipeCard } from '../Components/HomeRecipeCard';
-import { Box, Image, Flex, Heading, Text, Grid, GridItem,CircularProgress } from '@chakra-ui/react'
+import { Box, Image, Flex, Heading, Text, Grid, GridItem, CircularProgress } from '@chakra-ui/react'
 export function Home() {
     const dispatch = useDispatch();
     const recipes = useSelector((store) => store.recipeReducer.recipes);
@@ -19,6 +19,7 @@ export function Home() {
         backgroundImage: "url('https://www.allrecipes.com/thmb/96zl9l1_7Phn8ipZUMwtd1Ze7-M=/2000x666/filters:no_upscale():max_bytes(150000):strip_icc():focal(1499x0:1501x2):format(webp)/1132731_BakedTomatoSlices3x1-e9f40308965540019cda782dcdcfd456.jpg')",
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 90%',
+        
     };
     const backgroundStyle2 = {
         backgroundImage: "url('https://www.allrecipes.com/thmb/GkiJjzbFwrDAGNpdan7hW8j7zVs=/2000x666/filters:no_upscale():max_bytes(150000):strip_icc():focal(574x0:576x2):format(webp)/allstar_home_august31-48d13a90f2ba4c28a060d5fda89bd044.jpg')",
@@ -30,49 +31,20 @@ export function Home() {
         <>
             <Navbar />
 
-            {/* <Grid w={"100%"} _hover={{ cursor: "pointer" }} pt={"1%"} pb={"1%"} bg={"#114388"} color={"white"} h={"auto"} templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
-                <GridItem w='100%'>
-                    <Flex _hover={{ textDecoration: 'underline' }} alignItems={"center"} justifyContent={"center"} gap={"2"}>
-                        <Text fontSize={"22px"} as={"b"}>India's</Text>
-                        <Text fontSize={"22px"} as={"b"} color='#f2d657'> #1 Trusted Recipe Resource </Text>
-                        <Text fontSize={"22px"} as={"b"}>since 1997</Text>
-                    </Flex>
-                </GridItem>
-                <GridItem w='100%'>
-                    <Flex alignItems={"center"} justifyContent={"center"} gap={"5"}>
-                        <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
-                            <Box bgColor={"#2ec5b6"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>113K</Text>
-                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Original Recipes  </Text>
-                        </Flex>
-                        <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
-                            <Box bgColor={"#f15025"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>6.9M+</Text>
-                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Rating & Reviews  </Text>
-                        </Flex>
+           
+            <Box mb={"4%"} mt={"1%"} pt={"2%"} pb={"2%"} textAlign={"center"} w={"100%"} h={"auto"} >
 
-                        <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
-                            <Box bgColor={"#e7ab46"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>60M</Text>
-                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Home Cooks</Text>
-                        </Flex>
-                    </Flex>
-                </GridItem>
-
-            </Grid> */}
-            <Box mt={"1%"} pt={"2%"} pb={"2%"} textAlign={"center"} w={"100%"} h={"auto"} >
-
-                <Flex w={"100%"} h={"80%"} >
-                    <Flex h={"100%"} margin={"auto"} w={"80%"}>
-                        <Box mr={"5%"} textAlign={"left"} h={"100%"} w={"60%"}>
-                            <Image mb={"2%"} _hover={{ cursor: "pointer" }} width={"100%"} h={"100%"} src='https://www.allrecipes.com/thmb/57nQ0DwByvRw-CYcZbZsGkzN8OA=/771x514/filters:no_upscale():max_bytes(150000):strip_icc():focal(929x470:931x472):format(webp)/ChefJohnsTacoStuffedZucchiniBoats4x3-6b9f773827f747d092f438faf9da0ed5.jpg' />
+                <Flex w={"100%"} h={"auto"} >
+                    <Grid gap={"1rem"} templateColumns={{ base: 'repeat(1,1fr)', md: 'repeat(2,1fr)' }} h={"auto"} alignItems={"center"} margin={"auto"} w={"90%"}>
+                        <Box margin={"auto"} mr={"5%"} textAlign={"left"} h={["auto", "100%"]} w={"100%"}>
+                            <Image mb={"1%"} _hover={{ cursor: "pointer" }} width={"100%"} h={"70%"} src='https://www.allrecipes.com/thmb/57nQ0DwByvRw-CYcZbZsGkzN8OA=/771x514/filters:no_upscale():max_bytes(150000):strip_icc():focal(929x470:931x472):format(webp)/ChefJohnsTacoStuffedZucchiniBoats4x3-6b9f773827f747d092f438faf9da0ed5.jpg' />
                             <Text color={"#5c5c5c"} fontSize={"15px"} as={"b"} _hover={{ cursor: "pointer" }} >ONE-POT MEAL RECIPES</Text>
                             <Heading mt={"2%"} size="lg" _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} >18 Easy One-Pot Meals </Heading>
                             <Text>These quick and easy weeknight dinners are all ready in less than an hour.</Text>
                         </Box>
-                        <Box p={"2%"} bgColor={"#f5f6ea"} h={"100%"} width={"40%"}>
+                        <Box margin={"auto"} bgColor={"#f5f6ea"} h={"100%"} width={"100%"}>
                             <Heading _hover={{ textDecoration: "underline", cursor: "pointer" }} fontSize={"25px"}>News & Trending </Heading>
-                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"100px"} w={"100%"}>
+                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"auto"} w={"100%"} >
                                 <Box w={"30%"}>
                                     <Image src='https://www.allrecipes.com/thmb/u14iWqi4X0yaOftsEvr9iltYrvo=/144x95/filters:no_upscale():max_bytes(150000):strip_icc():focal(1999x0:2001x2):format(webp)/ar-starbucks-logo-burst-adobe-4x3-390ef4c7a91e469a8bb9ade3384b70e5.jpg' />
                                 </Box>
@@ -82,7 +54,7 @@ export function Home() {
                                     </Text>
                                 </Box>
                             </Flex>
-                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"100px"} w={"100%"}>
+                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"auto"} w={"100%"}>
                                 <Box w={"30%"} >
                                     <Image src='https://www.allrecipes.com/thmb/BPAyTYImZp1XyCoxpB9_ZMFrqdk=/144x95/filters:no_upscale():max_bytes(150000):strip_icc():focal(2175x1251:2177x1253):format(webp)/AR-wendys-sign-4x3-373b5dc0b4d541238b0e94f1d47990e5.jpg' />
                                 </Box>
@@ -92,7 +64,7 @@ export function Home() {
                                     </Text>
                                 </Box>
                             </Flex>
-                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"100px"} w={"100%"}>
+                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"auto"} w={"100%"}>
                                 <Box w={"30%"}>
                                     <Image src='https://www.allrecipes.com/thmb/ld0pCP9tAK9dbmPxW--zVaomnoA=/144x95/filters:no_upscale():max_bytes(150000):strip_icc():focal(1999x0:2001x2):format(webp)/ar-tomatoes-RS0820WEB003_Greg-Dupree-4x3-74fe63c8ab764a82a5bc29ce1d951bd5.jpg' />
                                 </Box>
@@ -102,7 +74,7 @@ export function Home() {
                                     </Text>
                                 </Box>
                             </Flex>
-                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"100px"} w={"100%"}>
+                            <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"auto"} w={"100%"}>
                                 <Box w={"30%"}>
                                     <Image src='https://www.allrecipes.com/thmb/DvTtt8I4UQUOKSovAem1wSUsoX0=/144x95/filters:no_upscale():max_bytes(150000):strip_icc():focal(2999x0:3001x2):format(webp)/ar-yeti-cooler-107-degrees-tout-ef7f730e44f049c3803cac4e7508fda2.jpg' />
                                 </Box>
@@ -115,34 +87,37 @@ export function Home() {
 
                         </Box>
 
-                    </Flex>
+                    </Grid>
                 </Flex>
             </Box>
 
 
             {/* all recipes import here */}
-            {(recipesloding)?(
+            {(recipesloding) ? (
                 <Flex w={"100%"} justifyContent={"center"} alignItems={"center"}>
-                    <CircularProgress isIndeterminate  color='#e45a05' size={"70px"} />
+                    <CircularProgress isIndeterminate color='#e45a05' size={"70px"} />
                 </Flex>
-            ):(
-            <Box w={"100%"}>
+            ) : (
+                <Box w={"100%"}>
+                    <Box _hover={{ cursor: "pointer", textDecoration: "underline", textDecorationColor: "#e45a05" }} w={"100%"} textAlign={"center"} marginTop={"3%"} marginBottom={"3%"} >
+                        <Text as={"b"} fontSize={"28px"}>Easy Slow Cooker Dinners </Text>
+                    </Box>
 
-                <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} >
+                    <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: 'repeat(3,1fr)' }} >
 
-                    {
-                        recipes.length > 0 && recipes?.map((el, i) => (i < 9) && (<HomeRecipeCard key={i} {...el} />))
-                    }
-                </Grid>
-            </Box>
+                        {
+                            recipes.length > 0 && recipes?.map((el, i) => (i < 9) && (<HomeRecipeCard key={i} {...el} />))
+                        }
+                    </Grid>
+                </Box>
             )
-                }
+            }
 
             {/* all recipes import here */}
 
             <Box mt={"5%"} w={"100%"} h={"auto"}>
 
-                <Flex _hover={{ cursor: "pointer" }} style={backgroundStyle} h={"550px"} width={"100%"} >
+                <Flex _hover={{ cursor: "pointer" }} style={backgroundStyle}  h={"550px"} width={"100%"} >
                     <Flex justifyContent={"center"} alignItems={"center"} width={{ base: "100%", md: "50%" }}>
                         <Box p={"2%"} pt={"3%"} textAlign={"Center"} width={"40%"} h={"auto"} bgColor={"white"}>
                             <Heading as='b' size='lg' _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }}>
@@ -158,12 +133,16 @@ export function Home() {
 
 
 
-            <Box pt={"2%"} pb={"2%"} bgColor={"#f5f6ea"} textAlign={"center"} w={"100%"} h={"auto"} >
+            <Box pt={"2%"} pb={"2%"} mb={"7%"} bgColor={"#f5f6ea"} textAlign={"center"} w={"100%"} h={"auto"} >
                 <Heading pb={"2%"} _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} >101 Zucchini Recipes </Heading>
 
                 <Flex w={"100%"} h={"80%"} >
-                    <Flex h={"100%"} margin={"auto"} w={"80%"}>
-                        <Box h={"100%"} width={"40%"}>
+                    {/* <Flex h={"100%"} margin={"auto"} w={"80%"}> */}
+                    <Grid gap={"1rem"} templateColumns={{ base: 'repeat(1,1fr)', md: 'repeat(2,1fr)' }} h={"auto"} alignItems={"center"} margin={"auto"} w={"80%"}>
+
+                        {/* <Box h={"100%"} width={"40%"}> */}
+                        <Box margin={"auto"} h={"100%"} width={"80%"}>
+
                             <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"100px"} w={"100%"}>
                                 <Box w={"30%"}>
                                     <Image src='https://www.allrecipes.com/thmb/8a2lvwZKYvqpsSniNiYx8rqPCGs=/144x95/filters:no_upscale():max_bytes(150000):strip_icc():focal(999x0:1001x2):format(webp)/222763-balsamic-grilled-zucchini-3x4-530-copy-e51adadb2d9d4aef884572345b8644c4.jpg' />
@@ -210,31 +189,35 @@ export function Home() {
                             </Flex>
 
                         </Box>
-                        <Box textAlign={"left"} h={"100%"} w={"60%"}>
-                            <Image _hover={{ cursor: "pointer" }} width={"100%"} h={"100%"} src='https://www.allrecipes.com/thmb/57nQ0DwByvRw-CYcZbZsGkzN8OA=/771x514/filters:no_upscale():max_bytes(150000):strip_icc():focal(929x470:931x472):format(webp)/ChefJohnsTacoStuffedZucchiniBoats4x3-6b9f773827f747d092f438faf9da0ed5.jpg' />
+                        {/* <Box textAlign={"left"} h={"100%"} w={"60%"}> */}
+                        <Box margin={"auto"} mr={"5%"} textAlign={"left"} h={["auto", "100%"]} w={"100%"}>
+
+                            <Image _hover={{ cursor: "pointer" }} width={"100%"} h={"80%"} src='https://www.allrecipes.com/thmb/57nQ0DwByvRw-CYcZbZsGkzN8OA=/771x514/filters:no_upscale():max_bytes(150000):strip_icc():focal(929x470:931x472):format(webp)/ChefJohnsTacoStuffedZucchiniBoats4x3-6b9f773827f747d092f438faf9da0ed5.jpg' />
                             <Heading mt={"2%"} size="lg" _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} >Our Best Zucchini Boat Recipes </Heading>
                         </Box>
-                    </Flex>
+                    </Grid>
                 </Flex>
             </Box>
             {/* all recipes import here */}
             {
-            (recipesloding)?(
-                <Flex w={"100%"} justifyContent={"center"} alignItems={"center"}>
-                <CircularProgress isIndeterminate color='#e45a05' size={"70px"} />
-            </Flex>
-            ):(
-            <Box w={"100%"}>
+                (recipesloding) ? (
+                    <Flex w={"100%"} justifyContent={"center"} alignItems={"center"}>
+                        <CircularProgress isIndeterminate color='#e45a05' size={"70px"} />
+                    </Flex>
+                ) : (
+                    <Box w={"100%"}>
+                        <Box _hover={{ cursor: "pointer", textDecoration: "underline", textDecorationColor: "#e45a05" }} w={"100%"} textAlign={"center"} marginTop={"3%"} marginBottom={"3%"} >
+                            <Text as={"b"} fontSize={"28px"}>What's New </Text>
+                        </Box>
+                        <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} >
 
-                <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} >
-
-                    {
-                        recipes.length > 0 && recipes?.map((el, i) => ((i >= 9)&&(i<18) ) && (<HomeRecipeCard key={i} {...el} />))
-                    }
-                </Grid>
-            </Box>
-            )
-                }
+                            {
+                                recipes.length > 0 && recipes?.map((el, i) => ((i >= 9) && (i < 18)) && (<HomeRecipeCard key={i} {...el} />))
+                            }
+                        </Grid>
+                    </Box>
+                )
+            }
 
             {/* all recipes import here */}
             <Box mt={"5%"} w={"100%"} h={"auto"}>
