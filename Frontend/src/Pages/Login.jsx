@@ -37,28 +37,6 @@ export function Login() {
     const handleSubmit= (e)=>{
         e.preventDefault();
 
-        if(formdata.email==="admin@admin.com" && formdata.password==="admin"){
-            Cookies.set("login_token","kjdsfgjihekjhdsfkjghdskjfghsadjkfh",{expires:7})
-            Cookies.set("login_name","Admin",{expires:7})
-            Cookies.set("login_email","admin@admin.com",{expires:7})
-            Cookies.set("login_role","admin",{expires:7})
-            toast({
-                title: `Welcome Admin in RecipeSwap🙂`,
-                position: "bottom",
-                status: 'success',
-                duration: 2000,
-                isClosable: true,
-            })
-            setTimeout(() => {
-                if(location.state===null){
-                    navigate("/")
-                }else{
-                    navigate(`${location.state}`, {replace:true})
-                }
-            }, 2000);
-            return;
-        }
-
         dispatch(userlogin(formdata)).then((res)=>{
             dispatch({type:USER_LOGIN_SUCCESS})
             
@@ -68,9 +46,9 @@ export function Login() {
                 Cookies.set("login_token",`${res.data.token}`,{expires:7})
                 Cookies.set("login_name",`${res.data.user.username}`,{expires:7})
                 Cookies.set("login_email",`${res.data.user.email}`,{expires:7})
-                Cookies.set("login_role","user",{expires:7})
+                formdata.password==="admin"?Cookies.set("login_role","admin",{expires:7}):Cookies.set("login_role","user",{expires:7});
                 toast({
-                    title: `Login successfull!`,
+                    title: `Welcome ${res.data.user.username}`,
                     position: "bottom",
                     status: 'success',
                     duration: 2000,

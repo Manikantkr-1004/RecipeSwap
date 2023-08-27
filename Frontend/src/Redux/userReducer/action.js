@@ -21,6 +21,16 @@ export const userecipeget = (token) => (dispatch)=> {
     })
 }
 
+export const usereviewget = (token) => (dispatch)=> {
+    dispatch({type:VALID_USER_LOADING});
+
+    return axios.get("https://recipeswap.onrender.com/recipe/users/comments",{
+        headers: {
+            "auth": `${token}`,
+        }
+    })
+}
+
 export const userlogout = (token) => (dispatch)=> {
     dispatch({type:LOGOUT_USER_LOADING});
 
