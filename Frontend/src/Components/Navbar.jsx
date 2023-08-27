@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import Cookies from "js-cookie"
 import {
     Image,
     Box,
@@ -16,8 +17,17 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
+
+    Avatar,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider,
+    Center,
     Input,
 } from '@chakra-ui/react';
+import { NavLink, Link } from 'react-router-dom';
 import logo from "./images/logo.png"
 import { HamburgerIcon, CloseIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { DebounceInput } from 'react-debounce-input';
@@ -43,21 +53,28 @@ export function Navbar() {
     }, [state]);
     useEffect(() => {
         const handleScroll = () => {
-          const currentScrollPos = window.pageYOffset;
-          if (prevScrollpos > currentScrollPos) {
-            setNavbarTop(0);
-          } else {
-            setNavbarTop(-110);
-          }
-          setPrevScrollpos(currentScrollPos);
+            const currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                setNavbarTop(0);
+            } else {
+                setNavbarTop(-110);
+            }
+            setPrevScrollpos(currentScrollPos);
         };
-    
+
         window.addEventListener('scroll', handleScroll);
-    
+
         return () => {
-          window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
-      }, [prevScrollpos]);
+    }, [prevScrollpos]);
+
+    const token = Cookies.get("login_token")
+    const name = Cookies.get("login_name")
+    const emailUser = Cookies.get("login_email")
+    useEffect(() => {
+        console.log(name)
+    }, [])
 
     return (
         
@@ -73,13 +90,13 @@ export function Navbar() {
             </Flex>
             </SPAN>
             <Flex
-             style={{ top: `${navbarTop}px` }}
-             position={"fixed"}
-             top={"0"}
-             transition={"top 0.3s"}
-             zIndex={"5"}
-             width={"100%"}
-             
+                style={{ top: `${navbarTop}px` }}
+                position={"fixed"}
+                top={"0"}
+                transition={"top 0.3s"}
+                zIndex={"5"}
+                width={"100%"}
+                border={"1px solid black"}
                 bg={useColorModeValue('white', 'gray.800')}
                 color={useColorModeValue('gray.600', 'white')}
                 minH={'80px'}
@@ -103,52 +120,107 @@ export function Navbar() {
                         aria-label={'Toggle Navigation'}
                     />
                 </Flex>
-                <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-                    <Flex  width={"250px"} h={"100"}
-                    mr={{md:"7%",base:"30%"}}
+                <Flex   flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+                    <Flex width={{ base: "180px", md: "250px" }} h={"100"}
+                        mr={{ md: "7%", base: "30%" }}
                         textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}
                     >
-                        <Box  _hover={{cursor:"pointer"}} style={{width:"100%",height:"90%"}}>
-                            <Image  h={"100%"} w={"100%"} src={logo} alt="logo" />
+                        <Box _hover={{ cursor: "pointer" }} style={{ width: "100%", height: "90%" }}>
+                            <Link to={"/"}>
+                                <Image h={"100%"} w={"100%"} src={logo} alt="logo" />
+                            </Link>
                         </Box>
                     </Flex>
 
-                    <Flex justifyContent={"center"} alignItems={"end"} display={{ base: 'none', md: 'flex' }} pb={"1.8%"} ml={10}>
+                    <Flex h={"80px"} justifyContent={"center"} alignItems={"end"} display={{ base: 'none', md: 'flex' }}  >
                         <DesktopNav />
                     </Flex>
                 </Flex>
-                
 
-                <Stack
-                // border={"1px solid black"}
-                    flex={{ base: 1, md: 0 }}
-                    justify={'end'}
-                    direction={'row'}
-                    spacing={6}
-                    h={"100%"}
-                    pt={"1.5%"}
-                    
-                >
-                    <Button color={'black'} as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
-                        Sign In
-                    </Button>
-                    <Button
-                        as={'a'}
-                        display={{ base: 'none', md: 'inline-flex' }}
-                        fontSize={'sm'}
-                        fontWeight={600}
-                        color={'white'}
-                        bg={'#e45a05'}
-                        href={'#'}
-                        _hover={{
-                            bg: '#e47a05',
-                        }}
+                {token ? (
+
+                    <Flex h={"100px"} pt={"1.5%"} w={"100px"} alignItems={'center'} >
+                        <Stack direction={'row'} spacing={7}>
+
+
+                            <Menu>
+                                <MenuButton
+                                    as={Button}
+                                    rounded={'full'}
+                                    variant={'link'}
+                                    cursor={'pointer'}
+                                    minW={0}>
+                                    <Avatar
+                                        size={'sm'}
+                                        src={'https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512'}
+                                    />
+                                </MenuButton>
+                                <MenuList alignItems={'center'}>
+                                    <br />
+                                    <Center>
+                                        <Avatar
+                                            size={'2xl'}
+                                            src={'https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512'}
+                                        />
+                                    </Center>
+                                    <br />
+                                    <Center>
+                                        <p>{name}</p>
+                                    </Center>
+                                    <br />
+                                    <MenuDivider />
+                                    <MenuItem>{emailUser}</MenuItem>
+                                    <Link to={"/userprofile"}>
+
+                                        <MenuItem>Account Settings</MenuItem>
+                                    </Link>
+                                    <MenuItem>Logout</MenuItem>
+                                </MenuList>
+                            </Menu>
+                        </Stack>
+                    </Flex>
+                ) : (
+                    <Stack
+                        border={"1px solid black"}
+                       
+                        flex={{ base: 1, md: 0 }}
+                        // justify={'end'}
+                        direction={'row'}
+                        spacing={6}
+                        h={"100px"}
+                        pt={"1.5%"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        
+
                     >
-                        Sign Up
-                    </Button>
-                </Stack>
+
+                        <Button color={'black'} as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
+                            <Link to="/login">
+                                Sign In
+                            </Link>
+                        </Button>
+
+                        <Link to={"/signup"}>
+                            <Button
+                                as={'a'}
+                                display={{ base: 'none', md: 'none', lg: 'inline-flex' }}
+                                fontSize={'sm'}
+                                fontWeight={600}
+                                color={'white'}
+                                bg={'#e45a05'}
+
+                                _hover={{
+                                    bg: '#e47a05',
+                                }}
+                            >
+                                Sign Up
+                            </Button>
+                        </Link>
+                    </Stack>
+                )}
             </Flex>
 
             <Collapse in={isOpen} animateOpacity>
@@ -164,25 +236,26 @@ const DesktopNav = () => {
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
     return (
-        <Stack direction={'row'} spacing={4}>
+        <Stack direction={'row'} spacing={6}>
             {NAV_ITEMS.map((navItem) => (
                 <Box key={navItem.label}>
                     <Popover trigger={'hover'} placement={'bottom-start'}>
                         <PopoverTrigger>
-                            <Box
-                                as="a"
-                                p={2}
-                                href={navItem.href ?? '#'}
-                                fontSize={'sm'}
-                                fontWeight={500}
-                                color={linkColor}
-                                _hover={{
-                                    textDecoration: 'none',
-                                    color: linkHoverColor,
-                                }}
-                            >
-                                {navItem.label}
-                            </Box>
+                            <Link to={navItem.to}>
+                                <Box
+                                    as="a"
+
+                                    fontSize={{ md: '9px', lg: '12px', xl: '16px' }}
+                                    fontWeight={900}
+                                    color={linkColor}
+                                    _hover={{
+                                        textDecoration: 'none',
+                                        color: linkHoverColor,
+                                    }}
+                                >
+                                    {navItem.label}
+                                </Box>
+                            </Link>
                         </PopoverTrigger>
 
                         {navItem.children && (
@@ -208,19 +281,20 @@ const DesktopNav = () => {
     );
 };
 
-const DesktopSubNav = ({ label, href, subLabel }) => {
+const DesktopSubNav = ({ label, to, subLabel }) => {
     return (
         <Box
             as="a"
-            href={href}
+
             role={'group'}
             display={'block'}
             p={2}
             rounded={'md'}
-            _hover={{ bg:'#e45a05' }}
+            _hover={{ bg: '#e45a05' }}
         >
             <Stack direction={'row'} align={'center'}>
                 <Box>
+
                     <Text
                         transition={'all .3s ease'}
                         _groupHover={{ color: 'white' }}
@@ -228,7 +302,8 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
                     >
                         {label}
                     </Text>
-                    <Text  _groupHover={{ color: 'white' }} fontSize={'sm'}>{subLabel}</Text>
+
+                    <Text _groupHover={{ color: 'white' }} fontSize={'sm'}>{subLabel}</Text>
                 </Box>
                 <Flex
                     transition={'all .3s ease'}
@@ -262,10 +337,10 @@ const MobileNavItem = ({ label, children, href }) => {
     return (
         <Stack spacing={4} onClick={children && onToggle}>
             <Box
-            
+
                 py={2}
                 as="a"
-                href={href ?? '#'}
+
                 justifyContent="space-between"
                 alignItems="center"
                 _hover={{
@@ -282,7 +357,7 @@ const MobileNavItem = ({ label, children, href }) => {
                         transform={isOpen ? 'rotate(180deg)' : ''}
                         w={6}
                         h={6}
-                       
+
                     />
                 )}
             </Box>
@@ -311,16 +386,17 @@ const MobileNavItem = ({ label, children, href }) => {
 const NAV_ITEMS = [
     {
         label: 'DINNER',
+        to: '/recipelist',
         children: [
             {
                 label: 'Explore Design Work',
                 subLabel: 'Trending Design to inspire you',
-                href: '#',
+
             },
             {
                 label: 'New & Noteworthy',
                 subLabel: 'Up-and-coming Designers',
-                href: '#',
+
             },
         ],
     },
@@ -330,12 +406,12 @@ const NAV_ITEMS = [
             {
                 label: 'Job Board',
                 subLabel: 'Find your dream design job',
-                href: '#',
+
             },
             {
                 label: 'Freelance Projects',
                 subLabel: 'An exclusive list for contract work',
-                href: '#',
+
             },
         ],
     },
@@ -345,12 +421,12 @@ const NAV_ITEMS = [
             {
                 label: 'Job Board',
                 subLabel: 'Find your dream design job',
-                href: '#',
+
             },
             {
                 label: 'Freelance Projects',
                 subLabel: 'An exclusive list for contract work',
-                href: '#',
+
             },
         ],
     },
@@ -360,12 +436,11 @@ const NAV_ITEMS = [
             {
                 label: 'Job Board',
                 subLabel: 'Find your dream design job',
-                href: '#',
+
             },
             {
                 label: 'Freelance Projects',
                 subLabel: 'An exclusive list for contract work',
-                href: '#',
             },
         ],
     },
@@ -375,48 +450,34 @@ const NAV_ITEMS = [
             {
                 label: 'Job Board',
                 subLabel: 'Find your dream design job',
-                href: '#',
+
             },
             {
                 label: 'Freelance Projects',
                 subLabel: 'An exclusive list for contract work',
-                href: '#',
+
             },
         ],
     },
-    {
-        label: 'KITCHEN',
-        children: [
-            {
-                label: 'Job Board',
-                subLabel: 'Find your dream design job',
-                href: '#',
-            },
-            {
-                label: 'Freelance Projects',
-                subLabel: 'An exclusive list for contract work',
-                href: '#',
-            },
-        ],
-    },
+
     {
         label: 'NEWS',
         children: [
             {
                 label: 'Job Board',
                 subLabel: 'Find your dream design job',
-                href: '#',
+
             },
             {
                 label: 'Freelance Projects',
                 subLabel: 'An exclusive list for contract work',
-                href: '#',
+
             },
         ],
     },
     {
         label: 'ABOUT US',
-        href: '#',
+        to: '/about',
     },
 ];
 
