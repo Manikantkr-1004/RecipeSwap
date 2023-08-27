@@ -70,7 +70,7 @@ export function AdminUser() {
   useEffect(() => {
     dipatch(getAllUsers(state));
    
-  }, [state]);
+  }, [state.value]);
   useEffect(() => {
     let total = [];
     let pageEnd = currpage * 10;
@@ -127,25 +127,26 @@ export function AdminUser() {
         mt={"-5rem"}
         className="animate__animated animate__slideInUp"
       >
-        {!isError && !isLoading && data.length > 0 && (
-          <Flex mb={"4rem "} gap={"1.5rem"}>
+        <SPAN>
+          <Flex mb={"4rem "} gap={"1.5rem"} className="filters">
             <BottomUpButton handleAdd={handleAdd} />
             <Select w={"fit-content"} onChange={(e) => setState({...state,key: e.target.value})}>
               <option value="username">Search By</option>
               <option value="username">Username</option>
               <option value="email">Email</option>
             </Select>
-            <SPAN>
+            
               <DebounceInput minLength={2}
-            debounceTimeout={300}
+            debounceTimeout={500}
             placeholder={"Search User..."}
             className="inputBox"
             onChange={event => setState({...state,
               value: event.target.value})} />
-        </SPAN>
+       
             {/* <h1>sorting....</h1> */}
           </Flex>
-        )}
+          </SPAN>
+      
         <Box>
           {isLoading && !isError && <LoadingCom />}
           {isError && !isLoading && <ErrorCom isError={isError} />}
@@ -158,7 +159,8 @@ export function AdminUser() {
            
           {!isError && !isLoading && data.length > 0 && (
             <>
-              <Table>
+            <div style={{ overflow: "auto"}}>
+              <Table size="md" >
                 <Thead bg={"brand.200"}>
                   <Tr>
                     <Th color={"brand.300"}>
@@ -184,6 +186,7 @@ export function AdminUser() {
                         first={user.username}
                         second={user.email}
                         defineParent={"users"}
+                        user={user}
                         handleResult={handleResult}
                         
                       />
@@ -191,6 +194,7 @@ export function AdminUser() {
                   })}
                 </Tbody>
               </Table>
+              </div>
               <Flex gap={"1rem"} mt={"4rem"} justifyContent={"center"}>
                 {/* <Button
                   variant={"SimpleOrange"}
@@ -301,7 +305,7 @@ export function AdminUser() {
 }
 
 const SPAN = styled.span`
-
+ 
  .inputBox{
   background-color: white;
   border: 2px solid #C8C8C8;
@@ -312,5 +316,11 @@ const SPAN = styled.span`
  .inputBox:focus{
   border: none;
   outline: 2px solid #ff8f49;
+ }
+
+ @media screen and (max-width: 426px) {
+  .filters{
+    flex-direction: column;
+  }
  }
 `

@@ -2,6 +2,8 @@ import {
     ERROR,
     LOADING,
     SUCCESS_ALL_RECIPE,
+    SUCCESS_LOGOUT,
+    SUCCESS_MAXUSERPOST,
     SUCCESS_RECIPE,
     SUCCESS_RECIPES_ADD,
     SUCCESS_RECIPES_DELETE,
@@ -18,6 +20,9 @@ import {
     recipes: [],
     SingleUserRecipes: [],
     users: [],
+    maxPost :[],
+    recipeType: [],
+    cuisine: []
   };
   
   export const reducer = (state = initialState, { type, payload }) => {
@@ -33,6 +38,22 @@ import {
           isError: payload,
           isLoading: false,
         };
+      case SUCCESS_LOGOUT:
+        return{
+          ...state,
+          isLoading: false,
+          isError: "",
+        }
+      case SUCCESS_MAXUSERPOST:
+     
+        return{
+          ...state,
+          isError: "",
+          isLoading: false,
+          maxPost: payload.maxPostUser,
+          recipeType: payload.recipeType,
+          cuisine: payload.cuisine
+        }
       case SUCCESS_ALL_RECIPE:
         return {
           ...state,
