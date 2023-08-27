@@ -35,34 +35,6 @@ export function Home() {
             <Navbar />
 
            
-            {/* <Grid w={"100%"} _hover={{ cursor: "pointer" }} pt={"1%"} pb={"1%"} bg={"#114388"} color={"white"} h={"auto"} templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
-                <GridItem w='100%'>
-                    <Flex _hover={{ textDecoration: 'underline' }} alignItems={"center"} justifyContent={"center"} gap={"2"}>
-                        <Text fontSize={"22px"} as={"b"}>India's</Text>
-                        <Text fontSize={"22px"} as={"b"} color='#f2d657'> #1 Trusted Recipe Resource </Text>
-                        <Text fontSize={"22px"} as={"b"}>since 1997</Text>
-                    </Flex>
-                </GridItem>
-                <GridItem w='100%'>
-                    <Flex alignItems={"center"} justifyContent={"center"} gap={"5"}>
-                        <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
-                            <Box bgColor={"#2ec5b6"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>113K</Text>
-                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Original Recipes  </Text>
-                        </Flex>
-                        <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
-                            <Box bgColor={"#f15025"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>6.9M+</Text>
-                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Rating & Reviews  </Text>
-                        </Flex>
-
-                        <Flex justifyContent={"center"} alignItems={"center"} gap={"2"}>
-                            <Box bgColor={"#e7ab46"} h={"12px"} w={"12px"} borderRadius={"50%"} border={"1px solid white"}></Box>
-                            <Text fontSize={"22px"} as={"b"}>60M</Text>
-                            <Text _hover={{ textDecoration: 'underline' }} fontSize={"20px"} >Home Cooks</Text>
-                        </Flex>
-                    </Flex>
-                </GridItem>
 
 
            
