@@ -5,6 +5,9 @@ import Rate from "./Rating";
 import Cookies from "js-cookie";
 import { commentOnpost } from "../Redux/receipeReducer/action";
 import { useDispatch } from "react-redux";
+import userImage from "./images/user_avatar.png";
+import { ImStarFull } from "react-icons/im";
+import { useNavigate } from "react-router-dom";
 
 const ratingComments = [
   "Couldn't eat it",
@@ -20,6 +23,7 @@ export const ReviewCard = ({ Recipename, Recipeobj }) => {
   const [disabled, setDisabled] = useState(false);
   const username = Cookies.get("login_name");
   const useremail = Cookies.get("login_email");
+  const Navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -28,23 +32,27 @@ export const ReviewCard = ({ Recipename, Recipeobj }) => {
   }, [rating]);
 
   const submithandle = () => {
-    const data = Recipeobj;
-    let newComment = {
-      useremail,
-      username,
-      rating,
-      comment,
-    };
-    data.comments.push(newComment);
-    const token = Cookies.get("token");
-    dispatch(commentOnpost(data._id, newComment, token));
-    getRating(0);
-    setComment("");
-    setDisabled(false);
+    if (useremail) {
+      const data = Recipeobj;
+      let newComment = {
+        useremail,
+        username,
+        rating,
+        comment,
+      };
+      data.comments.push(newComment);
+      const token = Cookies.get("token");
+      dispatch(commentOnpost(data._id, newComment, token));
+      getRating(0);
+      setComment("");
+      setDisabled(false);
+    } else {
+      return Navigate("/login");
+    }
   };
 
   return (
-    <div>
+    <div id="Review">
       <DIV className="Review-Container">
         <h1 className="review-heading">Reviews</h1>
         <p>Check out our Community Guidelines about reviews.</p>
@@ -100,19 +108,26 @@ export const ReviewCard = ({ Recipename, Recipeobj }) => {
           </div>
         </div>
         <div className="comments-container">
-          {
-            Recipeobj?.comments?.map((el,i)=>{
-              return (
-                <div className="comment">
-                  <div>
-                    <img src="" alt="error" />
-                    <p>{el.username}</p>
-                  </div>
-                  <p>{el.comment}</p>
+          {Recipeobj?.comments?.map((el, i) => {
+            return (
+              <div className="comment">
+                <div>
+                  <img src={userImage} className="userImage" alt="error" />
+                  <p>{el.username}</p>
                 </div>
-              )
-            })
-          }
+                <div className="comment-starts">
+                  {[...Array(5)].map((x, i) => {
+                    if (i + 1 <= el.rating) {
+                      return <ImStarFull color={"#d54215"} />;
+                    } else {
+                      return <ImStarFull color={"rgb(192,192,192)"} />;
+                    }
+                  })}
+                </div>
+                <p className="comment-desc">{el.comment}</p>
+              </div>
+            );
+          })}
         </div>
       </DIV>
     </div>
@@ -131,6 +146,7 @@ const DIV = styled.div`
     border: solid #f5f6ea 20px;
     padding: 20px;
     width: 600px;
+    margin-top: 20px;
   }
 
   .logo-img {
@@ -189,5 +205,73 @@ const DIV = styled.div`
 
   .btnContainer {
     margin-top: 10px;
+  }
+
+  .comment {
+    /* border-top: solid lightgrey 0.5px; */
+    border-bottom: solid lightgrey 0.5px;
+    margin: 20px 0px;
+    padding: 20px 10px;
+  }
+
+  .comment > div {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .userImage {
+    width: 35px;
+    margin-right: 20px;
+  }
+
+  .comment > div > p {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  .comment-desc {
+    margin-top: 5px;
+    margin-left: 20px;
+  }
+
+  .comment-desc {
+    margin: 10px;
+    /* font-size: 18px; */
+  }
+
+  .comment-starts {
+    display: flex;
+  }
+
+  @media (max-width: 1100px) {
+    .card-container {
+      border: solid #f5f6ea 20px;
+      padding: 20px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .sec1-container {
+        display: block;
+      }
+
+      .rating-container {
+        border-right: none;
+      }
+
+      .sec1-container > p {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .card-container {
+        border: solid #f5f6ea 20px;
+        padding: 20px;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
   }
 `;
