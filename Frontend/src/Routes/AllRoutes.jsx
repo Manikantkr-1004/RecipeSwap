@@ -19,10 +19,6 @@ import {AdminUser} from "../Pages/AdminUser"
 import {PrivateUserRoutes} from "./PrivateUserRoutes"
 import {PrivateAdminRoutes} from "./PrivateAdminRoutes"
 
-import { AdminRecipe } from "../Pages/AdminRecipe";
-import { AdminUser } from "../Pages/AdminUser";
-import { AdminDash } from "../Pages/AdminDash";
-
 
 export function AllRoutes() {
   return (

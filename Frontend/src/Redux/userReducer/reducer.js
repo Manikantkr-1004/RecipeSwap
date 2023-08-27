@@ -1,4 +1,4 @@
-import { LOGOUT_USER_LOADING, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USERRECIPE_ADD_LOADING, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOADING, VALID_USER_LOGOUT_SUCCESS } from "../actionTypes";
+import { LOGOUT_USER_LOADING, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USEREVIEW_GET_SUCCESS, VALID_USERRECIPE_ADD_LOADING, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOADING, VALID_USER_LOGOUT_SUCCESS } from "../actionTypes";
 
 
 let initialState = {
@@ -7,6 +7,7 @@ let initialState = {
     recipe_loading: false,
     userdata : {},
     recipedata:[],
+    reviewdata:[],
     error : false
 }
 
@@ -36,6 +37,11 @@ export const reducer = (state=initialState,{type,payload})=>{
         case VALID_USERECIPE_GET_SUCCESS: {
             return {
                 ...state, loading: false, recipedata: payload
+            }
+        }
+        case VALID_USEREVIEW_GET_SUCCESS: {
+            return {
+                ...state, loading: false, reviewdata: payload
             }
         }
         case VALID_USER_DELETE_SUCCESS: {

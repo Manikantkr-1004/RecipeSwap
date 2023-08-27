@@ -7,8 +7,8 @@ import { Footer } from '../Components/Footer'
 import Cookies from "js-cookie"
 import {useNavigate} from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { userdataget, userecipeadd, userecipedel, userecipeget, userlogout } from '../Redux/userReducer/action'
-import { USER_FAIL, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOGOUT_SUCCESS } from '../Redux/actionTypes'
+import { userdataget, userecipeadd, userecipedel, userecipeget, usereviewget, userlogout } from '../Redux/userReducer/action'
+import { USER_FAIL, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USEREVIEW_GET_SUCCESS, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOGOUT_SUCCESS } from '../Redux/actionTypes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBlender, faBowlRice, faDeleteLeft, faEye, faSignOut, faStar } from '@fortawesome/free-solid-svg-icons'
 import {Accordion,AccordionItem,AccordionButton,AccordionPanel,AccordionIcon} from '@chakra-ui/react'
@@ -26,7 +26,8 @@ export function UserProfile() {
     const toast = useToast()
     const token = Cookies.get("login_token");
     const [count,setCount] = useState(0)
-    const name = Cookies.get("login_name")
+    const name = Cookies.get("login_name");
+    const namesplit = name.split(" ");
     const email = Cookies.get("login_email")
     const dispatch = useDispatch();
     const loading = useSelector((store)=> store.userReducer.loading)
@@ -34,6 +35,7 @@ export function UserProfile() {
     const recipe_loading = useSelector((store)=> store.userReducer.recipe_loading)
     const userdata = useSelector((store)=> store.userReducer.userdata)
     const recipedata = useSelector((store)=> store.userReducer.recipedata)
+    const reviewdata = useSelector((store)=> store.userReducer.reviewdata)
 
     const [formdata,setFormdata] = useState({
         email:email,username:name,recipeName:"",difficulty:"",prepTime:"",cookTime:"",totalTime:"",servings:"",cuisine:"",
@@ -57,6 +59,14 @@ export function UserProfile() {
         .then((res)=>{
             console.log(res,"userecipedata");
             dispatch({type:VALID_USERECIPE_GET_SUCCESS,payload:res.data.recipes});
+        }).catch((err)=>{
+            dispatch({type:VALID_USER_FAIL})
+        })
+
+        dispatch(usereviewget(token))
+        .then((res)=>{
+            console.log(res,"usereviewdata");
+            dispatch({type:VALID_USEREVIEW_GET_SUCCESS,payload:res.data.comments});
         }).catch((err)=>{
             dispatch({type:VALID_USER_FAIL})
         })
@@ -193,7 +203,7 @@ export function UserProfile() {
                         </div><br/><br/><br/><br/><br/><br/><br/><br/>
                                 </> : 
             <>
-            <Image m="auto" w={{base:"140px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={avatar} alt="user" />
+            <Image m="auto" w={{base:"140px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={`https://ui-avatars.com/api/?rounded=true&bold=true&background=ff8f49&color=fff&name=${namesplit[0]}+${namesplit[1]}`} alt="user" />
 
             <Box w={{base:"98%",sm:"98%",md:"700px",lg:"700px",xl:"700px"}} m="auto" pb={{base:"90px",sm:"90px",md:"60px",lg:"30px",xl:"30px"}}>
                 <Text fontWeight="bold">Followers: <span style={{color:"#E45700"}}>{userdata.followers?.length}</span></Text>
@@ -348,10 +358,28 @@ export function UserProfile() {
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
+                        <Box w="100%" borderRadius="5px" padding="10px" bg="#ffddc8" mb="6px">
+                            {
+                                reviewdata.length===0?<Text fontWeight="semibold" color="blue">You have not reviewed any recipes yet, Please Review🙂🙂</Text>: 
+                                reviewdata.map((item)=>(
+                                    <Box w="100%" borderRadius="5px" padding="5px" bg="#ffddc8" cursor="pointer" onClick={()=> navigate(`/recipe/${item._id}`)}>
+                                        <Flex w="100%" display="block">
+                                            <Flex w={{base:"96%",sm:"96%",md:"96%",lg:"96%",xl:"96%"}} justifyContent="space-between" gap="10px">
+                                                <Image w="40px" src={item.imageURL} alt={item.recipeName} />
+                                                <Text fontWeight="bold" color="#E45700">{item.recipeName}</Text>
+                                            </Flex>
+                                            <Flex w={{base:"96%",sm:"96%",md:"96%",lg:"96%",xl:"96%"}} >
+                                                <Text mt="10px" fontWeight="bold" color="blue">Review:- {
+                                                    item.comments.map((ele)=>{
+                                                        return ele.useremail===email && <span style={{color:"black"}}>{ele.comment} , {ele.rating} Stars</span>
+                                                    })
+                                                }</Text>
+                                            </Flex>
+                                        </Flex>
+                                    </Box>
+                                ))
+                            }
+                        </Box>
                         </AccordionPanel>
                     </AccordionItem>
 
