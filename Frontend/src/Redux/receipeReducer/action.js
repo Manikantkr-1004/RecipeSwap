@@ -15,6 +15,20 @@ export const getAllRecipes = (searched) => (dispatch) => {
         dispatch({type : ERROR});
     })
 }
+export const getCategory = (valued) => (dispatch) => {
+    dispatch({type : LOADING});
+  
+    let baseURL = `${process.env.REACT_APP_APIURL}/recipe/find/category/`;
+   if(valued !== undefined){
+    baseURL += valued
+   }
+    axios.get(baseURL)
+    .then((res) =>{
+        dispatch({type:SUCCESS_ALL_RECIPE, payload : res.data.recipes})
+    }).catch((error)=>{
+        dispatch({type : ERROR});
+    })
+}
 
 export const commentOnpost = (id,newdata, token) => (dispatch) => {
     dispatch({type : LOADING});

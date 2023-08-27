@@ -11,6 +11,7 @@ import { Slider } from "../Components/Slider";
 import { Social } from "../Components/Social";
 
 export function RecipeList() {
+
   const dispatch = useDispatch();
   const recipes = useSelector((store) => store.recipeReducer.recipes);
   const loading = useSelector((store) => store.recipeReducer.loading);
@@ -50,6 +51,7 @@ export function RecipeList() {
           />
         </SPINNER>
       ) : (
+
         <DIV>
           <div className="grid">
             {recipes.length > 0 &&
