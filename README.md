@@ -56,6 +56,9 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 
 ![5](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/b51ba7f2-b397-4d1f-beed-0f8f3b3d27a4)
 
+![6](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/a17b56b1-6f0b-447c-97a5-4f76491067d3)
+
+![7](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/916b98c5-e8c9-4ccd-a99f-df37f9a500c7)
 
 
 # Admin Side:
