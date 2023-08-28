@@ -7,6 +7,7 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 - Users can post, add, update, and delete their recipes.
 - Users can comment on recipe posts, fostering a sense of community and sharing.
 - Users can easily search for recipes based on their preferences.
+- User can also able update the avatar.
 - Admin has access to data visualization in chart format for insights.
 - Admin can manage users and recipes, including adding, updating, and deleting data.
 
