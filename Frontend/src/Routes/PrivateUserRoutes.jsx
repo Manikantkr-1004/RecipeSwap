@@ -9,10 +9,11 @@ export function PrivateUserRoutes({children}) {
     let role = Cookies.get("login_role");
     let location = useLocation()
 
-    if(!token || !role || role!=="user"){
+    if(token && role && role==="user" || role=== "admin"){
+        return children
+    }else{
         return <Navigate to="/login" state={location.pathname} replace={true} />
     }
     
 
-    return children;
 }
