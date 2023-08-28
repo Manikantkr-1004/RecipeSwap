@@ -236,6 +236,7 @@ export const Header = () => {
                 fontSize={"sm"}
                 fontWeight={500}
                 color={"white"}
+                _hover={{  bg: "#e47a05" }}
                 bg={"#e45a05"}
               >
                 Sign Up
@@ -354,6 +355,7 @@ const SPAN = styled.div`
     .logo_img{
         width: 14rem;
     }
+   
     @media screen and (max-width: 769px) and (min-width: 426px) {
       margin-bottom: 85px;
 
