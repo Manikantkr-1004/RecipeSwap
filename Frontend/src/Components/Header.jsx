@@ -18,7 +18,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
@@ -44,6 +44,8 @@ export const Header = () => {
   const emailUser = Cookies.get("login_email");
   const [imgAvatar, setImageAvatar] = useState("");
   const toast = useToast();
+  let avatarImg = Cookies.get("login_avatar");
+  const inputRef = useRef(null);
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
@@ -128,6 +130,26 @@ export const Header = () => {
         });
       });
   };
+
+
+  const updateAvatar = ()=>{
+    avatarImg = Cookies.get("login_avatar");
+    if(avatarImg !== undefined){
+      setImageAvatar(avatarImg);
+    }else if (name !== undefined) {
+      let value = name.split(" ");
+      if (value[1] !== undefined) {
+        setImageAvatar(
+          "https://ui-avatars.com/api/?bold=true&background=ff8f49&color=fff&name=" + value[0] + "+" + value[1]
+        );
+      } else {
+        setImageAvatar("https://ui-avatars.com/api/?bold=true&background=ff8f49&color=fff&name=" + value[0]);
+      }
+    }
+  }
+  useEffect(() => {
+    updateAvatar();
+  }, [avatarImg, name]);
   return (
     <SPAN>
     <Flex  style={{ top: `${navbarTop}px` }}
