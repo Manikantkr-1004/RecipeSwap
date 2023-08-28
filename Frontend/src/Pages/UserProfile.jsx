@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {Drawer,DrawerBody,DrawerFooter,DrawerHeader,DrawerOverlay,DrawerContent,DrawerCloseButton, useDisclosure } from '@chakra-ui/react'
 import user_back from "../Components/images/user_background.jpg"
 import {Flex, Image,Box, Text, Button, useToast, FormControl, FormLabel, Input, SimpleGrid, Spinner} from "@chakra-ui/react"
@@ -25,11 +25,11 @@ export function UserProfile() {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
-    const toast = useToast()
+    const toast = useToast();
     const token = Cookies.get("login_token");
     const [count,setCount] = useState(0)
     const name = Cookies.get("login_name");
-    const namesplit = name.split(" ");
+    const namesplit = name?.split(" ") || ["?rror","?rror"];
     const email = Cookies.get("login_email");
     const [updateid,setUpdateID] = useState(null)
     const dispatch = useDispatch();
@@ -38,7 +38,30 @@ export function UserProfile() {
     const recipe_loading = useSelector((store)=> store.userReducer.recipe_loading)
     const userdata = useSelector((store)=> store.userReducer.userdata)
     const recipedata = useSelector((store)=> store.userReducer.recipedata)
-    const reviewdata = useSelector((store)=> store.userReducer.reviewdata)
+    const reviewdata = useSelector((store)=> store.userReducer.reviewdata);
+
+    const [imgAvatar, setImageAvatar] = useState("");
+    let avatarImg = Cookies.get("login_avatar");
+    const inputRef = useRef(null);
+
+    const updateAvatar = ()=>{
+        avatarImg = Cookies.get("login_avatar");
+        if(avatarImg !== undefined){
+          setImageAvatar(avatarImg);
+        }else if (name !== undefined) {
+          let value = name.split(" ");
+          if (value[1] !== undefined) {
+            setImageAvatar(
+              "https://ui-avatars.com/api/?bold=true&background=ff8f49&color=fff&name=" + value[0] + "+" + value[1]
+            );
+          } else {
+            setImageAvatar("https://ui-avatars.com/api/?bold=true&background=ff8f49&color=fff&name=" + value[0]);
+          }
+        }
+      }
+      useEffect(() => {
+        updateAvatar();
+      }, [avatarImg, name]);
 
     const [formdata,setFormdata] = useState({
         email:email,username:name,recipeName:"",difficulty:"",prepTime:"",cookTime:"",totalTime:"",servings:"",cuisine:"",
@@ -248,6 +271,31 @@ export function UserProfile() {
             })
         })
     }
+
+    const handleFileChange = (event) => {
+        const fileObj = event.target.files[0];
+        if (!fileObj) {
+          return;
+        }
+    
+        let formData = new FormData()
+        formData.append('file', fileObj)
+        formData.append("upload_preset", "rdy1h4fu");
+        formData.append("cloud_name", "dpspgsvks");
+    
+        fetch("https://api.cloudinary.com/v1_1/dpspgsvks/image/upload", {
+          method :"post",
+          body: formData
+        }).then((resp)=> resp.json()).then((data)=> {
+          const url = data.url;
+          Cookies.set("login_avatar", url);
+          updateAvatar();
+        }).catch((err)=> console.log(err));
+    
+        
+        event.target.value = null;
+    
+      };
     
 
     return (
@@ -268,7 +316,20 @@ export function UserProfile() {
                     </Box><br/><br/><br/><br/><br/><br/><br/><br/>
                                 </> : 
             <>
-            <Image m="auto" w={{base:"120px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={`https://ui-avatars.com/api/?rounded=true&bold=true&background=e45700&color=fff&name=${namesplit[0]}+${namesplit[1]}`} alt="user" />
+             <input
+                style={{display: 'none'}}
+                ref={inputRef}
+                type="file"
+                onChange={handleFileChange}
+            /><Button
+                m="auto"
+                display="block"
+                rounded={"full"}
+                variant={"link"}
+                cursor={"pointer"}
+                minW={0}
+                onClick={() => inputRef.current.click()}
+              ><Image w={{base:"120px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={imgAvatar} alt="user" /></Button>
 
             <Box w={{base:"98%",sm:"98%",md:"700px",lg:"700px",xl:"700px"}} m="auto" pb={{base:"90px",sm:"90px",md:"60px",lg:"30px",xl:"30px"}}>
                 <Text fontWeight="bold">Followers: <span style={{color:"#E45700"}}>{userdata.followers?.length}</span></Text>
