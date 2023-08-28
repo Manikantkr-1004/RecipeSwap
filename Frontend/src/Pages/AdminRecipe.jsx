@@ -25,7 +25,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AdminHeader } from "../Components/AdminHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { addRecipes, getAllRecipes } from "../Redux/adminReducer/action";
+import { addRecipes, getAllRecipes, getTokenCookie } from "../Redux/adminReducer/action";
 import { DataCard } from "../Components/DataCard";
 
 import { LoadingCom } from "../Components/LoadingCom";
@@ -35,6 +35,7 @@ import { BottomUpButton } from "../Components/BottomUpButton";
 import { FormInput } from "../Components/FormInput";
 import { DebounceInput } from "react-debounce-input";
 import { styled } from "styled-components";
+import Cookies from "js-cookie";
 
 const init =
   {
@@ -89,7 +90,7 @@ export function AdminRecipe() {
   const [recipeData, setRecipeData] = useState(init);
   const [state, setState] = useState({
     value: "",
-    key : ""
+    key : "recipeName"
   })
   const [edited, setEdited] = useState("");
 
@@ -103,6 +104,10 @@ export function AdminRecipe() {
     setCurrpage(+e.target.id);
   };
 
+  useEffect(()=>{
+    const token = Cookies.get('login_token');
+    getTokenCookie(token);
+  }, []);
   useEffect(() => {
     dipatch(getAllRecipes(state));
   }, [state.value]);

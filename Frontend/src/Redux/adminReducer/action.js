@@ -170,7 +170,7 @@ export const getAllUsers = (data) => async (dispatch) => {
     let baseURL = `${process.env.REACT_APP_API_ADMIN_URL}/users`;
     // let baseURL = `http://localhost:8080/admin/users`;
     try {
-        if((data.key === "username" && data.value !== "") || (data.key === "email" && data.value !== "")){
+        if(data.value !== ""){
             baseURL += `?${data.key}=${data.value}`;
         }
        

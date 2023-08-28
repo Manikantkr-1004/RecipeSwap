@@ -29,10 +29,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { ErrorCom } from "../Components/ErrorCom";
 import { LoadingCom } from "../Components/LoadingCom";
 import { DataCard } from "../Components/DataCard";
-import { addUers, getAllUsers } from "../Redux/adminReducer/action";
+import { addUers, getAllUsers, getTokenCookie } from "../Redux/adminReducer/action";
 import { BottomUpButton } from "../Components/BottomUpButton";
 import { DebounceInput } from "react-debounce-input";
 import { styled } from "styled-components";
+import Cookies from "js-cookie";
 
 
 const init =
@@ -55,7 +56,7 @@ export function AdminUser() {
   const [edited, setEdited] = useState("");
   const [state, setState] = useState({
     value: "",
-    key : ""
+    key : "username"
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
   
@@ -67,6 +68,10 @@ export function AdminUser() {
     setCurrpage(+e.target.id);
   };
 
+  useEffect(()=>{
+    const token = Cookies.get('login_token');
+    getTokenCookie(token);
+  }, []);
   useEffect(() => {
     dipatch(getAllUsers(state));
    
