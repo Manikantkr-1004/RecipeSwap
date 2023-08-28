@@ -121,7 +121,8 @@ export const AdminHeader = () => {
     Cookies.remove("login_name");
     Cookies.remove("login_email");
     Cookies.remove("login_role");
-    navigate("/");
+    window.location.reload();
+    // navigate("/");
   }
   return (
     <Stack
