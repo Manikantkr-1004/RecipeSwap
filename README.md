@@ -2,6 +2,16 @@
 
 Recipe Swap is a community-based recipe sharing platform that allows users to share, discover, and discuss various recipes. Whether you're a cooking enthusiast or just looking for new culinary ideas, Recipe Swap provides a platform to connect and exchange recipes with others.
 
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#Tech-stack)
+- [Project Links](#Project-links)
+- [Screenshot](#Screenshot)
+- [Installation](#installation)
+- [Project Memebers](#Project-team)
+
+
+
 ## Features
 
 - Users can post, add, update, and delete their recipes.
@@ -25,13 +35,44 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 
 ### Front-end:
 
-- **Client Side:** [https://thundertech.vercel.app/](https://thundertech.vercel.app/)
+- **User Side:** [https://thundertech.vercel.app/](https://thundertech.vercel.app/)
 - **Admin Side:** [https://thundertech.vercel.app/admin](https://thundertech.vercel.app/admin)
 - **Admin Login:** Email: admin@admin.com | Password: admin
 
 ### Back-end:
 
 - **Server:** [https://thundertech.vercel.app/](https://thundertech.vercel.app/)
+
+## Screenshot
+# User Side:
+
+# Admin Side:
+
+
+
+## Installation
+To set up the project locally, follow these steps:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Hasims2001/synonymous-nose-6503.git
+```
+
+```bash
+cd warlike-current-5989/Frontend
+```
+
+run command in terminal
+```
+npm install
+```
+
+run project
+```
+npm start
+```
+
 
 ## Project Team
 
