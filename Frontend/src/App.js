@@ -6,7 +6,7 @@ import { ScrollToTop } from "./Components/ScrollToTop"
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" >
 
 
       <AllRoutes/>

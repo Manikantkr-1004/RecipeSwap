@@ -2,11 +2,28 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
-
 body{
   margin: 0;
   padding: 0;
 }
+/* .App{
+  margin-top: 115px;
+}
+
+@media screen and (max-width: 769px) {
+  .App{
+    margin-top: 90px;
+  }
+  
+}
+
+@media screen and (max-width: 426px) {
+  .App{
+    margin-top: 80px;
+  }
+  
+} */
+
 
 /* login/signup button start */
 
