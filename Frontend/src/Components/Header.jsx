@@ -40,6 +40,7 @@ export const Header = () => {
 
   const token = Cookies.get("login_token");
   const name = Cookies.get("login_name");
+  const role = Cookies.get("login_role");
   const emailUser = Cookies.get("login_email");
   const [imgAvatar, setImageAvatar] = useState("");
   const toast = useToast();
@@ -82,6 +83,9 @@ export const Header = () => {
       }
     }
   }, []);
+  const handletoAdmin =()=>{
+    navigation("/admin");
+  }
   const handleCategory = (value)=>{
  
     dispatch(getCategory(value));
@@ -131,7 +135,7 @@ export const Header = () => {
                 top={"0"}
                
                 transition={"top 0.3s"}
-                zIndex={"5"} w={"100%"} bg="brand.400" boxShadow={"rgba(0, 0, 0, 0.16) 0px 1px 4px"} 
+                zIndex={"5"} w={"100vw"} bg="brand.400" boxShadow={"rgba(0, 0, 0, 0.16) 0px 1px 4px"} 
                 gap={".5rem"} justifyContent={"space-around"}>
       <Box>
         <Link to={"/"}>
@@ -149,8 +153,9 @@ export const Header = () => {
         />
       </DIV>
 
-      <Flex gap={"1rem"} alignItems={"center"} className="navlinks">
-        {NAV_ITEMS.map((navItem) => (
+      <Flex gap={"1rem"} alignItems={"center"} justifyContent={"center"} className="navlinks">
+       {role === "admin" ? <Button onClick={handletoAdmin} color={"brand.400"} variant={"SimpleOrange"}>Admin Dashboard</Button> : <>
+       {NAV_ITEMS.map((navItem) => (
           <Box key={navItem.label}>
             <Popover trigger={"hover"} placement={"bottom-start"}>
               <PopoverTrigger>
@@ -172,6 +177,7 @@ export const Header = () => {
             </Popover>
           </Box>
         ))}
+       </>}
       </Flex>
       <Flex>
         {token ? (
@@ -198,9 +204,10 @@ export const Header = () => {
                 <br />
                 <MenuDivider />
                 <Stack>
-                {NAV_ITEMS.map((navItem) => (
+                {role === "admin" ? <Button onClick={handletoAdmin} color={"brand.400"} variant={"SimpleOrange"}>Admin Dashboard</Button> : <NAVS className="sideLinks"> {NAV_ITEMS.map((navItem) => (
     <MenuItem>  <Link to={navItem.to}  onClick={() => handleCategory(navItem.label)}>{navItem.label}</Link> </MenuItem>
   ))}
+             </NAVS>   }
                 </Stack>
                
   <MenuDivider />
@@ -345,6 +352,10 @@ const DIV = styled.div`
     outline: 2px solid #ff8f49;
   }
 `;
+
+const NAVS = styled.span`
+  display: none;
+`;
 const SPAN = styled.div`
      margin-bottom: 115px;
 
@@ -359,6 +370,9 @@ const SPAN = styled.div`
     @media screen and (max-width: 769px) and (min-width: 426px) {
       margin-bottom: 85px;
 
+      .sideLinks{
+        display: inline-block;
+      }
         .logo_img{
         width: 10rem;
         }
@@ -374,7 +388,10 @@ const SPAN = styled.div`
     }
     @media screen and (max-width: 425px) {
       margin-bottom: 85px;
-
+      width: 50px;
+      .sideLinks{
+        display: inline-block;
+      }
         .logo_img{
         width: 10rem;
         }
