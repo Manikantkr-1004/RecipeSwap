@@ -36,7 +36,7 @@ export function Home() {
             <Navbar />
 
 
-            <Grid w={"100%"} bgColor={"#114388"} h={"auto"}  templateColumns={["repeat(1,1fr)", "repeat(1,1fr)", "repeat(1,1fr)", "repeat(2,1fr)"]}>
+            <Grid  w={"100%"} bgColor={"#114388"} h={"auto"}  templateColumns={["repeat(1,1fr)", "repeat(1,1fr)", "repeat(1,1fr)", "repeat(2,1fr)"]}>
                 <Flex p={"3%"} justifyContent={"center"} alignItems={"center"} w={"100%"} color={"white"}>
                     <Heading as={"h4"} size={"md"}>
                         America's <span style={{color:'#fbd657'}} > #1 Trusted Recipe Resource</span> since 1997
@@ -313,7 +313,7 @@ export function Home() {
                         <Heading _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }} as={"h2"} size={["sm", "md"]}>7 Smart Grab-and-Go Breakfast Kids Love</Heading>
                     </Box>
                 </Flex>
-                <Box margin={"auto"} mt={"2%"} mb={"5%"} w={"80%"} border={"0.5px solid #596268"}></Box>
+                {/* <Box margin={"auto"} mt={"2%"} mb={"5%"} w={"80%"} border={"0.5px solid #596268"}></Box> */}
 
             </Box>
             <Footer />

@@ -5,12 +5,11 @@ import { Box, Heading, Text, Image, Flex } from '@chakra-ui/react'
 
 export function About() {
 
-
     return (
         <>
             <Navbar />
 
-            <Box h={"auto"} w={"100%"} >
+            <Box  h={"auto"} w={"100%"} >
                 <Box w={"80%"} margin={"auto"} lineHeight={"30px"}>
 
                     <Heading mb={"2%"} as={"h1"} size={"xl"}>
@@ -97,7 +96,7 @@ export function About() {
                     </Text>
                 </Box>
                 <Flex w={"80%"} margin={"auto"} mt={"3%"} justifyContent={"center"} alignItems={"center"} lineHeight={"30px"}>
-                    <Image src='https://ca.slack-edge.com/T05HT3HFDN2-U05J9LPHMJ9-7417ab0db4d1-512' />
+                    <Image borderRadius={"50%"} src='https://ca.slack-edge.com/T05HT3HFDN2-U05J9LPHMJ9-7417ab0db4d1-512' />
                 </Flex>
 
                 <Box w={"80%"} margin={"auto"} mt={"5%"} lineHeight={"30px"}>
@@ -112,7 +111,7 @@ export function About() {
                     </Text>
                 </Box>
                 <Flex w={"80%"} margin={"auto"} mt={"3%"} justifyContent={"center"} alignItems={"center"} lineHeight={"30px"}>
-                    <Image src='https://ca.slack-edge.com/T05HT3HFDN2-U05J7G2KYGN-5b657bb06d29-512' />
+                    <Image borderRadius={"50%"} src='https://ca.slack-edge.com/T05HT3HFDN2-U05J7G2KYGN-5b657bb06d29-512' />
                 </Flex>
 
                 <Box w={"80%"} margin={"auto"} mt={"5%"} lineHeight={"30px"}>
@@ -127,7 +126,7 @@ export function About() {
                     </Text>
                 </Box>
                 <Flex w={"80%"} margin={"auto"} mt={"3%"} justifyContent={"center"} alignItems={"center"} lineHeight={"30px"}>
-                    <Image src='https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512' />
+                    <Image borderRadius={"50%"} src='https://ca.slack-edge.com/T05HT3HFDN2-U05HXBJ3ZGX-ca90ca59e36d-512' />
                 </Flex>
 
                 <Box w={"80%"} margin={"auto"} mt={"5%"} lineHeight={"30px"}>
@@ -142,7 +141,7 @@ export function About() {
                     </Text>
                 </Box>
                 <Flex w={"80%"} margin={"auto"} mt={"3%"} justifyContent={"center"} alignItems={"center"} lineHeight={"30px"}>
-                    <Image src='https://avatars.githubusercontent.com/u/110163013?v=4' />
+                    <Image borderRadius={"50%"} src='https://avatars.githubusercontent.com/u/110163013?v=4' />
                 </Flex>
 
                 <Box w={"80%"} margin={"auto"} mt={"5%"} lineHeight={"30px"}>
