@@ -12,7 +12,7 @@ const config = {
 
 export const getTokenCookie = (data)=>{
     config.headers.auth = data;
-    console.log(config);
+
 }
 // logout 
 export const logoutAdmin = (token)=> async(dispatch) => {
@@ -44,7 +44,7 @@ export const findAggregate = (sort)=> async (dispatch)=>{
             baseURL += `?userpost=${sort}`
          
         }
-        console.log(baseURL);
+       
         let res = await axios.get(`${baseURL}`, config);
         res = res?.data;
 

@@ -1,6 +1,6 @@
-import {  Flex, Heading, Input, Menu, MenuButton,  MenuList, Stack,  } from "@chakra-ui/react";
+import {  Avatar, Button, Flex, Heading, Input, Menu, MenuButton,  MenuList, Stack,  } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AlertCircle, AlignJustify, BadgeHelp, ChefHat, ChevronRight, Home, MailPlus,  UserCircle2, Users } from "lucide-react";
 import { styled } from "styled-components";
 import Cookies from "js-cookie";
@@ -19,11 +19,7 @@ export const AdminHeader = () => {
       iconName: "MailPlus",
       path: "/admin/recipes",
     },
-    {
-      name: "Profile",
-      iconName: "UserCircle2",
-      path: "/admin/help",
-    },
+  
   ];
   const iconComponents = {
     AlertCircle: AlertCircle,
@@ -62,6 +58,10 @@ export const AdminHeader = () => {
   const [current, setCurrent] = useState("Dashboard");
   const dispatch = useDispatch();
   const  navigate = useNavigate();
+  const [imgAvatar, setImageAvatar] = useState("");
+  const name = Cookies.get("login_name");
+  let avatarImg = Cookies.get("login_avatar");
+  const inputRef = useRef(null);
   useEffect(() => {
     let path = window.location.href;
     path = path.split("/");
@@ -70,10 +70,57 @@ export const AdminHeader = () => {
     setCurrent(path.join(""));
   }, [window.location.href]);
 
+  const updateAvatar = ()=>{
+    avatarImg = Cookies.get("login_avatar");
+    if(avatarImg !== undefined){
+      setImageAvatar(avatarImg);
+    }else if (name !== undefined) {
+      let value = name.split(" ");
+      if (value[1] !== undefined) {
+        setImageAvatar(
+          "https://ui-avatars.com/api/?bold=true&background=ff8f49&color=fff&name=" + value[0] + "+" + value[1]
+        );
+      } else {
+        setImageAvatar("https://ui-avatars.com/api/?bold=true&background=ff8f49&color=fff&name=" + value[0]);
+      }
+    }
+  }
+  useEffect(() => {
+    updateAvatar();
+  }, [avatarImg, name]);
+
+  const handleFileChange = (event) => {
+    const fileObj = event.target.files[0];
+    if (!fileObj) {
+      return;
+    }
+
+    let formData = new FormData()
+    formData.append('file', fileObj)
+    formData.append("upload_preset", "rdy1h4fu");
+    formData.append("cloud_name", "dpspgsvks");
+
+    fetch("https://api.cloudinary.com/v1_1/dpspgsvks/image/upload", {
+      method :"post",
+      body: formData
+    }).then((resp)=> resp.json()).then((data)=> {
+      const url = data.url;
+      Cookies.set("login_avatar", url);
+      updateAvatar();
+    }).catch((err)=> console.log(err));
+
+    
+    event.target.value = null;
+
+  };
+
   const handleLogout = ()=>{
     let token = Cookies.get('login_token');
     dispatch(logoutAdmin(token));
     Cookies.remove('login_token');
+    Cookies.remove("login_name");
+    Cookies.remove("login_email");
+    Cookies.remove("login_role");
     navigate("/");
   }
   return (
@@ -124,6 +171,8 @@ export const AdminHeader = () => {
             </Link>
           );
         })}
+
+         
       </Stack>
  
    
@@ -159,6 +208,29 @@ export const AdminHeader = () => {
               </Link>
             );
           })}
+            <Flex
+                  alignItems={"center"}
+                  borderRadius={".5rem"}
+                  _hover={{
+                    boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                  }}
+                >
+                   <input
+        style={{display: 'none'}}
+        ref={inputRef}
+        type="file"
+        onChange={handleFileChange}
+      />
+           <Button
+                rounded={"full"}
+                variant={"link"}
+                cursor={"pointer"}
+                minW={0}
+                onClick={() => inputRef.current.click()}
+              >
+                <Avatar size={{base: "sm", sm: "sm", md: "sm", lg: "sm"}}  src={imgAvatar} />
+              </Button>
+              </Flex>
           <DIV>
             <button className="Btn" onClick={handleLogout}>
               <div className="sign">

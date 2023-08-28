@@ -129,6 +129,7 @@ export const Header = () => {
     <Flex  style={{ top: `${navbarTop}px` }}
                 position={"fixed"}
                 top={"0"}
+               
                 transition={"top 0.3s"}
                 zIndex={"5"} w={"100%"} bg="brand.400" boxShadow={"rgba(0, 0, 0, 0.16) 0px 1px 4px"} 
                 gap={".5rem"} justifyContent={"space-around"}>
@@ -183,12 +184,12 @@ export const Header = () => {
                 cursor={"pointer"}
                 minW={0}
               >
-                <Avatar  src={imgAvatar} />
+                <Avatar size={{base: "sm", sm: "sm", md: "md", lg: "md"}}  src={imgAvatar} />
               </MenuButton>
-              <MenuList alignItems={"center"}>
+              <MenuList alignItems={"center"} pos={"fixed"} right={"-50px"}>
                 <br />
                 <Center>
-                  <Avatar size={"xl"} src={imgAvatar} />
+                  <Avatar size={{base: "md", sm: "md", md: "xl", lg: "xl"}} src={imgAvatar} />
                 </Center>
                 <br />
                 <Center>
@@ -207,7 +208,7 @@ export const Header = () => {
                 <Link to={"/userprofile"}>
                   <MenuItem>Account Settings</MenuItem>
                 </Link>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout} color={"#fff"} bg={"rgb(255, 65, 65)"}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
@@ -344,6 +345,9 @@ const DIV = styled.div`
   }
 `;
 const SPAN = styled.div`
+     margin-bottom: 115px;
+
+   
     .sidemenu{
         display: none;
     }
@@ -351,6 +355,8 @@ const SPAN = styled.div`
         width: 14rem;
     }
     @media screen and (max-width: 769px) and (min-width: 426px) {
+      margin-bottom: 85px;
+
         .logo_img{
         width: 10rem;
         }
@@ -365,6 +371,8 @@ const SPAN = styled.div`
         }
     }
     @media screen and (max-width: 425px) {
+      margin-bottom: 85px;
+
         .logo_img{
         width: 10rem;
         }
