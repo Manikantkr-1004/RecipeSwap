@@ -33,21 +33,27 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 
 ## Project Links
 
-### Front-end:
+# Front-end:
 
 - **User Side:** [https://thundertech.vercel.app/](https://thundertech.vercel.app/)
 - **Admin Side:** [https://thundertech.vercel.app/admin](https://thundertech.vercel.app/admin)
 - **Admin Login:** Email: admin@admin.com | Password: admin
 
-### Back-end:
+# Back-end:
 
-- **Server:** [https://thundertech.vercel.app/](https://thundertech.vercel.app/)
+- **Server:** [https://recipeswap.onrender.com](https://recipeswap.onrender.com/)
 
 ## Screenshot
 # User Side:
 
 # Admin Side:
+![1](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/447cd5da-831c-4ec8-9d74-089ddc0d52a6)
 
+![2](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/9d2268ab-2154-4b39-b2a2-181d4c334358)
+
+![3](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/6481e716-6c81-4539-b65c-cfa7cf02e4e4)
+
+![4](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/6d20cbcb-d1b0-4d84-9908-704f8f0c4874)
 
 
 ## Installation
