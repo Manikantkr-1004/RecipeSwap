@@ -4,8 +4,9 @@ import { Footer } from '../Components/Footer';
 import { getAllRecipes } from '../Redux/receipeReducer/action';
 import { useSelector, useDispatch } from 'react-redux';
 import { HomeRecipeCard } from '../Components/HomeRecipeCard';
-
-import { Box, Image, Flex, Heading, Text, Grid, GridItem,CircularProgress } from '@chakra-ui/react'
+import { ArrowForwardIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom';
+import { Box, Image, Flex, Heading, Text, Grid, GridItem, CircularProgress } from '@chakra-ui/react'
 import { Header } from '../Components/Header';
 
 export function Home() {
@@ -22,7 +23,7 @@ export function Home() {
         backgroundImage: "url('https://www.allrecipes.com/thmb/96zl9l1_7Phn8ipZUMwtd1Ze7-M=/2000x666/filters:no_upscale():max_bytes(150000):strip_icc():focal(1499x0:1501x2):format(webp)/1132731_BakedTomatoSlices3x1-e9f40308965540019cda782dcdcfd456.jpg')",
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 90%',
-        
+
     };
     const backgroundStyle2 = {
         backgroundImage: "url('https://www.allrecipes.com/thmb/GkiJjzbFwrDAGNpdan7hW8j7zVs=/2000x666/filters:no_upscale():max_bytes(150000):strip_icc():focal(574x0:576x2):format(webp)/allstar_home_august31-48d13a90f2ba4c28a060d5fda89bd044.jpg')",
@@ -34,22 +35,53 @@ export function Home() {
         <>
             <Navbar />
 
-           
+
+            <Grid w={"100%"} bgColor={"#114388"} h={"auto"}  templateColumns={["repeat(1,1fr)", "repeat(1,1fr)", "repeat(1,1fr)", "repeat(2,1fr)"]}>
+                <Flex p={"3%"} justifyContent={"center"} alignItems={"center"} w={"100%"} color={"white"}>
+                    <Heading as={"h4"} size={"md"}>
+                        America's <span style={{color:'#fbd657'}} > #1 Trusted Recipe Resource</span> since 1997
+                    </Heading>
+                </Flex>
+                <Flex  p={"1%"} gap={"5%"} justifyContent={"center"} alignItems={"center"} w={"100%"}>
+                    <Grid  templateColumns={["repeat(1,1fr)", "repeat(1,1fr)", "repeat(1,1fr)", "repeat(2,1fr)"]}>
+                        <Flex justifyContent={"center"} alignItems={"center"} w={"100%"}>
+                            <Box bg={"#2ec5b6"} borderRadius={"50%"} h={"12px"} w={"12px"} border={"1px solid white"}></Box>
+                            <Box ml={"2%"}><Heading as={"h1"} size={"md"} color={"white"}>113K</Heading></Box>
+                        </Flex>
+                        <Box color={"white"} w={"100%"}><Text as={"b"} size={"md"}>Orginal Recipes</Text></Box>
+                    </Grid>
+                    <Grid  templateColumns={["repeat(1,1fr)", "repeat(1,1fr)", "repeat(1,1fr)", "repeat(2,1fr)"]}>
+                        <Flex justifyContent={"center"} alignItems={"center"}  w={"100%"}>
+                            <Box bg={"#f15025"} borderRadius={"50%"} h={"12px"} w={"12px"}  border={"1px solid white"}></Box>
+                            <Box ml={"2%"}><Heading as={"h1"} size={"md"} color={"white"}>6.9M+</Heading></Box>
+                        </Flex>
+                        <Box color={"white"} w={"100%"}><Text as={"b"} size={"md"}>Rating & Review</Text></Box>
+                    </Grid>
+                    <Grid   templateColumns={["repeat(1,1fr)", "repeat(1,1fr)", "repeat(1,1fr)", "repeat(2,1fr)"]}>
+                        <Flex   justifyContent={"center"} alignItems={"center"} w={"100%"}>
+                            <Box bg={"#e7ab46"} borderRadius={"50%"} h={"12px"} w={"12px"}  border={"1px solid white"}></Box>
+                            <Box ml={"2%"}><Heading as={"h1"} size={"md"} color={"white"}>60M</Heading></Box>
+                        </Flex>
+                        <Box color={"white"} w={"100%"}><Text as={"b"} size={"md"}>Home Cooks</Text></Box>
+                    </Grid>
+                </Flex>
 
 
-           
+            </Grid>
+
+
             <Box mb={"4%"} mt={"1%"} pt={"2%"} pb={"2%"} textAlign={"center"} w={"100%"} h={"auto"} >
 
 
-                <Flex w={"100%"} h={"auto"} >
-                    <Grid gap={"1rem"} templateColumns={{ base: 'repeat(1,1fr)', md: 'repeat(2,1fr)' }} h={"auto"} alignItems={"center"} margin={"auto"} w={"90%"}>
-                        <Box margin={"auto"} mr={"5%"} textAlign={"left"} h={["auto", "100%"]} w={"100%"}>
+                <Flex  w={"100%"} h={"auto"} >
+                    <Grid  gap={"1rem"} templateColumns={{ base: 'repeat(1,1fr)', md: 'repeat(2,1fr)' }} h={"auto"} alignItems={"center"} margin={"auto"} w={"90%"}>
+                        <Box margin={"auto"} textAlign={"left"} ml={["0%","0%","5%"]} h={["auto", "100%"]} w={"100%"}>
                             <Image mb={"1%"} _hover={{ cursor: "pointer" }} width={"100%"} h={"70%"} src='https://www.allrecipes.com/thmb/57nQ0DwByvRw-CYcZbZsGkzN8OA=/771x514/filters:no_upscale():max_bytes(150000):strip_icc():focal(929x470:931x472):format(webp)/ChefJohnsTacoStuffedZucchiniBoats4x3-6b9f773827f747d092f438faf9da0ed5.jpg' />
                             <Text color={"#5c5c5c"} fontSize={"15px"} as={"b"} _hover={{ cursor: "pointer" }} >ONE-POT MEAL RECIPES</Text>
                             <Heading mt={"2%"} size="lg" _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} >18 Easy One-Pot Meals </Heading>
                             <Text>These quick and easy weeknight dinners are all ready in less than an hour.</Text>
                         </Box>
-                        <Box margin={"auto"} bgColor={"#f5f6ea"} h={"100%"} width={"100%"}>
+                        <Box p={"2%"} margin={"auto"} bgColor={"#f5f6ea"} h={"100%"} width={["100%", "100%", "100%", "80%"]}>
                             <Heading _hover={{ textDecoration: "underline", cursor: "pointer" }} fontSize={"25px"}>News & Trending </Heading>
                             <Flex _hover={{ cursor: "pointer" }} mt={"4%"} h={"auto"} w={"100%"} >
                                 <Box w={"30%"}>
@@ -107,7 +139,10 @@ export function Home() {
             ) : (
                 <Box w={"100%"}>
                     <Box _hover={{ cursor: "pointer", textDecoration: "underline", textDecorationColor: "#e45a05" }} w={"100%"} textAlign={"center"} marginTop={"3%"} marginBottom={"3%"} >
-                        <Text as={"b"} fontSize={"28px"}>Easy Slow Cooker Dinners </Text>
+                        <Link to={"/recipelist"}>
+
+                        <Heading as={"h1"} size={"xl"}>Easy Slow Cooker Dinners <ArrowForwardIcon color={"#e45a05"} boxSize={"8"}/></Heading>
+                        </Link>
                     </Box>
 
                     <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: 'repeat(3,1fr)' }} >
@@ -124,7 +159,7 @@ export function Home() {
 
             <Box mt={"5%"} w={"100%"} h={"auto"}>
 
-                <Flex _hover={{ cursor: "pointer" }} style={backgroundStyle}  h={"550px"} width={"100%"} >
+                <Flex _hover={{ cursor: "pointer" }} style={backgroundStyle} h={"550px"} width={"100%"} >
                     <Flex justifyContent={"center"} alignItems={"center"} width={{ base: "100%", md: "50%" }}>
                         <Box p={"2%"} pt={"3%"} textAlign={"Center"} width={"40%"} h={"auto"} bgColor={"white"}>
                             <Heading as='b' size='lg' _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }}>
@@ -141,7 +176,7 @@ export function Home() {
 
 
             <Box pt={"2%"} pb={"2%"} mb={"7%"} bgColor={"#f5f6ea"} textAlign={"center"} w={"100%"} h={"auto"} >
-                <Heading pb={"2%"} _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} >101 Zucchini Recipes </Heading>
+                <Heading pb={"2%"} _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} >101 Zucchini Recipes <ArrowForwardIcon color={"#e45a05"} boxSize={"8"}/></Heading>
 
                 <Flex w={"100%"} h={"80%"} >
                     {/* <Flex h={"100%"} margin={"auto"} w={"80%"}> */}
@@ -214,9 +249,11 @@ export function Home() {
                 ) : (
                     <Box w={"100%"}>
                         <Box _hover={{ cursor: "pointer", textDecoration: "underline", textDecorationColor: "#e45a05" }} w={"100%"} textAlign={"center"} marginTop={"3%"} marginBottom={"3%"} >
-                            <Text as={"b"} fontSize={"28px"}>What's New </Text>
+                        <Link to={"/recipelist"}>
+                            <Heading as={"h1"} size={"xl"}>What's New <ArrowForwardIcon color={"#e45a05"} boxSize={"8"}/> </Heading>
+                        </Link>
                         </Box>
-                        <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }} >
+                        <Grid gap={"1rem"} width={"80%"} padding={"auto"} margin={"auto"} templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: 'repeat(3,1fr)' }}  >
 
                             {
                                 recipes.length > 0 && recipes?.map((el, i) => ((i >= 9) && (i < 18)) && (<HomeRecipeCard key={i} {...el} />))
@@ -232,7 +269,7 @@ export function Home() {
                 <Flex _hover={{ cursor: "pointer" }} style={backgroundStyle2} h={"550px"} width={"100%"} >
                     <Flex justifyContent={"center"} alignItems={"center"} width={{ base: "100%", md: "50%" }}>
                         <Box p={"2%"} pt={"3%"} textAlign={"Center"} width={"50%"} h={"auto"} bgColor={"white"}>
-                            <Heading size='lg' _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }}>
+                            <Heading as={"h1"} size='xl' _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }}>
                                 Featured Allstar: <br />
                                 Sophie Sadler
                             </Heading>
@@ -241,6 +278,43 @@ export function Home() {
                     </Flex>
                     <Flex width={{ base: "0%", md: "50%" }}></Flex>
                 </Flex>
+            </Box>
+
+            <Box width={"100%"} h={"auto"}>
+                <Box margin={"auto"} mb={"5%"} textAlign={"center"} w={"80%"}>
+                    <Heading _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05", cursor: "pointer" }} as={"h1"} size={"xl"}>Back To School Ideas<ArrowForwardIcon color={"#e45a05"} boxSize={"8"}/></Heading>
+                </Box>
+                <Flex _hover={{ cursor: "pointer" }} margin={"auto"} textAlign={"center"} w={"70%"} h={"auto"} justifyContent={"space-between"}>
+                    <Box h={["150px", "200px"]} w={["65%", "30%"]}>
+                        <Image w={"100%"} h={"100%"} src='https://www.allrecipes.com/thmb/FluXTOILA9KRvjKpPlWnf0kODY8=/248x165/filters:no_upscale():max_bytes(150000):strip_icc():focal(1243x825:1245x827):format(webp)/509091_SlowCookerChickenStroganoff4x3-021e0cfeaaa04696b42a76178c19c4b1.jpg' />
+                    </Box>
+                    <Box pt={"1%"} textAlign={"left"} w={["30%", "60%"]}>
+                        <Text as={"b"} fontSize={["11px", "14px"]} color={"#596268"}>BACK TO SCHOOL</Text>
+                        <Heading _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }} as={"h2"} size={["sm", "md"]}>20 Back-to-School Dinners From Your Slow Cooker</Heading>
+                    </Box>
+                </Flex>
+                <Box margin={"auto"} mt={"2%"} mb={"5%"} w={"80%"} border={"0.5px solid #596268"}></Box>
+                <Flex _hover={{ cursor: "pointer" }} margin={"auto"} textAlign={"center"} w={"70%"} h={"auto"} justifyContent={"space-between"}>
+                    <Box h={["150px", "200px"]} w={["65%", "30%"]}>
+                        <Image w={"100%"} h={"100%"} src='https://www.allrecipes.com/thmb/LvgcPyOdwNFjyBhr7dUcNATzr0I=/248x165/filters:no_upscale():max_bytes(150000):strip_icc():focal(999x0:1001x2):format(webp)/238691-Simple-Macaroni-And-Cheese-mfs_006-f7f521c65f894aef85e17bc9125c2c4a.jpg' />
+                    </Box>
+                    <Box pt={"1%"} textAlign={"left"} w={["30%", "60%"]}>
+                        <Text as={"b"} fontSize={["11px", "14px"]} color={"#596268"}>STOVETOP MACRONI AND CHEESE RECIPES</Text>
+                        <Heading _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }} as={"h2"} size={["sm", "md"]}>Simple Macaroni And Cheese</Heading>
+                    </Box>
+                </Flex>
+                <Box margin={"auto"} mt={"2%"} mb={"5%"} w={"80%"} border={"0.5px solid #596268"}></Box>
+                <Flex _hover={{ cursor: "pointer" }} margin={"auto"} textAlign={"center"} w={"70%"} h={"auto"} justifyContent={"space-between"}>
+                    <Box h={["150px", "200px"]} w={["65%", "30%"]}>
+                        <Image w={"100%"} h={"100%"} src='https://www.allrecipes.com/thmb/KHylzC_lHFEqO2cPnS_qvtAN8_g=/248x165/filters:no_upscale():max_bytes(150000):strip_icc():focal(324x0:326x2):format(webp)/2527650-Blueberry-Banana-Breakfast-Bars-Photo-by-lutzflcat-resized-24003633b8414b47b79250acd4a53567.jpg' />
+                    </Box>
+                    <Box pt={"1%"} textAlign={"left"} w={["30%", "60%"]}>
+                        <Text as={"b"} fontSize={["11px", "14px"]} color={"#596268"}>BRAKEFASE AND BRUNCH</Text>
+                        <Heading _hover={{ textDecoration: "underline", textDecorationColor: "#e45a05" }} as={"h2"} size={["sm", "md"]}>7 Smart Grab-and-Go Breakfast Kids Love</Heading>
+                    </Box>
+                </Flex>
+                <Box margin={"auto"} mt={"2%"} mb={"5%"} w={"80%"} border={"0.5px solid #596268"}></Box>
+
             </Box>
             <Footer />
         </>

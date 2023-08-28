@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { FcLike } from "react-icons/fc";
 import { Link } from "react-router-dom";
-
-export const HomeRecipeCard = ({ _id, imageURL, recipeName, mealType }) => {
+import { ImStarFull } from "react-icons/im";
+export const HomeRecipeCard = ({ _id, imageURL, recipeName, mealType,comments }) => {
 
   return (
     <DIV>
@@ -12,8 +12,16 @@ export const HomeRecipeCard = ({ _id, imageURL, recipeName, mealType }) => {
         <p className="card-heading-1">{mealType}</p>
         <p className="card-heading-2">{recipeName}</p>
         <div className="rating">
-          <FcLike />
-          7,760 Ratings
+        <div className="comment-starts">
+                  {[...Array(5)].map((x, i) => {
+                    if (i + 1 <= comments[0]?.rating) {
+                      return <ImStarFull color={"#d54215"} />;
+                    } else {
+                      return <ImStarFull color={"rgb(192,192,192)"} />;
+                    }
+                  })}
+                </div>
+          {comments.length} Ratings
         </div>
       </Link>
     </DIV>
@@ -46,6 +54,9 @@ const DIV = styled.div`
 
   .rating {
     padding: 10px;
+  }
+  .comment-starts {
+    display: flex;
   }
 
 `;
