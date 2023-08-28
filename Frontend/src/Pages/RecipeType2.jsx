@@ -421,6 +421,22 @@ const WRAPPER = styled.div`
       margin-top: 10px;
     }
   }
+
+  @media (max-width: 425px) {
+    .owner-sec {
+      display: block;
+    }
+
+    .owner-sec > div {
+      margin-top: 10px;
+    }
+
+    .instructions {
+      margin: 20px;
+      display: flex;
+      height: auto;
+    }
+  }
 `;
 
 const DIV = styled.div`
