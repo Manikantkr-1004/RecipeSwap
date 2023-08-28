@@ -1,34 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import avatar from "../Components/images/user_avatar.png"
+import {Drawer,DrawerBody,DrawerFooter,DrawerHeader,DrawerOverlay,DrawerContent,DrawerCloseButton, useDisclosure } from '@chakra-ui/react'
 import user_back from "../Components/images/user_background.jpg"
-import {Flex, Image,Box, Text, Button, useToast, FormControl, FormLabel, Input, SimpleGrid} from "@chakra-ui/react"
+import {Flex, Image,Box, Text, Button, useToast, FormControl, FormLabel, Input, SimpleGrid, Spinner} from "@chakra-ui/react"
 import { Navbar } from '../Components/Navbar'
 import { Footer } from '../Components/Footer'
 import Cookies from "js-cookie"
 import {useNavigate} from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { userdataget, userecipeadd, userecipedel, userecipeget, usereviewget, userlogout } from '../Redux/userReducer/action'
-import { USER_FAIL, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USEREVIEW_GET_SUCCESS, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOGOUT_SUCCESS } from '../Redux/actionTypes'
+import { userdataget, userecipeadd, userecipedel, userecipeget, userecipeupdate, usereviewget, userlogout } from '../Redux/userReducer/action'
+import { USER_FAIL, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPEUPDATE_SUCCESS, VALID_USERECIPE_GET_SUCCESS, VALID_USEREVIEW_GET_SUCCESS, VALID_USERRECIPE_ADD_SUCCESS, VALID_USER_DELETE_SUCCESS, VALID_USER_FAIL, VALID_USER_LOGOUT_SUCCESS } from '../Redux/actionTypes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBlender, faBowlRice, faDeleteLeft, faEye, faSignOut, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faBlender, faBowlRice, faDeleteLeft, faPencil, faSignOut, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import {Accordion,AccordionItem,AccordionButton,AccordionPanel,AccordionIcon} from '@chakra-ui/react'
 
 export function UserProfile() {
     
     const log = <FontAwesomeIcon size="md" icon={faSignOut} />
     const star = <FontAwesomeIcon size="md" flip icon={faStar} />
+    const stars = <FontAwesomeIcon size="md" fade icon={faStarHalfAlt} />
     const add = <FontAwesomeIcon size="md" shake icon={faBowlRice} />
     const added = <FontAwesomeIcon size="md" beatFade icon={faBlender} />
-    const view = <FontAwesomeIcon size="md" icon={faEye} />
+    const edit = <FontAwesomeIcon size="md" icon={faPencil} />
     const del =  <FontAwesomeIcon size="md" icon={faDeleteLeft} />
 
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
     const toast = useToast()
     const token = Cookies.get("login_token");
     const [count,setCount] = useState(0)
     const name = Cookies.get("login_name");
     const namesplit = name.split(" ");
-    const email = Cookies.get("login_email")
+    const email = Cookies.get("login_email");
+    const [updateid,setUpdateID] = useState(null)
     const dispatch = useDispatch();
     const loading = useSelector((store)=> store.userReducer.loading)
     const logout_loading = useSelector((store)=> store.userReducer.logout_loading)
@@ -45,11 +48,19 @@ export function UserProfile() {
         instructions:[],
         imageURL:"",tags:["food","india_ka_swad","Spicy_food"],comments:[]
     })
+    const [updatedata,setUpdateData] = useState({
+        email:email,username:name,recipeName:"",difficulty:"",prepTime:"",cookTime:"",totalTime:"",servings:"",cuisine:"",
+        ingredients:[],
+        nutrition:{calories:"",totalFat:"",totalCarbohydrates:"",protein:"",sugars:""},
+        occasion:"",mealType:"",recipeType:"",
+        instructions:[],
+        imageURL:"",tags:["food","india_ka_swad","Spicy_food"],comments:[]
+    })
 
     useEffect(()=>{
         dispatch(userdataget(token))
         .then((res)=>{
-            console.log(res,"userdata");
+            // console.log(res,"userdata");
             dispatch({type:VALID_USERDATA_GET_SUCCESS,payload:res.data.users});
         }).catch((err)=>{
             dispatch({type:VALID_USER_FAIL})
@@ -57,7 +68,7 @@ export function UserProfile() {
 
         dispatch(userecipeget(token))
         .then((res)=>{
-            console.log(res,"userecipedata");
+            // console.log(res,"userecipedata");
             dispatch({type:VALID_USERECIPE_GET_SUCCESS,payload:res.data.recipes});
         }).catch((err)=>{
             dispatch({type:VALID_USER_FAIL})
@@ -65,7 +76,7 @@ export function UserProfile() {
 
         dispatch(usereviewget(token))
         .then((res)=>{
-            console.log(res,"usereviewdata");
+            // console.log(res,"usereviewdata");
             dispatch({type:VALID_USEREVIEW_GET_SUCCESS,payload:res.data.comments});
         }).catch((err)=>{
             dispatch({type:VALID_USER_FAIL})
@@ -148,6 +159,57 @@ export function UserProfile() {
         })
     }
 
+    const handleUpdate = (id)=>{
+        let updated = recipedata.find((item)=> item._id=== id);
+        setUpdateID(updated._id);
+        setUpdateData({
+            email:email,username:name,recipeName:updated.recipeName,difficulty:updated.difficulty,prepTime:updated.prepTime,cookTime:updated.cookTime,totalTime:updated.totalTime,servings:updated.servings,cuisine:updated.cuisine,
+            ingredients:updated.ingredients,
+            nutrition:updated.nutrition,
+            occasion:updated.occasion,mealType:updated.mealType,recipeType:updated.recipeType,
+            instructions:updated.instructions,
+            imageURL:updated.imageURL,tags:["food","india_ka_swad","Spicy_food"],comments:updated.comments
+        })
+        onOpen();
+    }
+
+    const handleUpdateData= (e)=>{
+        e.preventDefault();
+
+        dispatch(userecipeupdate(token,updateid,updatedata))
+        .then((res)=>{
+
+            dispatch({type:VALID_USERECIPEUPDATE_SUCCESS})
+            if(res.data.message==="recipe has been updated"){
+                toast({
+                    title: `Recipe Updated Successfully!!`,
+                    position: "bottom",
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true,
+                })
+                setCount((prev)=> prev+1)
+            }else{
+                toast({
+                    title: `Something Went Wrong, try agin!!`,
+                    position: "bottom",
+                    status: 'error',
+                    duration: 2000,
+                    isClosable: true,
+                })
+            }
+        }).catch((err)=>{
+            dispatch({type:VALID_USER_FAIL})
+            toast({
+                title: `Something Went Wrong, try agin!!`,
+                position: "bottom",
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            })
+        })
+    }
+
 
 
     const handleLogout= ()=>{
@@ -195,15 +257,18 @@ export function UserProfile() {
         <Flex display="block" w="100%">
             <br/><br/>
             {loading?   <><br/><br/><br/><br/>
-                        <div class="loading-wave">
-                            <div class="loading-bar"></div>
-                            <div class="loading-bar"></div>
-                            <div class="loading-bar"></div>
-                            <div class="loading-bar"></div>
-                        </div><br/><br/><br/><br/><br/><br/><br/><br/>
+                    <Box w="70px" m="auto" display="flex" justifyContent="center">
+                        <Spinner
+                        thickness='5px'
+                        speed='0.65s'
+                        emptyColor='gray.200'
+                        color='#e45700'
+                        size='xl'
+                        />
+                    </Box><br/><br/><br/><br/><br/><br/><br/><br/>
                                 </> : 
             <>
-            <Image m="auto" w={{base:"140px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={`https://ui-avatars.com/api/?rounded=true&bold=true&background=ff8f49&color=fff&name=${namesplit[0]}+${namesplit[1]}`} alt="user" />
+            <Image m="auto" w={{base:"120px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={`https://ui-avatars.com/api/?rounded=true&bold=true&background=e45700&color=fff&name=${namesplit[0]}+${namesplit[1]}`} alt="user" />
 
             <Box w={{base:"98%",sm:"98%",md:"700px",lg:"700px",xl:"700px"}} m="auto" pb={{base:"90px",sm:"90px",md:"60px",lg:"30px",xl:"30px"}}>
                 <Text fontWeight="bold">Followers: <span style={{color:"#E45700"}}>{userdata.followers?.length}</span></Text>
@@ -358,12 +423,11 @@ export function UserProfile() {
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                        <Box w="100%" borderRadius="5px" padding="10px" bg="#ffddc8" mb="6px">
+                        <Box w="100%" borderRadius="5px">
                             {
                                 reviewdata.length===0?<Text fontWeight="semibold" color="blue">You have not reviewed any recipes yet, Please Review🙂🙂</Text>: 
                                 reviewdata.map((item)=>(
-                                    <Box w="100%" borderRadius="5px" padding="5px" bg="#ffddc8" cursor="pointer" onClick={()=> navigate(`/recipe/${item._id}`)}>
-                                        <Flex w="100%" display="block">
+                                    <Box w="100%" borderRadius="5px" mb="6px" padding="10px" bg="#ffddc8" cursor="pointer" onClick={()=> navigate(`/recipe/${item._id}`)}>
                                             <Flex w={{base:"96%",sm:"96%",md:"96%",lg:"96%",xl:"96%"}} justifyContent="space-between" gap="10px">
                                                 <Image w="40px" src={item.imageURL} alt={item.recipeName} />
                                                 <Text fontWeight="bold" color="#E45700">{item.recipeName}</Text>
@@ -371,11 +435,10 @@ export function UserProfile() {
                                             <Flex w={{base:"96%",sm:"96%",md:"96%",lg:"96%",xl:"96%"}} >
                                                 <Text mt="10px" fontWeight="bold" color="blue">Review:- {
                                                     item.comments.map((ele)=>{
-                                                        return ele.useremail===email && <span style={{color:"black"}}>{ele.comment} , {ele.rating} Stars</span>
+                                                        return ele.useremail===email && <span style={{color:"black"}}>{ele.comment} , {ele.rating}{stars}</span>
                                                     })
                                                 }</Text>
                                             </Flex>
-                                        </Flex>
                                     </Box>
                                 ))
                             }
@@ -397,16 +460,16 @@ export function UserProfile() {
                         recipedata.map((item)=>(
                             <Box w="100%" borderRadius="5px" padding="10px" bg="#ffddc8" mb="6px">
                                 <Flex w="100%" justifyContent="space-between" gap="4px" alignItems="center" direction={{base:"column",sm:"row",md:"row",lg:"row",xl:"row"}}>
-                                    <Flex w={{base:"96%",sm:"40%",md:"40%",lg:"40%",xl:"40%"}} justifyContent="space-between" gap="10px">
+                                    <Flex cursor='pointer' onClick={()=> navigate(`/recipe/${item._id}`)} w={{base:"96%",sm:"40%",md:"40%",lg:"40%",xl:"40%"}} justifyContent="space-between" gap="10px">
                                         <Image w="40px" src={item.imageURL} alt={item.recipeName} />
                                         <Text fontWeight="bold" color="#E45700">{item.recipeName}</Text>
                                     </Flex>
                                     <Flex w={{base:"96%",sm:"40%",md:"40%",lg:"40%",xl:"40%"}} justifyContent="space-between" gap="10px">
-                                        <button onClick={()=> navigate(`/recipe/${item._id}`)} class="bookmarkBtn">
+                                        <button onClick={()=> handleUpdate(item._id)} class="bookmarkBtn">
                                             <span class="IconContainer"> 
-                                                {view}
+                                                {edit}
                                             </span>
-                                            <p class="text">View</p>
+                                            <p class="text">Edit</p>
                                         </button>
 
                                         <button onClick={()=> handleDel(item._id,token)} class="bookmarkBtn">
@@ -428,6 +491,127 @@ export function UserProfile() {
             </Box>
             </>}
         </Flex>
+
+        <Drawer
+            isOpen={isOpen}
+            placement='right'
+            onClose={onClose}
+            size="sm">
+            <DrawerOverlay />
+            <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader bg="#fafafa">Update {updatedata.recipeName} Recipe</DrawerHeader>
+
+            <DrawerBody bg="#fafafa" p="0">
+                <form onSubmit={handleUpdateData}>
+                    <FormControl isRequired w="90%" m="auto" mb="50px">
+
+                        <FormLabel>Recipe Name</FormLabel>
+                        <Input type="text" value={updatedata.recipeName} onChange={(e)=> setUpdateData({...updatedata,recipeName:e.target.value})} placeholder='Your Recipe Name' required/><br/><br/>
+
+                        <FormLabel>Recipe Image URL</FormLabel>
+                        <Input type="text" value={updatedata.imageURL} onChange={(e)=> setUpdateData({...updatedata,imageURL:e.target.value})} placeholder='Your Image URL' required/><br/><br/>
+
+                        <SimpleGrid w="100%" gap="10px" columns={{base:1,sm:1,md:1,lg:1,xl:1}}>
+                            <Box>
+                                <FormLabel>Preparation Time</FormLabel>
+                                <Input type="text" value={updatedata.prepTime} onChange={(e)=> setUpdateData({...updatedata,prepTime:e.target.value})} placeholder='20 minutes / 1 hour etc.' required/><br/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>Cook Time</FormLabel>
+                                <Input type="text" value={updatedata.cookTime} onChange={(e)=> setUpdateData({...updatedata,cookTime:e.target.value})} placeholder='20 minutes / 1 hour etc.' required/><br/>
+                            </Box>
+                                
+                            <Box>
+                                <FormLabel>Total Time</FormLabel>
+                                <Input type="text" value={updatedata.totalTime} onChange={(e)=> setUpdateData({...updatedata,totalTime:e.target.value})} placeholder='20 minutes / 1 hour etc.' required/><br/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>For How many peoples?</FormLabel>
+                                <Input type="number" value={updatedata.servings} onChange={(e)=> setUpdateData({...updatedata,servings:e.target.value})} placeholder='4 / 8 / 10' required/><br/>
+                                    </Box>
+                        </SimpleGrid><br/>
+
+                        <FormLabel>Difficulty Levels</FormLabel>
+                        <Input type="text" value={updatedata.difficulty} onChange={(e)=> setUpdateData({...updatedata,difficulty:e.target.value})} placeholder="Easy / Medium / Hard" /><br/><br/>
+
+                        <SimpleGrid w="100%" gap="10px" columns={{base:2,sm:2,md:2,lg:2,xl:2}}>
+                            <Box>
+                                <FormLabel>Cuisine</FormLabel>
+                                <Input type="text" value={updatedata.cuisine} onChange={(e)=> setUpdateData({...updatedata,cuisine:e.target.value})} placeholder='Indian / Italian / American like this' required/><br/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>Occasion</FormLabel>
+                                <Input type="text" value={updatedata.occasion} onChange={(e)=> setUpdateData({...updatedata,occasion:e.target.value})} placeholder='Dinner / Lunch / Breakfast / Party' required/><br/>
+                            </Box>
+                                
+                            <Box>
+                                <FormLabel>MealType</FormLabel>
+                                <Input type="text" value={updatedata.mealType} onChange={(e)=> setUpdateData({...updatedata,mealType:e.target.value})} placeholder='Soup / Starter / MainCourse / Dessert like this' required/><br/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>RecipeType</FormLabel>
+                                <Input type="text" value={updatedata.recipeType} onChange={(e)=> setUpdateData({...updatedata,recipeType:e.target.value})} placeholder='Veg / NonVeg' required/><br/>
+                            </Box>
+                        </SimpleGrid><br/>
+
+                        <FormLabel>Write All Ingredients in 5 Box.</FormLabel>
+                        <Input type="text" value={updatedata.ingredients[0]} onChange={(e)=> setUpdateData({...updatedata,ingredients:[e.target.value,updatedata.ingredients[1],updatedata.ingredients[2],updatedata.ingredients[3],updatedata.ingredients[4]]})} required/>
+                        <Input type="text" value={updatedata.ingredients[1]} onChange={(e)=> setUpdateData({...updatedata,ingredients:[updatedata.ingredients[0],e.target.value,updatedata.ingredients[2],updatedata.ingredients[3],updatedata.ingredients[4]]})} required/>
+                        <Input type="text" value={updatedata.ingredients[2]} onChange={(e)=> setUpdateData({...updatedata,ingredients:[updatedata.ingredients[0],updatedata.ingredients[1],e.target.value,updatedata.ingredients[3],updatedata.ingredients[4]]})} required/>
+                        <Input type="text" value={updatedata.ingredients[3]} onChange={(e)=> setUpdateData({...updatedata,ingredients:[updatedata.ingredients[0],updatedata.ingredients[1],updatedata.ingredients[2],e.target.value,updatedata.ingredients[4]]})} required/>
+                        <Input type="text" value={updatedata.ingredients[4]} onChange={(e)=> setUpdateData({...updatedata,ingredients:[updatedata.ingredients[0],updatedata.ingredients[1],updatedata.ingredients[2],updatedata.ingredients[3],e.target.value]})} required/><br/><br/>
+
+                        <FormLabel>Write All Steps to Make Recipe in 5 Box.</FormLabel>
+                        <Input type="text" value={updatedata.instructions[0]} onChange={(e)=> setUpdateData({...updatedata,instructions:[e.target.value,updatedata.instructions[1],updatedata.instructions[2],updatedata.instructions[3],updatedata.instructions[4]]})} placeholder='Step 1' required/>
+                        <Input type="text" value={updatedata.instructions[1]} onChange={(e)=> setUpdateData({...updatedata,instructions:[updatedata.instructions[0],e.target.value,updatedata.instructions[2],updatedata.instructions[3],updatedata.instructions[4]]})} placeholder='Step 2' required/>
+                        <Input type="text" value={updatedata.instructions[2]} onChange={(e)=> setUpdateData({...updatedata,instructions:[updatedata.instructions[0],updatedata.instructions[1],e.target.value,updatedata.instructions[3],updatedata.instructions[4]]})} placeholder='Step 3' required/>
+                        <Input type="text" value={updatedata.instructions[3]} onChange={(e)=> setUpdateData({...updatedata,instructions:[updatedata.instructions[0],updatedata.instructions[1],updatedata.instructions[2],e.target.value,updatedata.instructions[4]]})} placeholder='Step 4' required/>
+                        <Input type="text" value={updatedata.instructions[4]} onChange={(e)=> setUpdateData({...updatedata,instructions:[updatedata.instructions[0],updatedata.instructions[1],updatedata.instructions[2],updatedata.instructions[3],e.target.value]})} placeholder='Step 5' required/><br/><br/>
+
+                        <SimpleGrid w="100%" gap="10px" columns={{base:2,sm:2,md:3,lg:3,xl:3}}>
+                            <Box>
+                                <FormLabel>Calories</FormLabel>
+                                <Input value={updatedata.nutrition.calories} onChange={(e)=> setUpdateData({...updatedata,nutrition:{...updatedata.nutrition,calories:e.target.value}})} type='text' placeholder='200 / 300' required/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>Fat</FormLabel>
+                                <Input value={updatedata.nutrition.totalFat} onChange={(e)=> setUpdateData({...updatedata,nutrition:{...updatedata.nutrition,totalFat:e.target.value}})} type='text' placeholder='15g / 20g' required/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>Carbs</FormLabel>
+                                <Input value={updatedata.nutrition.totalCarbohydrates} onChange={(e)=> setUpdateData({...updatedata,nutrition:{...updatedata.nutrition,totalCarbohydrates:e.target.value}})} type='text' placeholder='50g / 60g' required/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>Protien</FormLabel>
+                                <Input value={updatedata.nutrition.protein} onChange={(e)=> setUpdateData({...updatedata,nutrition:{...updatedata.nutrition,protein:e.target.value}})} type='text' placeholder='20g / 30g' required/>
+                            </Box>
+
+                            <Box>
+                                <FormLabel>Sugar</FormLabel>
+                                <Input value={updatedata.nutrition.sugars} onChange={(e)=> setUpdateData({...updatedata,nutrition:{...updatedata.nutrition,sugars:e.target.value}})} type='text' placeholder='5g / 8g' required/>
+                            </Box>
+                        </SimpleGrid><br/>
+
+                    </FormControl>
+                        <Flex justifyContent="flex-end" w="100%" position="fixed" bottom="0" bg="white" p="10px 15px">
+                            <Button bg="#dadada" border="2px solid #979797" color="black" mr={3} onClick={onClose}>
+                            Cancel
+                            </Button>
+                            {loading? <Button w="90px" isLoading bg='#e45700' _hover={{bg:'#e45700'}}></Button> : <Button type='submit' bg='#e45700' _hover={{bg:'#e45700'}}>Update</Button>}
+                        </Flex>
+                </form>
+            </DrawerBody>
+
+            </DrawerContent>
+        </Drawer>
 
         <Footer />
         </>
