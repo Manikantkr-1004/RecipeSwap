@@ -51,6 +51,16 @@ export const userecipeadd = (token,data) => (dispatch)=> {
     })
 }
 
+export const userecipeupdate = (token,id,data) => (dispatch)=> {
+    dispatch({type:VALID_USER_LOADING});
+
+    return axios.patch(`https://recipeswap.onrender.com/recipe/update/${id}`,data,{
+        headers: {
+            "auth": `${token}`,
+        }
+    })
+}
+
 export const userecipedel = (id,token) => (dispatch)=> {
     dispatch({type:VALID_USER_LOADING});
 
