@@ -14,6 +14,7 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 
 ## Features
 
+- User Authentication with Forgot Password.
 - Users can post, add, update, and delete their recipes.
 - Users can comment on recipe posts, fostering a sense of community and sharing.
 - Users can easily search for recipes based on their preferences.
@@ -45,6 +46,17 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 
 ## Screenshot
 # User Side:
+![1](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/f7f1ccbe-3b2f-4f7e-af98-1b2d9529b0be)
+
+![2](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/11babcbf-74eb-4247-9e94-a9c015138bf1)
+
+![3](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/443b6992-2a7a-4c4f-bd4b-28de1b261e04)
+
+![4](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/609d7bf1-a4ff-4ec3-b116-b0896de4cc0a)
+
+![5](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/b51ba7f2-b397-4d1f-beed-0f8f3b3d27a4)
+
+
 
 # Admin Side:
 ![1](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/447cd5da-831c-4ec8-9d74-089ddc0d52a6)
