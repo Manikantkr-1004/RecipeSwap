@@ -17,7 +17,11 @@ export function RecipeList() {
   const loading = useSelector((store) => store.recipeReducer.loading);
 
   useEffect(()=>{
+   setTimeout(()=>{
+    if(recipes.length === 0){
       dispatch(getAllRecipes());
+    }
+   }, 500);
   },[])
 
   return (
