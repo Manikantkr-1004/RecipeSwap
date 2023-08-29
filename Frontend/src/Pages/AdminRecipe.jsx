@@ -138,6 +138,11 @@ export function AdminRecipe() {
   }, [recipes]);
 
  
+  useEffect(()=>{
+    if(data.length === 0){
+      dipatch(getAllRecipes(""));
+    }
+   }, [data]);
 
   const handleResult = (value) => {
     // setTemp(temp + 1);
@@ -154,7 +159,7 @@ export function AdminRecipe() {
 
   const handleAddRecipes = ()=>{
       dipatch(addRecipes(recipeData, handleResult))
-      console.log(recipeData);
+
      setTimeout(()=>{
       onClose();
      }, 1000);
@@ -228,7 +233,7 @@ export function AdminRecipe() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.map((recipe, index) => {
+                  {data.length > 0 && data.map((recipe, index) => {
                     return (
                       <DataCard
                         key={index}

@@ -80,14 +80,14 @@ import {
           ...state,
           isLoading: false,
           isError: "",
-          recipes: [...state.recipes, payload],
+          recipes: [],
         };
       case SUCCESS_USERS_ADD:
         return {
           ...state,
           isLoading: false,
           isError: "",
-          users: [...state.users, payload],
+          users: [],
         };
   
       case SUCCESS_RECIPES_UPDATE:

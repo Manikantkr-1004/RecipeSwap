@@ -205,7 +205,7 @@ export const addUers = (added, handleResult) => async (dispatch)=>{
             handleResult("Added");
             dispatch({
                 type: SUCCESS_USERS_ADD,
-                payload: added
+                
             })
         }else{
             dispatch({
