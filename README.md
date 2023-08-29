@@ -36,8 +36,8 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 
 # Front-end:
 
-- **User Side:** [https://thundertech.vercel.app/](recipeswap.netlify.app/)
-- **Admin Side:** [https://thundertech.vercel.app/admin](recipeswap.netlify.app/admin)
+- **User Side:** [https://recipeswap.netlify.app](https://recipeswap.netlify.app/)
+- **Admin Side:** [https://recipeswap.netlify.app/admin](https://recipeswap.netlify.app/admin)
 - **Admin Login:** Email: admin@admin.com | Password: admin
 
 # Back-end:
