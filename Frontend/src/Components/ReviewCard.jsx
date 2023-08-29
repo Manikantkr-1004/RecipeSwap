@@ -273,5 +273,14 @@ const DIV = styled.div`
         margin-top: 20px;
       }
     }
+    
+    @media (max-width: 420px){
+      .card-container {
+        border: none;
+        padding: 5px;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
   }
 `;
