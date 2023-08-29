@@ -6,7 +6,7 @@ import logo from "../Components/images/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash, faLock, faUserCircle} from "@fortawesome/free-solid-svg-icons"
 import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {useNavigate} from "react-router-dom"
+import {useNavigate,Navigate} from "react-router-dom"
 import 'animate.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { USER_FAIL, USER_SIGNUP_SUCCESS } from '../Redux/actionTypes'
@@ -27,6 +27,8 @@ export function Signup() {
     const [show,setShow] = useState(false);
     const [formdata,setFormdata] = useState({username:"",email:"",password:""});
     const [err,setErr] = useState(false)
+    const token = Cookies.get("login_token");
+    const name = Cookies.get("login_name");
     const navigate = useNavigate();
     const toast = useToast()
     const dispatch = useDispatch();
@@ -85,6 +87,10 @@ export function Signup() {
                 isClosable: true,
               })
         })
+    }
+
+    if(token && name){
+        return <Navigate to="/" />
     }
 
     return (
