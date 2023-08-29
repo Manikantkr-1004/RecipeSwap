@@ -50,7 +50,7 @@ export function RecipeType2() {
   return (
     <>
     <Helmet>
-      <title>{Recipe? Recipe.recipeName : "Recipe"} | RecipeSwap</title>
+      <title>{Recipe? Recipe.recipeName : "Recipe | RecipeSwap"}</title>
     </Helmet>
       <Navbar />
       {isLoading ? (
