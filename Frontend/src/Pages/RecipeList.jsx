@@ -9,6 +9,7 @@ import { Footer } from "../Components/Footer";
 import { Spinner } from "@chakra-ui/react";
 import { Slider } from "../Components/Slider";
 import { Social } from "../Components/Social";
+import { Helmet } from "react-helmet";
 
 export function RecipeList() {
 
@@ -26,6 +27,9 @@ export function RecipeList() {
 
   return (
     <div>
+      <Helmet>
+        <title>RecipeList | RecipeSwap</title>
+      </Helmet>
       <Navbar />
       <HEADER>
         <section className="slider">

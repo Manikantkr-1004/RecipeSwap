@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.97ae0d19.css",
+    "main.js": "/static/js/main.5bba2243.js",
+    "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
+    "static/media/login_laptop.jpg": "/static/media/login_laptop.27045467f1bb113abd6d.jpg",
+    "static/media/not_found.jpg": "/static/media/not_found.676fef04bed3eded7915.jpg",
+    "static/media/signup_mobile.jpg": "/static/media/signup_mobile.dd52633829ddb80b81be.jpg",
+    "static/media/login_mobile.jpg": "/static/media/login_mobile.7a886f1492170acc1d90.jpg",
+    "static/media/user_background.jpg": "/static/media/user_background.5db1cb433ea842bee2e7.jpg",
+    "static/media/signup_laptop.jpg": "/static/media/signup_laptop.b6d8891c31ed593e9c8b.jpg",
+    "static/media/reset_pass.jpg": "/static/media/reset_pass.36687c465ab5ba318645.jpg",
+    "static/media/forgot_pass.jpg": "/static/media/forgot_pass.feaa715f1814926522bc.jpg",
+    "static/media/logo.png": "/static/media/logo.52a49d3965be39e85d18.png",
+    "index.html": "/index.html",
+    "main.97ae0d19.css.map": "/static/css/main.97ae0d19.css.map",
+    "main.5bba2243.js.map": "/static/js/main.5bba2243.js.map",
+    "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97ae0d19.css",
+    "static/js/main.5bba2243.js"
+  ]
+}

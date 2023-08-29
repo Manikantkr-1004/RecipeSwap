@@ -15,6 +15,7 @@ import { RecipeCard } from "../Components/RecipeCard";
 import { ReviewCard } from "../Components/ReviewCard";
 import { getAllRecipes } from "../Redux/receipeReducer/action";
 import { Spinner } from "@chakra-ui/react";
+import { Helmet } from "react-helmet";
 
 export function RecipeType2() {
   let { id } = useParams();
@@ -48,6 +49,9 @@ export function RecipeType2() {
 
   return (
     <>
+    <Helmet>
+      <title>{Recipe? Recipe.recipeName : "Recipe"} | RecipeSwap</title>
+    </Helmet>
       <Navbar />
       {isLoading ? (
         <SPINNER>

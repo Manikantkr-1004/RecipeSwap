@@ -36,6 +36,8 @@ import { FormInput } from "../Components/FormInput";
 import { DebounceInput } from "react-debounce-input";
 import { styled } from "styled-components";
 import Cookies from "js-cookie";
+import { Helmet } from 'react-helmet';
+
 
 const init =
   {
@@ -160,6 +162,9 @@ export function AdminRecipe() {
   }
   return (
     <>
+    <Helmet>
+      <title>AdminRecipe | RecipeSwap</title>
+    </Helmet>
       <AdminHeader />
 
       <Stack

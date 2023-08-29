@@ -12,6 +12,7 @@ import { USER_FAIL, VALID_USERDATA_GET_SUCCESS, VALID_USERECIPEUPDATE_SUCCESS, V
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBlender, faBowlRice, faDeleteLeft, faPencil, faSignOut, faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons'
 import {Accordion,AccordionItem,AccordionButton,AccordionPanel,AccordionIcon} from '@chakra-ui/react'
+import { Helmet } from 'react-helmet'
 
 export function UserProfile() {
     
@@ -300,6 +301,9 @@ export function UserProfile() {
 
     return (
         <>
+        <Helmet>
+            <title>Welcome {name?name:"UserProfile"} | RecipeSwap</title>
+        </Helmet>
         <Navbar />
 
         <Flex display="block" w="100%">
@@ -329,7 +333,7 @@ export function UserProfile() {
                 cursor={"pointer"}
                 minW={0}
                 onClick={() => inputRef.current.click()}
-              ><Image w={{base:"120px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={imgAvatar} alt="user" /></Button>
+              ><Image borderRadius="50%" w={{base:"120px",sm:"150px",md:"160px",lg:"160px",xl:"160px"}} size="fixed" src={imgAvatar} alt="user" /></Button>
 
             <Box w={{base:"98%",sm:"98%",md:"700px",lg:"700px",xl:"700px"}} m="auto" pb={{base:"90px",sm:"90px",md:"60px",lg:"30px",xl:"30px"}}>
                 <Text fontWeight="bold">Followers: <span style={{color:"#E45700"}}>{userdata.followers?.length}</span></Text>
@@ -337,17 +341,17 @@ export function UserProfile() {
 
                 <Flex w="100%" justifyContent="space-between" alignItems="center" gap="10px" >
                     <Box w="48%" border="1px dashed black" borderRadius="15px" padding="10px">
-                        <Text fontFamily="arial black">Name</Text>
+                        <Text fontWeight="bold" fontFamily="arial black">Name</Text>
                         <Text>{userdata.username}</Text>
                     </Box>
                     <Box w="48%" border="1px dashed black" borderRadius="15px" padding="10px">
-                        <Text fontFamily="arial black">Email</Text>
+                        <Text fontWeight="bold" fontFamily="arial black">Email</Text>
                         <Text>{userdata.email}</Text>
                     </Box>
                 </Flex>
                 <Flex w="100%" mt="10px" justifyContent="space-between" alignItems="center" gap="10px" border="1px dashed black" borderRadius="15px" padding="10px">
                     <Box>
-                        <Text fontFamily="arial black">Password</Text>
+                        <Text fontWeight="bold" fontFamily="arial black">Password</Text>
                         <Text>************</Text>
                     </Box>
                     <button onClick={()=> navigate("/forgot_password")} className='change_password'>
@@ -518,31 +522,31 @@ export function UserProfile() {
                         </h2>
                         <AccordionPanel pb={4} >
                         {recipedata.length===0? <Text fontWeight="semibold" color="blue">You have not added any recipes yet, Please Add🙂🙂</Text> : 
-                        recipedata.map((item)=>(
-                            <Box w="100%" borderRadius="5px" padding="10px" bg="#ffddc8" mb="6px">
-                                <Flex w="100%" justifyContent="space-between" gap="4px" alignItems="center" direction={{base:"column",sm:"row",md:"row",lg:"row",xl:"row"}}>
-                                    <Flex cursor='pointer' onClick={()=> navigate(`/recipe/${item._id}`)} w={{base:"96%",sm:"40%",md:"40%",lg:"40%",xl:"40%"}} justifyContent="space-between" gap="10px">
-                                        <Image w="40px" src={item.imageURL} alt={item.recipeName} />
-                                        <Text fontWeight="bold" color="#E45700">{item.recipeName}</Text>
-                                    </Flex>
-                                    <Flex w={{base:"96%",sm:"40%",md:"40%",lg:"40%",xl:"40%"}} justifyContent="space-between" gap="10px">
-                                        <button onClick={()=> handleUpdate(item._id)} class="bookmarkBtn">
-                                            <span class="IconContainer"> 
-                                                {edit}
-                                            </span>
-                                            <p class="text">Edit</p>
-                                        </button>
+                        <SimpleGrid w="100%" columns={{base:1,sm:2,md:3,lg:3,xl:3}} gap="10px">
+                            { 
+                                recipedata.map((item)=>(
+                                    <Box bg="#ffddc8" borderRadius="10px" p="10px">
+                                        <Image borderRadius="10px" onClick={()=> navigate(`/recipe/${item._id}`)} w="100%" src={item.imageURL} alt={item.recipeName} />
+                                        <Text onClick={()=> navigate(`/recipe/${item._id}`)} m="10px 0px" fontWeight="bold" color="#E45700">{item.recipeName}</Text>
+                                        <Flex w="100%" justifyContent="space-between" gap="4px">
+                                            <button onClick={()=> handleUpdate(item._id)} class="bookmarkBtn">
+                                                <span class="IconContainer"> 
+                                                    {edit}
+                                                </span>
+                                                <p class="text">Edit</p>
+                                            </button>
 
-                                        <button onClick={()=> handleDel(item._id,token)} class="bookmarkBtn">
-                                            <span class="IconContainer"> 
-                                                {del}
-                                            </span>
-                                            <p class="text">Delete</p>
-                                        </button>
-                                    </Flex>
-                                </Flex>
-                            </Box>
-                        ))}
+                                            <button onClick={()=> handleDel(item._id,token)} class="bookmarkBtn">
+                                                <span class="IconContainer"> 
+                                                    {del}
+                                                </span>
+                                                <p class="text">Delete</p>
+                                            </button>
+                                        </Flex>
+                                    </Box>
+                                    ))
+                            }
+                        </SimpleGrid>}
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>

@@ -8,6 +8,8 @@ import PieChart from "../Components/PieChart";
 import DoughnutChart from "../Components/DoughnutChart";
 import { styled } from "styled-components";
 import Cookies from "js-cookie";
+import { Helmet } from 'react-helmet';
+
 
 export function AdminDash() {
   const dispatch = useDispatch();
@@ -48,6 +50,9 @@ export function AdminDash() {
 
   return (
     <SPAN>
+      <Helmet>
+        <title>AdminDashboard | RecipeSwap</title>
+      </Helmet>
       <AdminHeader />
       <Box
         bg={"brand.600"}
