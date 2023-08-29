@@ -100,11 +100,11 @@ userRouter.post("/forgot", async (req, res) => {
             let user = await UserModel.findOne({ email });
             if (user) {
                 const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_RESET_KEY);
+               
 
+                const text = `here is the link to forgot Password, try to update Password  ${process.env.WEBURL}/reset_password/${token}`;
 
-                const text = `here is the link to forgot Password, try to update Password  ${process.env.BASEURL}/reset_password/${token}`;
-
-                let obj = await sendEmail(user.email, "Forgot Password", text);
+                let obj = await sendEmail(user.email, "Forgot Password @ Recipe Swap", text);
                 if (!obj.issue) {
                     user.token = token;
                     await user.save();

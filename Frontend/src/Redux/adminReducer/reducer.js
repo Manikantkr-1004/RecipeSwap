@@ -10,6 +10,7 @@ import {
     SUCCESS_RECIPES_UPDATE,
     SUCCESS_USERS,
     SUCCESS_USERS_ADD,
+    SUCCESS_USERS_AVATAR_UPDATE,
     SUCCESS_USERS_DELETE,
     SUCCESS_USERS_UPDATE,
   } from "../actionTypes";
@@ -107,6 +108,8 @@ import {
           isError: "",
           recipes: filteredRecipes,
         };
+      case SUCCESS_USERS_AVATAR_UPDATE:
+        return state;
       case SUCCESS_USERS_UPDATE:
         const filteredUser = state.users.map((item) => {
           if (item._id === payload._id) {

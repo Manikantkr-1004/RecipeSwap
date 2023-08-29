@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_LOGOUT, SUCCESS_MAXUSERPOST, SUCCESS_RECIPES_ADD, SUCCESS_RECIPES_DELETE, SUCCESS_RECIPES_UPDATE, SUCCESS_USERS, SUCCESS_USERS_ADD, SUCCESS_USERS_DELETE, SUCCESS_USERS_UPDATE } from "../actionTypes";
+import { ERROR, LOADING, SUCCESS_ALL_RECIPE, SUCCESS_LOGOUT, SUCCESS_MAXUSERPOST, SUCCESS_RECIPES_ADD, SUCCESS_RECIPES_DELETE, SUCCESS_RECIPES_UPDATE, SUCCESS_USERS, SUCCESS_USERS_ADD, SUCCESS_USERS_AVATAR_UPDATE, SUCCESS_USERS_DELETE, SUCCESS_USERS_UPDATE } from "../actionTypes";
 
 
 const config = {
@@ -243,6 +243,27 @@ export const updateUsers = (updated, handleResult) => async (dispatch) => {
 } 
 
 
+export const updateUsersAvatar = (updated) => async (dispatch) => {
+    dispatch({ type: LOADING });
+    try {
+        let res = await axios.patch(`${process.env.REACT_APP_API_ADMIN_URL}/users/update/${updated._id}`, updated, config);
+        res = res?.data;
+
+        if (!res.issue) {
+            dispatch({
+                type: SUCCESS_USERS_AVATAR_UPDATE,
+                payload: updated
+            })
+        } else {
+            dispatch({
+                type: ERROR,
+                payload: res.error
+            })
+        }
+    } catch (error) {
+        dispatch({ type: ERROR, payload: error });
+    }
+} 
 export const deleteUsers =(deleted, handleResult) => async (dispatch) => {
     dispatch({ type: LOADING });
     try {
