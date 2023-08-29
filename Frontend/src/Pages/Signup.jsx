@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { USER_FAIL, USER_SIGNUP_SUCCESS } from '../Redux/actionTypes'
 import { usersignup } from '../Redux/authReducer/action'
 import { Helmet } from 'react-helmet'
+import Cookies from "js-cookie"
 
 export function Signup() {
 
