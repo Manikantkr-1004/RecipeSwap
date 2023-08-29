@@ -105,15 +105,15 @@ export function RecipeType2() {
                 />
                 <div className="Prep-info">
                   <div>
-                    <p className="prep-heading">Prep Time:</p>
+                    <p className="prep-heading">Prep Time :</p>
                     <p>{Recipe?.prepTime}</p>
                   </div>
                   <div>
-                    <p className="prep-heading">Total Time:</p>
+                    <p className="prep-heading">Total Time :</p>
                     <p>{Recipe?.totalTime}</p>
                   </div>
                   <div>
-                    <p className="prep-heading">Servings:</p>
+                    <p className="prep-heading">Servings :</p>
                     <p>{Recipe?.servings}</p>
                   </div>
                 </div>
@@ -127,7 +127,7 @@ export function RecipeType2() {
                 })}
               </ul>
             </div>
-            <div className=" ">
+            <div className="instructions-section">
               <p className="instructions-heading">Instructions</p>
               {Recipe?.instructions?.map((el, i) => {
                 let number = i + 1;
@@ -290,7 +290,7 @@ const WRAPPER = styled.div`
     color: black;
   }
 
-  .instructions-section {
+  .instructions-section {     
     margin-top: 20px;
     border-bottom: solid lightgray 1px;
     padding-bottom: 20px;
@@ -305,6 +305,7 @@ const WRAPPER = styled.div`
     margin: 20px;
     display: flex;
     height: 70px;
+    width: 100%;
   }
 
   .instructions-number {
@@ -320,6 +321,7 @@ const WRAPPER = styled.div`
     border-left: solid lightgray 1px;
     padding-left: 10px;
     width: 700px;
+    height: 70px;
   }
 
   .NutritionFacts-section {
@@ -362,16 +364,7 @@ const WRAPPER = styled.div`
     }
   }
 
-  @media (max-width: 520px) {
-    .recipe-saveOptions-container {
-      display: block;
-      flex-wrap: wrap;
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 15px 0px;
-    }
-  }
-
+  
   @media (max-width: 740px) {
     .NutritionFacts-info-Container {
       display: flex;
@@ -379,7 +372,7 @@ const WRAPPER = styled.div`
       width: 400px;
       margin: 10px 0px;
     }
-
+    
     .recipe-saveOptions {
       background-color: #f5f6ea;
       display: flex;
@@ -392,36 +385,125 @@ const WRAPPER = styled.div`
       font-size: 20px;
       color: #f15025;
     }
-
+    
     .btn-1 {
       background-color: #f15025;
       border-radius: 5px 0px 0px 5px;
       padding: 15px 20px;
       color: white;
     }
-
+    
     .btn {
       border-right: none;
     }
-
+    
     .NutritionFacts-info-Container {
       display: block;
       justify-content: space-between;
       width: 600px;
       margin: 10px 0px;
     }
+    
+    .instruction-desc {
+      margin-left: 10px;
+      border-left: solid lightgray 1px;
+      padding-left: 10px;
+      width: auto;
+      height: auto;
+    }
+    
+    .instructions {
+      margin: 20px;
+      display: flex;
+      height: auto;
+      width: 100%;
+    }
+    
+    .NutritionFacts-info-Container {
+      display: flex;
+      justify-content: space-between;
+      width: auto;
+      margin: 10px 0px;
+    }
   }
-
+  
   @media (max-width: 670px) {
     .owner-sec {
       display: block;
     }
-
+    
     .owner-sec > div {
       margin-top: 10px;
     }
   }
+  
+  @media (max-width: 550px) {
+    width: 90%;
 
+    .heading-1{
+      font-size: 30px;
+    }
+
+    .Prep-info{
+      display: block;
+      padding: 10px 20px;
+    }
+
+    .Prep-info>div{
+      margin: 20px 0px;
+      display: flex;
+    }
+
+    .prep-heading{
+      margin-right: 10px;
+    }
+
+    .instructions-number{
+      font-size: 25px;
+    }
+
+    .instructions{
+      margin: 0px;
+    }
+
+    .instruction-desc{
+      width: 300px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .recipe-saveOptions-container {
+      display: block;
+      flex-wrap: wrap;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 15px 0px;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .NutritionFacts-heading{
+      font-size: 26px;
+    }
+
+    .NutritionFacts-info-Container{
+      display: block;
+    }
+
+    .NutritionFacts-info-Container>div{
+      display: flex;
+    }
+
+    .cate-container{
+      height: auto;
+      margin: 15px 0px;
+    }
+
+    .cate-heading{
+      margin-right: 10px;
+    }
+  }
+  
   @media (max-width: 425px) {
     .owner-sec {
       display: block;
@@ -432,9 +514,19 @@ const WRAPPER = styled.div`
     }
 
     .instructions {
-      margin: 20px;
       display: flex;
       height: auto;
+      margin: 10px 0px;
+    }
+  }
+
+  @media(max-width: 330px){
+    .heading-1{
+      font-size: 23px;
+    }
+
+    .owner-sec{
+      font-size: 13px;
     }
   }
 `;
