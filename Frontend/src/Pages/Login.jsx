@@ -6,7 +6,7 @@ import logo from "../Components/images/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash, faLock} from "@fortawesome/free-solid-svg-icons"
 import {faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
-import {useLocation, useNavigate} from "react-router-dom"
+import {useLocation, useNavigate,Navigate} from "react-router-dom"
 import 'animate.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { USER_FAIL, USER_LOGIN_SUCCESS } from '../Redux/actionTypes'
@@ -26,7 +26,9 @@ export function Login() {
     const [show,setShow] = useState(false);
     const [formdata,setFormdata] = useState({email:"",password:""});
     const navigate = useNavigate();
-    const toast = useToast()
+    const toast = useToast();
+    const token = Cookies.get("login_token");
+    const name = Cookies.get("login_name");
     const dispatch = useDispatch();
     const loading = useSelector((store)=> store.authReducer.loading);
     const location = useLocation()
@@ -98,6 +100,10 @@ export function Login() {
                 isClosable: true,
               })
         })
+    }
+
+    if(token && name){
+        return <Navigate to="/" />
     }
 
     return (
