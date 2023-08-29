@@ -90,6 +90,7 @@ export function AdminUser() {
   }, [users, currpage]);
 
   useEffect(() => {
+
     if (users.length > 0) {
       const total = Math.ceil(users.length / 10);
       const arr = [];
@@ -102,6 +103,7 @@ export function AdminUser() {
 
   const handleResult = (value) => {
     // setTemp(temp + 1);
+    
     setEdited(value);
     setTimeout(() => {
       setEdited("");
@@ -112,10 +114,16 @@ export function AdminUser() {
     onOpen();
   }
 
+ useEffect(()=>{
+  if(data.length === 0){
+    dipatch(getAllUsers(""));
+  }
+ }, [data]);
   const handleUser = ()=>{
       dipatch(addUers(userData, handleResult))
-    
+     
      setTimeout(()=>{
+      
       onClose();
      }, 1000);
      setUserData(init);
@@ -183,7 +191,7 @@ export function AdminUser() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.map((user, index) => {
+                  {data.length > 0 && data.map((user, index) => {
                     return (
                       <DataCard
                         key={index}
