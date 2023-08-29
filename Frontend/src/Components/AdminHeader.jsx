@@ -1,11 +1,11 @@
-import {  Avatar, Button, Flex, Heading, Input, Menu, MenuButton,  MenuList, Stack,  } from "@chakra-ui/react";
+import {  Avatar, Button, Flex, Heading, Input, Menu, MenuButton,  MenuList, Stack, useToast,  } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { AlertCircle, AlignJustify, BadgeHelp, ChefHat, ChevronRight, Home, MailPlus,  UserCircle2, Users } from "lucide-react";
 import { styled } from "styled-components";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { logoutAdmin } from "../Redux/adminReducer/action";
+import { logoutAdmin, updateUsersAvatar } from "../Redux/adminReducer/action";
 
 export const AdminHeader = () => {
   const links = [
@@ -57,11 +57,11 @@ export const AdminHeader = () => {
   };
   const [current, setCurrent] = useState("Dashboard");
   const dispatch = useDispatch();
-  const  navigate = useNavigate();
   const [imgAvatar, setImageAvatar] = useState("");
   const name = Cookies.get("login_name");
   let avatarImg = Cookies.get("login_avatar");
   const inputRef = useRef(null);
+  const toast = useToast();
   useEffect(() => {
     let path = window.location.href;
     path = path.split("/");
@@ -100,12 +100,17 @@ export const AdminHeader = () => {
     formData.append("upload_preset", "rdy1h4fu");
     formData.append("cloud_name", "dpspgsvks");
 
+    toast({
+      title: `Just a Second...Uploading...`,
+      status: "info",
+      isClosable: true,
+    })
     fetch("https://api.cloudinary.com/v1_1/dpspgsvks/image/upload", {
       method :"post",
       body: formData
     }).then((resp)=> resp.json()).then((data)=> {
-      const url = data.url;
-      Cookies.set("login_avatar", url);
+      // updateUsersAvatar(data.url);
+      Cookies.set("login_avatar",  data.url);
       updateAvatar();
     }).catch((err)=> console.log(err));
 

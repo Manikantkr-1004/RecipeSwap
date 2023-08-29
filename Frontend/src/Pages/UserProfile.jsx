@@ -251,6 +251,7 @@ export function UserProfile() {
                 Cookies.remove("login_email")
                 Cookies.remove("login_name")
                 Cookies.remove("login_role")
+                Cookies.remove("login_avatar");
                 window.location.reload();
             }else{
                 toast({
