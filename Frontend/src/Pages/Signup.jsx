@@ -11,6 +11,7 @@ import 'animate.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { USER_FAIL, USER_SIGNUP_SUCCESS } from '../Redux/actionTypes'
 import { usersignup } from '../Redux/authReducer/action'
+import { Helmet } from 'react-helmet'
 
 export function Signup() {
 
@@ -88,12 +89,15 @@ export function Signup() {
 
     return (
         <Flex justifyContent="space-between" w="100%" direction={{base:"column",sm:"column",md:"row",lg:"row",xl:"row"}}>
+            <Helmet>
+                <title>Signup | RecipeSwap</title>
+            </Helmet>
             <Box w={{base:"100%",sm:"100%",md:"48%",lg:"48%",xl:"48%"}} height={{base:"179px",sm:"179px",md:"auto",lg:"auto",xl:"auto"}} backgroundImage={{base:signup_mobile,sm:signup_mobile,md: signup_laptop,lg: signup_laptop,xl: signup_laptop}} backgroundSize="cover" backgroundRepeat="no-repeat">
             </Box>
             <Box w={{base:"100%",sm:"100%",md:"48%",lg:"48%",xl:"48%"}} >
                 <Box w={{base:"290px",sm:"330px",md:"330px",lg:"330px",xl:"330px"}} m="auto"  mt={{base:"30px",sm:"50px",md:"70px",lg:"70px",xl:"70px"}} mb="70px">
                     <Image w="50%" src={logo} alt='signup' />
-                    <Text mt="25px" color="#E45700" fontSize="27px" fontFamily="Franklin Gothic Medium">Create Account</Text>
+                    <Text mt="25px" color="#E45700" fontSize="27px" fontWeight="bold" fontFamily="Franklin Gothic Medium">Create Account</Text>
                     <Text>Sign up to save and review your favorite recipes.</Text><br/>
                     <form onSubmit={handleSubmit} class="animate__animated animate__fadeInUp">
                         <FormControl isRequired>

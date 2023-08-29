@@ -2,12 +2,16 @@ import React from 'react'
 import { Navbar } from '../Components/Navbar'
 import { Footer } from '../Components/Footer'
 import { Box, Heading, Text, Image, Flex } from '@chakra-ui/react'
+import { Helmet } from 'react-helmet';
 
 export function About() {
 
     return (
         <>
             <Navbar />
+            <Helmet>
+                <title>About | RecipeSwap</title>
+            </Helmet>
 
             <Box  h={"auto"} w={"100%"} >
                 <Box w={"80%"} margin={"auto"} lineHeight={"30px"}>

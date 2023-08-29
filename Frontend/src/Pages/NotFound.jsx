@@ -4,6 +4,7 @@ import {Box, Flex, Image} from "@chakra-ui/react"
 import { Navbar } from '../Components/Navbar'
 import { Footer } from '../Components/Footer'
 import {useNavigate} from "react-router-dom"
+import { Helmet } from 'react-helmet'
 
 export function NotFound() {
     
@@ -11,6 +12,9 @@ export function NotFound() {
 
     return (
         <>
+        <Helmet>
+            <title>404 Error | RecipeSwap</title>
+        </Helmet>
         <Navbar />
         
         <Flex w="100%" m="50px 0px">
