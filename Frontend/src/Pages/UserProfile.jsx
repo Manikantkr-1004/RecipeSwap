@@ -523,7 +523,7 @@ export function UserProfile() {
                         <AccordionPanel pb={4} >
                         {recipedata.length===0? <Text fontWeight="semibold" color="blue">You have not added any recipes yet, Please Add🙂🙂</Text> : 
                         <SimpleGrid w="100%" columns={{base:1,sm:2,md:3,lg:3,xl:3}} gap="10px">
-                            {
+                            { 
                                 recipedata.map((item)=>(
                                     <Box bg="#ffddc8" borderRadius="10px" p="10px">
                                         <Image borderRadius="10px" onClick={()=> navigate(`/recipe/${item._id}`)} w="100%" src={item.imageURL} alt={item.recipeName} />
