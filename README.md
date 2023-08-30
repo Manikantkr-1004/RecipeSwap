@@ -45,30 +45,33 @@ Recipe Swap is a community-based recipe sharing platform that allows users to sh
 - **Server:** [https://recipeswap.onrender.com](https://recipeswap.onrender.com/)
 
 ## Screenshot
-# User Side:
-![1](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/f7f1ccbe-3b2f-4f7e-af98-1b2d9529b0be)
+### User Side:
+![1](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/2b7f5a2c-18ed-4d0b-8e7d-281c8e99fb46)
 
-![2](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/11babcbf-74eb-4247-9e94-a9c015138bf1)
+![2](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/36e41b57-0ed6-4e18-8de8-fddec9f14cdb)
 
-![3](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/443b6992-2a7a-4c4f-bd4b-28de1b261e04)
+![3](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/0e67dab5-8848-4f78-9aba-e429908d4076)
 
-![4](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/609d7bf1-a4ff-4ec3-b116-b0896de4cc0a)
+![4](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/d58f7302-122d-4afb-9fae-f7798ef09b83)
 
-![5](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/b51ba7f2-b397-4d1f-beed-0f8f3b3d27a4)
+![5](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/f90b7a9e-ab1a-49ee-bef8-f3a3752c4592)
 
-![6](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/a17b56b1-6f0b-447c-97a5-4f76491067d3)
+![6](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/e2d6ba64-cc88-4f80-83cf-da01b6ff32fd)
 
-![7](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/916b98c5-e8c9-4ccd-a99f-df37f9a500c7)
+![7](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/a3ddca74-8886-499b-a45d-b62a2d7190af)
 
 
-# Admin Side:
-![1](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/447cd5da-831c-4ec8-9d74-089ddc0d52a6)
 
-![2](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/9d2268ab-2154-4b39-b2a2-181d4c334358)
+### Admin Side:
+![1](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/e2d7e2a1-112e-47e1-9542-846eedeb3e66)
 
-![3](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/6481e716-6c81-4539-b65c-cfa7cf02e4e4)
+![2](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/c738bfd6-0e2a-4255-b60b-d98aa6b4f453)
 
-![4](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/6d20cbcb-d1b0-4d84-9908-704f8f0c4874)
+![3](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/99487bb6-2b76-4843-a008-d5ad083e69e4)
+
+![4](https://github.com/Manikantkr-1004/warlike-current-5989/assets/58412185/a394055c-830b-485d-b0b9-b6ba8e702e44)
+
+
 
 
 ## Installation
