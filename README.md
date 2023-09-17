@@ -80,7 +80,7 @@ To set up the project locally, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Hasims2001/synonymous-nose-6503.git
+git clone https://github.com/Manikantkr-1004/warlike-current-5989.git
 ```
 
 ```bash
