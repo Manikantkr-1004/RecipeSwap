@@ -1,4 +1,4 @@
-# Recipe Swap - warlike-current-5989
+# Recipe Swap
 
 Recipe Swap is a community-based recipe sharing platform that allows users to share, discover, and discuss various recipes. Whether you're a cooking enthusiast or just looking for new culinary ideas, Recipe Swap provides a platform to connect and exchange recipes with others.
 
